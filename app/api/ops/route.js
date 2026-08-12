@@ -76,7 +76,7 @@ export async function POST(r){
       if(u.role!=='ADMIN')throw new Error('FORBIDDEN');
       if(!x.email||!x.name||!x.password||!x.role)throw new Error('USER_FIELDS_REQUIRED');
       if(String(x.password).length<8)throw new Error('PASSWORD_TOO_SHORT');
-      const a=await sql`insert into users(email,name,password_hash,role,active) values(lower(${x.email}),${x.name},crypt(${x.password},gen_salt('bf',10)),${x.role},true) returning id,email,name,role,active`;
+      const a=await sql`insert into users(email,name,password_hash,role,active) values(lower(${x.email}::text),${x.name}::text,crypt(${x.password}::text,gen_salt('bf',10)),${x.role}::text,true) returning id,email,name,role,active`;
       return NextResponse.json(a[0]);
     }
     if(x.action==='TOGGLE_USER'){
