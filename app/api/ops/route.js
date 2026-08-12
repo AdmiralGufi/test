@@ -57,26 +57,32 @@ export async function POST(r){
       await sql`select wms_pick_order_item(${x.order_item_id},${x.box_id},${Number(x.qty)},${u.id})`;
       return NextResponse.json({ok:true});
     }
-    if(x.action==='ORDER_PACKED'||x.action==='ORDER_PACKING'){
+    if(x.action==='ORDER_PACKED'){
       if(!allowed(u.role,['ADMIN','MANAGER','PACKER']))throw new Error('FORBIDDEN');
-      await sql`select wms_advance_order(${x.order_id},'PACKING',${u.id})`;
+      await sql`select wms_pack_order(${x.order_id},${u.id})`;
       return NextResponse.json({ok:true});
     }
     if(x.action==='ORDER_READY'){
       if(!allowed(u.role,['ADMIN','MANAGER','PACKER']))throw new Error('FORBIDDEN');
-      await sql`select wms_advance_order(${x.order_id},'READY',${u.id})`;
+      await sql`select wms_ready_order(${x.order_id},${u.id})`;
       return NextResponse.json({ok:true});
     }
     if(x.action==='ORDER_SHIPPED'){
       if(!allowed(u.role,['ADMIN','MANAGER','PACKER','SHIPPER']))throw new Error('FORBIDDEN');
-      await sql`select wms_advance_order(${x.order_id},'SHIPPED',${u.id})`;
+      await sql`select wms_ship_order(${x.order_id},${u.id})`;
       return NextResponse.json({ok:true});
     }
     if(x.action==='CREATE_USER'){
       if(u.role!=='ADMIN')throw new Error('FORBIDDEN');
       if(!x.email||!x.name||!x.password||!x.role)throw new Error('USER_FIELDS_REQUIRED');
+      if(String(x.password).length<8)throw new Error('PASSWORD_TOO_SHORT');
       const a=await sql`insert into users(email,name,password_hash,role,active) values(lower(${x.email}),${x.name},crypt(${x.password},gen_salt('bf',10)),${x.role},true) returning id,email,name,role,active`;
       return NextResponse.json(a[0]);
+    }
+    if(x.action==='TOGGLE_USER'){
+      if(u.role!=='ADMIN')throw new Error('FORBIDDEN');
+      await sql`update users set active=${!!x.active} where id=${x.user_id}`;
+      return NextResponse.json({ok:true});
     }
     if(x.action==='REGISTER_DEVICE'){
       const code=x.device_code||('DEV-'+Date.now());
