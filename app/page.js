@@ -1,2 +1,2 @@
-import WmsAppV2 from '../components/WmsAppV2';
-export default function Page(){return <WmsAppV2/>}
+import WmsAppV3 from '../components/WmsAppV3';
+export default function Page(){return <WmsAppV3/>}
