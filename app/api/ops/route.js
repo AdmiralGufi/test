@@ -40,9 +40,21 @@ export async function POST(r){
     }
     if(x.action==='ADD_BOX_ITEM'){
       if(!allowed(u.role,['ADMIN','MANAGER','RECEIVER']))throw new Error('FORBIDDEN');
-      const q=await sql`select qty from box_items where box_id=${x.box_id} and product_id=${x.product_id} limit 1`;
-      const total=Number(q[0]?.qty||0)+Number(x.qty||1);
-      await sql`select wms_set_box_item(${x.box_id},${x.product_id},${total},${u.id})`;
+      if(!x.box_id||!x.product_id||Number(x.qty)<=0)throw new Error('ITEM_FIELDS_REQUIRED');
+      await sql`select wms_add_box_item(${x.box_id},${x.product_id},${Number(x.qty)},${u.id})`;
+      return NextResponse.json({ok:true});
+    }
+    if(x.action==='CREATE_ORDER'){
+      if(!allowed(u.role,['ADMIN','MANAGER']))throw new Error('FORBIDDEN');
+      if(!x.seller_id||!Array.isArray(x.items)||!x.items.length)throw new Error('ORDER_FIELDS_REQUIRED');
+      const no=(x.order_no||('ORD-'+Date.now().toString().slice(-9))).trim();
+      const a=await sql`select wms_create_order(${no},${x.seller_id},${x.priority||'NORMAL'},${x.deadline||null},${JSON.stringify(x.items)}::jsonb,${u.id}) id`;
+      return NextResponse.json({ok:true,id:a[0].id,order_no:no});
+    }
+    if(x.action==='PICK_ITEM'){
+      if(!allowed(u.role,['ADMIN','MANAGER','PICKER']))throw new Error('FORBIDDEN');
+      if(!x.order_item_id||!x.box_id||Number(x.qty)<=0)throw new Error('PICK_FIELDS_REQUIRED');
+      await sql`select wms_pick_order_item(${x.order_item_id},${x.box_id},${Number(x.qty)},${u.id})`;
       return NextResponse.json({ok:true});
     }
     if(x.action==='ORDER_PACKED'||x.action==='ORDER_PACKING'){
@@ -59,6 +71,12 @@ export async function POST(r){
       if(!allowed(u.role,['ADMIN','MANAGER','PACKER','SHIPPER']))throw new Error('FORBIDDEN');
       await sql`select wms_advance_order(${x.order_id},'SHIPPED',${u.id})`;
       return NextResponse.json({ok:true});
+    }
+    if(x.action==='CREATE_USER'){
+      if(u.role!=='ADMIN')throw new Error('FORBIDDEN');
+      if(!x.email||!x.name||!x.password||!x.role)throw new Error('USER_FIELDS_REQUIRED');
+      const a=await sql`insert into users(email,name,password_hash,role,active) values(lower(${x.email}),${x.name},crypt(${x.password},gen_salt('bf',10)),${x.role},true) returning id,email,name,role,active`;
+      return NextResponse.json(a[0]);
     }
     if(x.action==='REGISTER_DEVICE'){
       const code=x.device_code||('DEV-'+Date.now());
