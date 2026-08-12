@@ -17,7 +17,7 @@ export async function POST(r){
     if(x.action==='CREATE_PRODUCT'){
       if(!allowed(u.role,['ADMIN','MANAGER','RECEIVER']))throw new Error('FORBIDDEN');
       if(!x.seller_id||!x.sku||!x.name)throw new Error('PRODUCT_FIELDS_REQUIRED');
-      const a=await sql`insert into products(seller_id,sku,name,wb_barcode,vendor_code) values(${x.seller_id},${x.sku.trim()},${x.name.trim()},${x.barcode||null},${x.vendor||null}) returning id`;
+      const a=await sql`insert into products(seller_id,sku,name,wb_barcode,vendor_code,active) values(${x.seller_id},${x.sku.trim()},${x.name.trim()},${x.barcode||null},${x.vendor||null},true) returning id`;
       return NextResponse.json({ok:true,id:a[0].id});
     }
     if(x.action==='CREATE_SELLER'){
@@ -40,10 +40,12 @@ export async function POST(r){
     }
     if(x.action==='ADD_BOX_ITEM'){
       if(!allowed(u.role,['ADMIN','MANAGER','RECEIVER']))throw new Error('FORBIDDEN');
-      await sql`select wms_add_box_item(${x.box_id},${x.product_id},${Number(x.qty||1)},${u.id})`;
+      const q=await sql`select qty from box_items where box_id=${x.box_id} and product_id=${x.product_id} limit 1`;
+      const total=Number(q[0]?.qty||0)+Number(x.qty||1);
+      await sql`select wms_set_box_item(${x.box_id},${x.product_id},${total},${u.id})`;
       return NextResponse.json({ok:true});
     }
-    if(x.action==='ORDER_PACKING'){
+    if(x.action==='ORDER_PACKED'||x.action==='ORDER_PACKING'){
       if(!allowed(u.role,['ADMIN','MANAGER','PACKER']))throw new Error('FORBIDDEN');
       await sql`select wms_advance_order(${x.order_id},'PACKING',${u.id})`;
       return NextResponse.json({ok:true});
