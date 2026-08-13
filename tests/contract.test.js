@@ -79,6 +79,7 @@ test('authentication supports staged organization migration', async () => {
   assert.match(opsRoute, /sellers\(organization_id,name/);
   assert.match(opsRoute, /insert into organization_members/);
   assert.match(bootstrap, /where s\.organization_id=\$\{organizationId\}/);
+  assert.match(bootstrap, /cache-control.*private, no-store/);
   assert.match(scan, /w\.organization_id=\$\{u\.organization_id\}/);
 });
 
@@ -173,6 +174,7 @@ test('Wildberries FBS integration is secure, idempotent and visible in the mobil
   assert.match(migration,/token_encrypted text not null/);
   assert.match(migration,/products_seller_wb_chrt_key/);
   assert.match(cron,/CRON_SECRET/);
+  assert.match(cron,/cache-control.*private, no-store/);
   assert.doesNotMatch(cron,/x-vercel-cron-schedule/);
   assert.match(workflow,/cron: '\*\/5 \* \* \* \*'/);
   assert.match(workflow,/secrets\.WB_SYNC_SECRET/);

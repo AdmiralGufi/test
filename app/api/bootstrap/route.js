@@ -2,11 +2,12 @@ import {NextResponse} from 'next/server';
 import {sql} from '../../../lib/db';
 import {getCurrentUser} from '../../../lib/auth';
 export const dynamic='force-dynamic';
+const respond=body=>NextResponse.json(body,{headers:{'cache-control':'private, no-store, max-age=0'}});
 export async function GET(){
   const count=await sql`select count(*)::int n from users`;
-  if(count[0].n===0)return NextResponse.json({loading:false,setupRequired:true});
+  if(count[0].n===0)return respond({loading:false,setupRequired:true});
   const user=await getCurrentUser();
-  if(!user)return NextResponse.json({loading:false,user:null});
+  if(!user)return respond({loading:false,user:null});
   const organizationId=user.organization_id;
   const [zones,cells,sellers,products,boxes,boxItems,orders,orderItems,tasks,devices,audit,users,organizations,integrations]=await Promise.all([
     organizationId?sql`select z.* from zones z join warehouses w on w.id=z.warehouse_id where w.organization_id=${organizationId} order by z.sort_order`:sql`select * from zones order by sort_order`,
@@ -36,5 +37,5 @@ export async function GET(){
       from wb_integrations i join sellers s on s.id=i.seller_id
       where i.organization_id=${organizationId} order by i.created_at`
   ]);
-  return NextResponse.json({loading:false,user,data:{zones,cells,sellers,products,boxes,boxItems,orders,orderItems,tasks,devices,audit,users,organizations,integrations}})
+  return respond({loading:false,user,data:{zones,cells,sellers,products,boxes,boxItems,orders,orderItems,tasks,devices,audit,users,organizations,integrations}})
 }

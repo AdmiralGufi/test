@@ -5,16 +5,17 @@ import {logError,logInfo,requestContext} from '../../../../lib/observability';
 
 export const runtime='nodejs';
 export const maxDuration=60;
+const respond=(body,status=200)=>NextResponse.json(body,{status,headers:{'cache-control':'private, no-store, max-age=0'}});
 
 export async function GET(request){
   const context=requestContext(request,'/api/cron/wildberries');
   const secret=process.env.CRON_SECRET;
   if(!secret){
     logError('wb_cron_secret_missing',new Error('CRON_SECRET is not configured'),context);
-    return NextResponse.json({error:'CRON_NOT_CONFIGURED'},{status:503});
+    return respond({error:'CRON_NOT_CONFIGURED'},503);
   }
   const authorized=request.headers.get('authorization')===`Bearer ${secret}`;
-  if(!authorized)return NextResponse.json({error:'UNAUTHORIZED'},{status:401});
+  if(!authorized)return respond({error:'UNAUTHORIZED'},401);
   const integrations=await sql`update wb_integrations set last_sync_at=now()
     where id in (
       select id from wb_integrations
@@ -27,5 +28,5 @@ export async function GET(request){
     catch(error){failed+=1;logError('wb_cron_integration_failed',error,{...context,integrationId:integration.id})}
   }
   logInfo('wb_cron_completed',{...context,integrations:integrations.length,imported,failed});
-  return NextResponse.json({ok:true,integrations:integrations.length,imported,failed});
+  return respond({ok:true,integrations:integrations.length,imported,failed});
 }
