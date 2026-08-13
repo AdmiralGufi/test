@@ -31,9 +31,9 @@ Inventory-changing operations execute through PostgreSQL functions so a partial 
 - Audit/observability: business audit log, health checks and structured runtime logs.
 - Integrations: marketplace adapters, imports, exports and webhooks.
 
-## Multi-tenant target
+## Multi-tenant model
 
-Before onboarding a second fulfillment, introduce `organizations`, `organization_members` and `warehouses`. Add `organization_id` and, where applicable, `warehouse_id` to all business tables. Existing data is assigned to the initial organization during a staged Neon migration.
+The platform owner manages fulfillment organizations. Each organization has isolated warehouses, employees, clients, stock and orders. A fulfillment client is represented by a seller record and may have one seller-scoped login per organization. The client portal exposes aggregates by warehouse and city but never internal cells, staff, audit logs or another seller's data.
 
 Isolation must be enforced twice:
 
@@ -42,7 +42,7 @@ Isolation must be enforced twice:
 
 Current API writes also perform explicit ownership checks before invoking transactional WMS functions. Unknown and foreign IDs return the same unavailable response so the API does not reveal whether another organization owns an object.
 
-Seller records remain customers of a fulfillment organization; they are not tenants themselves.
+Seller records remain customers of a fulfillment organization rather than top-level tenants. `seller_members` narrows an authenticated client session to one seller. A seller owner may manage that seller's encrypted marketplace credential; a seller viewer has read-only access.
 
 ## Extension rules
 

@@ -34,6 +34,8 @@ export async function POST(request){
   const slug=cleanText(input.slug,80).toLowerCase();
   const warehouseName=cleanText(input.warehouse_name,200)||'Основной склад';
   const warehouseCode=(cleanText(input.warehouse_code,40)||'MAIN').toUpperCase();
+  const warehouseCity=cleanText(input.warehouse_city,120);
+  const warehouseAddress=cleanText(input.warehouse_address,240);
   const timezone=cleanText(input.timezone,80)||'Asia/Bishkek';
   const adminName=cleanText(input.admin_name,160);
   const adminEmail=cleanText(input.admin_email,254).toLowerCase();
@@ -52,7 +54,7 @@ export async function POST(request){
   try{
     await transaction(tx=>[
       tx`insert into organizations(id,name,slug,status,plan) values(${organizationId},${name},${slug},'TRIAL','PILOT')`,
-      tx`insert into warehouses(id,organization_id,code,name,timezone,active) values(${warehouseId},${organizationId},${warehouseCode},${warehouseName},${timezone},true)`,
+      tx`insert into warehouses(id,organization_id,code,name,city,address,timezone,active) values(${warehouseId},${organizationId},${warehouseCode},${warehouseName},${warehouseCity||null},${warehouseAddress||null},${timezone},true)`,
       ...ZONES.map(([code,zoneName,type,sortOrder])=>tx`insert into zones(id,warehouse_id,code,name,zone_type,sort_order) values(${randomUUID()},${warehouseId},${code},${zoneName},${type},${sortOrder})`),
       tx`insert into users(id,email,name,password_hash,role,active,is_platform_admin) values(${adminId},${adminEmail},${adminName},crypt(${password},gen_salt('bf',10)),'ADMIN',true,false)`,
       tx`insert into organization_members(organization_id,user_id,role,active) values(${organizationId},${adminId},'ADMIN',true)`,

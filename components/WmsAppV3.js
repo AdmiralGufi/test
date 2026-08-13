@@ -2,6 +2,7 @@
 
 import {cloneElement,useEffect,useId,useRef,useState} from 'react';
 import PwaInstall from './PwaInstall';
+import SellerPortal from './SellerPortal';
 
 const ROLE_TABS={
   ADMIN:['Обзор','Скан','Приёмка','Короба','Товары','Клиенты','Заказы','Устройства','Сотрудники','Журнал'],
@@ -30,7 +31,7 @@ export default function WmsAppV3(){
   const[toast,setToast]=useState('');
   const[modal,setModal]=useState(null);
   const[query,setQuery]=useState('');
-  const canSyncWb=['ADMIN','MANAGER'].includes(state.user?.role);
+  const canSyncWb=['ADMIN','MANAGER','SELLER'].includes(state.user?.role);
   const hasActiveWb=canSyncWb&&Boolean(state.data?.integrations?.some(item=>item.active));
 
   async function load({quiet=false}={}){
@@ -62,6 +63,7 @@ export default function WmsAppV3(){
   if(state.error)return <ErrorState message={state.error} retry={()=>load()}/>;
   if(state.setupRequired)return <Auth setup done={()=>load()}/>;
   if(!state.user)return <Auth done={()=>load()}/>;
+  if(state.user.role==='SELLER')return <SellerPortal user={state.user} data={state.data||{}} onRefresh={()=>load({quiet:true})} onLogout={async()=>{await api('/api/auth/logout',{method:'POST'});load()}}/>;
 
   const data=state.data||{};
   const roleTabs=ROLE_TABS[state.user.role]||ROLE_TABS.VIEWER;
@@ -94,7 +96,7 @@ export default function WmsAppV3(){
       {visible==='Приёмка'&&<Receiving data={data} done={refresh}/>}
       {visible==='Короба'&&<Boxes rows={boxes} query={query} setQuery={setQuery} open={setModal}/>}
       {visible==='Товары'&&<Products data={data} done={refresh}/>}
-      {visible==='Клиенты'&&<Clients data={data} done={refresh}/>}
+      {visible==='Клиенты'&&<Clients data={data} role={state.user.role} done={refresh}/>}
       {visible==='Заказы'&&<Orders data={data} role={state.user.role} done={refresh}/>}
       {visible==='Устройства'&&<Devices data={data} done={refresh}/>}
       {visible==='Сотрудники'&&<Users data={data} done={refresh}/>}
@@ -165,7 +167,7 @@ function Health({label,value,ok=false}){return <div className="health"><span cla
 function SectionTitle({title,text,action}){return <header className="sectionTitle"><div><h2>{title}</h2>{text&&<p>{text}</p>}</div>{action}</header>}
 
 function Organizations({data,done}){
-  const initial={name:'',slug:'',warehouse_name:'Основной склад',warehouse_code:'MAIN',timezone:'Asia/Bishkek',admin_name:'',admin_email:'',admin_password:''};
+  const initial={name:'',slug:'',warehouse_name:'Основной склад',warehouse_code:'MAIN',warehouse_city:'',warehouse_address:'',timezone:'Asia/Bishkek',admin_name:'',admin_email:'',admin_password:''};
   const[form,setForm]=useState(initial);
   const[error,setError]=useState('');
   const[busy,setBusy]=useState(false);
@@ -194,6 +196,7 @@ function Organizations({data,done}){
         <div className="formRow"><Field label="Название компании"><input value={form.name} onChange={e=>setForm({...form,name:e.target.value})} placeholder="Например, Бишкек Фулфилмент" required/></Field><Field label="Короткий адрес" hint="Латиницей: bishkek-ff"><input value={form.slug} onChange={e=>setForm({...form,slug:e.target.value.toLowerCase()})} pattern="[a-z0-9]+(?:-[a-z0-9]+)*" placeholder="bishkek-ff" required/></Field></div>
         <div className="formSection"><span>02</span><div><b>Основной склад</b><small>Рабочая площадка и часовой пояс</small></div></div>
         <div className="formRow three"><Field label="Название склада"><input value={form.warehouse_name} onChange={e=>setForm({...form,warehouse_name:e.target.value})} required/></Field><Field label="Код"><input value={form.warehouse_code} onChange={e=>setForm({...form,warehouse_code:e.target.value.toUpperCase()})} required/></Field><Field label="Часовой пояс"><select value={form.timezone} onChange={e=>setForm({...form,timezone:e.target.value})}><option>Asia/Bishkek</option><option>Europe/Moscow</option><option>Asia/Almaty</option><option>Asia/Tashkent</option></select></Field></div>
+        <div className="formRow"><Field label="Город"><input value={form.warehouse_city} onChange={e=>setForm({...form,warehouse_city:e.target.value})} placeholder="Москва"/></Field><Field label="Адрес"><input value={form.warehouse_address} onChange={e=>setForm({...form,warehouse_address:e.target.value})} placeholder="Улица и дом"/></Field></div>
         <div className="formSection"><span>03</span><div><b>Администратор</b><small>Первая учётная запись компании</small></div></div>
         <div className="formRow three"><Field label="Имя"><input autoComplete="name" value={form.admin_name} onChange={e=>setForm({...form,admin_name:e.target.value})} required/></Field><Field label="Email"><input type="email" autoComplete="email" value={form.admin_email} onChange={e=>setForm({...form,admin_email:e.target.value})} required/></Field><Field label="Временный пароль" hint="Минимум 8 символов"><input type="password" autoComplete="new-password" minLength="8" value={form.admin_password} onChange={e=>setForm({...form,admin_password:e.target.value})} required/></Field></div>
         <ErrorMessage>{error}</ErrorMessage>
@@ -262,10 +265,15 @@ function Products({data,done}){
   return <section className="card"><SectionTitle title="Товары" text="Каталог активных SKU"/><form className="inlineForm" onSubmit={save}><Field label="Клиент"><select value={form.seller_id} onChange={e=>setForm({...form,seller_id:e.target.value})} required><option value="">Выберите</option>{data.sellers?.map(s=><option key={s.id} value={s.id}>{s.name}</option>)}</select></Field><Field label="SKU"><input value={form.sku} onChange={e=>setForm({...form,sku:e.target.value})} required/></Field><Field label="Название"><input value={form.name} onChange={e=>setForm({...form,name:e.target.value})} required/></Field><Field label="Штрихкод"><input value={form.barcode} onChange={e=>setForm({...form,barcode:e.target.value})}/></Field><button className="btn primary">Добавить</button></form><ErrorMessage>{error}</ErrorMessage><DataTable heads={['SKU','Название','Клиент','Штрихкод']} empty="Каталог пуст" rows={(data.products||[]).map(p=>[<b className="mono">{p.sku}</b>,p.name,p.seller_name,p.wb_barcode||'—'])}/></section>;
 }
 
-function Clients({data,done}){
+function Clients({data,role,done}){
   const[form,setForm]=useState({name:'',contact:'',phone:'',email:''}),[error,setError]=useState('');
+  const[access,setAccess]=useState({seller_id:'',name:'',email:'',password:'',access_role:'OWNER'}),[accessError,setAccessError]=useState('');
   async function save(event){event.preventDefault();setError('');try{await ops({action:'CREATE_SELLER',...form});setForm({name:'',contact:'',phone:'',email:''});done('Клиент добавлен')}catch(err){setError(err.message)}}
-  return <section className="card"><SectionTitle title="Клиенты" text="Владельцы товара и контактные данные"/><form className="inlineForm" onSubmit={save}><Field label="Название"><input value={form.name} onChange={e=>setForm({...form,name:e.target.value})} required/></Field><Field label="Контакт"><input value={form.contact} onChange={e=>setForm({...form,contact:e.target.value})}/></Field><Field label="Телефон"><input type="tel" value={form.phone} onChange={e=>setForm({...form,phone:e.target.value})}/></Field><Field label="Email"><input type="email" value={form.email} onChange={e=>setForm({...form,email:e.target.value})}/></Field><button className="btn primary">Добавить</button></form><ErrorMessage>{error}</ErrorMessage><DataTable heads={['Клиент','Контакт','Телефон','Email']} empty="Клиентов пока нет" rows={(data.sellers||[]).map(s=>[<b>{s.name}</b>,s.contact_name||'—',s.phone||'—',s.email||'—'])}/></section>;
+  async function createAccess(event){event.preventDefault();setAccessError('');try{await ops({action:'CREATE_SELLER_USER',...access});setAccess({seller_id:'',name:'',email:'',password:'',access_role:'OWNER'});done('Личный кабинет клиента создан')}catch(err){setAccessError(err.message)}}
+  const sellerUsers=(data.users||[]).filter(user=>user.role==='SELLER');
+  return <div className="clientGrid"><section className="card"><SectionTitle title="Клиенты" text="Владельцы товара и контактные данные"/><form className="inlineForm" onSubmit={save}><Field label="Название"><input value={form.name} onChange={e=>setForm({...form,name:e.target.value})} required/></Field><Field label="Контакт"><input value={form.contact} onChange={e=>setForm({...form,contact:e.target.value})}/></Field><Field label="Телефон"><input type="tel" value={form.phone} onChange={e=>setForm({...form,phone:e.target.value})}/></Field><Field label="Email"><input type="email" value={form.email} onChange={e=>setForm({...form,email:e.target.value})}/></Field><button className="btn primary">Добавить</button></form><ErrorMessage>{error}</ErrorMessage><DataTable heads={['Клиент','Контакт','Телефон','Email']} empty="Клиентов пока нет" rows={(data.sellers||[]).map(s=>[<b>{s.name}</b>,s.contact_name||'—',s.phone||'—',s.email||'—'])}/></section>
+    {role==='ADMIN'&&<section className="card clientAccess"><SectionTitle title="Доступ клиентов" text="Отдельный безопасный кабинет с данными только выбранного клиента"/><div className="infoBanner"><b>Владелец</b> может подключить свой WB API. Роль <b>Просмотр</b> видит остатки и заказы без изменения настроек.</div><form className="inlineForm accessForm" onSubmit={createAccess}><Field label="Клиент"><select value={access.seller_id} onChange={e=>setAccess({...access,seller_id:e.target.value})} required><option value="">Выберите клиента</option>{data.sellers?.map(s=><option key={s.id} value={s.id}>{s.name}</option>)}</select></Field><Field label="Имя пользователя"><input value={access.name} onChange={e=>setAccess({...access,name:e.target.value})} required/></Field><Field label="Email для входа"><input type="email" autoComplete="off" value={access.email} onChange={e=>setAccess({...access,email:e.target.value})} required/></Field><Field label="Временный пароль" hint="Минимум 8 символов"><input type="password" minLength="8" autoComplete="new-password" value={access.password} onChange={e=>setAccess({...access,password:e.target.value})} required/></Field><Field label="Права"><select value={access.access_role} onChange={e=>setAccess({...access,access_role:e.target.value})}><option value="OWNER">Владелец</option><option value="VIEWER">Просмотр</option></select></Field><button className="btn primary">Создать кабинет</button></form><ErrorMessage>{accessError}</ErrorMessage><DataTable heads={['Пользователь','Email','Клиент','Доступ','Статус']} empty="Клиентских кабинетов пока нет" rows={sellerUsers.map(user=>[<b>{user.name}</b>,user.email,user.seller_name||'—',user.seller_access_role==='OWNER'?'Владелец':'Просмотр',<Status value={user.active?'Активен':'Отключён'} tone={user.active?'READY':'CANCELLED'}/>])}/></section>}
+  </div>;
 }
 
 function Orders({data,role,done}){

@@ -19,6 +19,7 @@ fulfillment-wms/
 │   └── page.js             # WMS entry point
 ├── components/
 │   ├── PwaInstall.js       # installation and service worker
+│   ├── SellerPortal.js     # seller-scoped stock, orders and WB access
 │   └── WmsAppV3.js         # current operational UI
 ├── docs/                   # product and engineering decisions
 ├── lib/

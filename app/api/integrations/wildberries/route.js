@@ -12,6 +12,7 @@ export const maxDuration=60;
 
 const fail=(error,status=400)=>NextResponse.json({error},{status});
 const managers=['ADMIN','MANAGER'];
+const canManage=user=>managers.includes(user.role)||user.role==='SELLER';
 
 function wbError(error){
   const raw=String(error?.message||error);
@@ -22,15 +23,21 @@ function wbError(error){
 }
 
 async function ownedIntegrations(user,{onlyDue=false,id=null}={}){
-  if(id)return sql`select * from wb_integrations where id=${id} and organization_id=${user.organization_id} and active=true limit 1`;
+  const sellerId=user.role==='SELLER'?user.seller_id:null;
+  if(id)return sellerId
+    ?sql`select * from wb_integrations where id=${id} and organization_id=${user.organization_id} and seller_id=${sellerId} and active=true limit 1`
+    :sql`select * from wb_integrations where id=${id} and organization_id=${user.organization_id} and active=true limit 1`;
   if(onlyDue)return sql`update wb_integrations set last_sync_at=now()
     where id in (
       select id from wb_integrations
       where organization_id=${user.organization_id} and active=true
+        and (${sellerId}::uuid is null or seller_id=${sellerId})
         and (last_sync_at is null or last_sync_at<now()-interval '45 seconds')
       order by last_sync_at nulls first limit 10 for update skip locked
     ) returning *`;
-  return sql`select * from wb_integrations where organization_id=${user.organization_id} and active=true order by created_at`;
+  return sellerId
+    ?sql`select * from wb_integrations where organization_id=${user.organization_id} and seller_id=${sellerId} and active=true order by created_at`
+    :sql`select * from wb_integrations where organization_id=${user.organization_id} and active=true order by created_at`;
 }
 
 export async function POST(request){
@@ -41,9 +48,11 @@ export async function POST(request){
   if(!input||typeof input!=='object')return fail('Некорректный запрос');
   try{
     if(input.action==='SAVE'){
-      if(!managers.includes(user.role))return fail('Недостаточно прав',403);
+      if(!canManage(user))return fail('Недостаточно прав',403);
+      if(user.role==='SELLER'&&user.seller_access_role!=='OWNER')return fail('Подключение доступно владельцу кабинета',403);
       const token=String(input.token||'').trim().replace(/^Bearer\s+/i,'');
       if(!input.seller_id||token.length<20)return fail('Выберите клиента и вставьте полный API-токен Wildberries');
+      if(user.role==='SELLER'&&input.seller_id!==user.seller_id)return fail('Недостаточно прав',403);
       await requireSeller(user,input.seller_id);
       await validateWildberriesToken(token);
       const hint=`•••• ${token.slice(-4)}`;
@@ -57,7 +66,7 @@ export async function POST(request){
       return NextResponse.json({ok:true,integration:{id:rows[0].id,token_hint:hint},sync:result});
     }
     if(input.action==='SYNC'||input.action==='SYNC_ALL'){
-      if(!managers.includes(user.role))return fail('Недостаточно прав',403);
+      if(!canManage(user))return fail('Недостаточно прав',403);
       const rows=await ownedIntegrations(user,{onlyDue:input.action==='SYNC_ALL',id:input.integration_id||null});
       const results=[];
       for(const integration of rows){
@@ -67,8 +76,10 @@ export async function POST(request){
       return NextResponse.json({ok:true,results,imported:results.reduce((sum,item)=>sum+(item.imported||0),0)});
     }
     if(input.action==='DISCONNECT'){
-      if(!managers.includes(user.role))return fail('Недостаточно прав',403);
-      await sql`delete from wb_integrations where id=${input.integration_id} and organization_id=${user.organization_id}`;
+      if(!canManage(user))return fail('Недостаточно прав',403);
+      if(user.role==='SELLER'&&user.seller_access_role!=='OWNER')return fail('Отключение доступно владельцу кабинета',403);
+      if(user.role==='SELLER')await sql`delete from wb_integrations where id=${input.integration_id} and organization_id=${user.organization_id} and seller_id=${user.seller_id}`;
+      else await sql`delete from wb_integrations where id=${input.integration_id} and organization_id=${user.organization_id}`;
       return NextResponse.json({ok:true});
     }
     return fail('Неизвестная операция');

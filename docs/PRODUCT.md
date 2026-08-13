@@ -16,7 +16,7 @@ Deliver a configurable WMS that a fulfillment company can start using without cu
 - Picker: picks reserved stock using a handheld terminal or phone.
 - Packer: packs and marks orders ready.
 - Shipper: confirms handover.
-- Seller/client: views only their inventory, orders and reports (future portal).
+- Seller/client: views only their inventory and orders by warehouse; a designated owner manages the seller's WB connection.
 
 ## P0 — commercial pilot
 

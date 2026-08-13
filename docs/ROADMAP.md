@@ -17,7 +17,7 @@
 - [x] Organization ownership checks for every current write action
 - [x] Organization-scoped authorization tests
 - [x] Guided platform-owner company setup
-- [ ] Seller portal
+- [x] Seller portal with scoped warehouse stock, FBS orders and WB access
 - [ ] CSV/XLSX import and export
 - [ ] Label printing
 - [ ] Operational KPI dashboard

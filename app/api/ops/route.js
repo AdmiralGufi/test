@@ -18,7 +18,9 @@ const errorMessages={
   ORDER_FIELDS_REQUIRED:'Выберите клиента и добавьте позиции',
   PICK_FIELDS_REQUIRED:'Выберите позицию, короб и количество',
   USER_FIELDS_REQUIRED:'Заполните данные сотрудника',
+  SELLER_USER_FIELDS_REQUIRED:'Выберите клиента и заполните данные для входа',
   PASSWORD_TOO_SHORT:'Пароль должен содержать минимум 8 символов',
+  EMAIL_EXISTS:'Пользователь с таким email уже существует',
   INVALID_EMAIL:'Проверьте email',
   INVALID_ROLE:'Недопустимая роль',
   INVALID_DEVICE_TYPE:'Недопустимый тип устройства',
@@ -163,9 +165,30 @@ export async function POST(r){
       if(!x.email||!x.name||!x.password||!x.role)throw new Error('USER_FIELDS_REQUIRED');
       if(String(x.password).length<8)throw new Error('PASSWORD_TOO_SHORT');
       if(!validEmail(x.email))throw new Error('INVALID_EMAIL');
-      if(!ROLES.includes(x.role))throw new Error('INVALID_ROLE');
+      if(!ROLES.includes(x.role)||x.role==='SELLER')throw new Error('INVALID_ROLE');
       const a=await sql`with new_user as (insert into users(email,name,password_hash,role,active) values(lower(${cleanText(x.email,254)}::text),${cleanText(x.name,160)}::text,crypt(${x.password}::text,gen_salt('bf',10)),${x.role}::text,true) returning id,email,name,role,active),new_member as (insert into organization_members(organization_id,user_id,role,active) select ${organizationId},id,role,true from new_user) select * from new_user`;
       return NextResponse.json(a[0]);
+    }
+    if(x.action==='CREATE_SELLER_USER'){
+      if(u.role!=='ADMIN')throw new Error('FORBIDDEN');
+      if(!x.seller_id||!x.email||!x.name||!x.password)throw new Error('SELLER_USER_FIELDS_REQUIRED');
+      if(String(x.password).length<8)throw new Error('PASSWORD_TOO_SHORT');
+      if(!validEmail(x.email))throw new Error('INVALID_EMAIL');
+      const accessRole=x.access_role==='OWNER'?'OWNER':'VIEWER';
+      await requireSeller(u,x.seller_id);
+      const userId=randomUUID();
+      try{
+        await transaction(tx=>[
+          tx`insert into users(id,email,name,password_hash,role,active) values(${userId},lower(${cleanText(x.email,254)}::text),${cleanText(x.name,160)},crypt(${x.password}::text,gen_salt('bf',10)),'SELLER',true)`,
+          tx`insert into organization_members(organization_id,user_id,role,active) values(${organizationId},${userId},'SELLER',true)`,
+          tx`insert into seller_members(organization_id,seller_id,user_id,access_role,active) values(${organizationId},${x.seller_id},${userId},${accessRole},true)`,
+          tx`insert into audit_logs(actor_id,action,entity_type,entity_id,new_data) values(${u.id},'CREATE_SELLER_USER','user',${userId},jsonb_build_object('seller_id',${x.seller_id}::text,'access_role',${accessRole}::text))`
+        ],{isolationLevel:'Serializable'});
+      }catch(error){
+        if(String(error?.message||error).includes('users_email_key'))throw new Error('EMAIL_EXISTS');
+        throw error;
+      }
+      return NextResponse.json({ok:true,id:userId});
     }
     if(x.action==='TOGGLE_USER'){
       if(u.role!=='ADMIN')throw new Error('FORBIDDEN');
@@ -188,6 +211,6 @@ export async function POST(r){
     const key=Object.keys(errorMessages).find(item=>raw.includes(item));
     const logContext={...context,action:cleanText(x.action,80)||'UNKNOWN',actorId:u.id,reason:key||'UNEXPECTED'};
     if(key)logInfo('wms_operation_rejected',logContext);else logError('wms_operation_failed',e,logContext);
-    return fail(key?errorMessages[key]:'Операция не выполнена',key==='FORBIDDEN'?403:key==='ENTITY_NOT_FOUND'?404:400);
+    return fail(key?errorMessages[key]:'Операция не выполнена',key==='FORBIDDEN'?403:key==='ENTITY_NOT_FOUND'?404:key==='EMAIL_EXISTS'?409:400);
   }
 }

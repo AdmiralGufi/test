@@ -64,7 +64,7 @@ test('commercial foundation exposes health checks and architecture documentation
   const roadmap = await readFile(new URL('../docs/ROADMAP.md', import.meta.url), 'utf8');
   assert.match(status, /database:'connected'/);
   assert.match(status, /cache-control.*no-store/);
-  assert.match(architecture, /Multi-tenant target/);
+  assert.match(architecture, /Multi-tenant model/);
   assert.match(roadmap, /commercial pilot/i);
 });
 
@@ -179,4 +179,34 @@ test('Wildberries FBS integration is secure, idempotent and visible in the mobil
   assert.match(workflow,/cron: '\*\/5 \* \* \* \*'/);
   assert.match(workflow,/secrets\.WB_SYNC_SECRET/);
   assert.doesNotMatch(workflow,/Bearer [A-Za-z0-9_-]{20,}/);
+});
+
+test('seller portal is read-only, seller-scoped and hides warehouse internals', async () => {
+  const bootstrap=await readFile(new URL('../app/api/bootstrap/route.js',import.meta.url),'utf8');
+  const auth=await readFile(new URL('../lib/auth.js',import.meta.url),'utf8');
+  const portal=await readFile(new URL('../components/SellerPortal.js',import.meta.url),'utf8');
+  const ui=await readFile(new URL('../components/WmsAppV3.js',import.meta.url),'utf8');
+  assert.match(auth,/sm\.seller_id/);
+  assert.match(bootstrap,/if\(user\.role==='SELLER'\)return sellerSnapshot\(user\)/);
+  assert.match(bootstrap,/where o\.seller_id=\$\{sellerId\}/);
+  assert.match(bootstrap,/where i\.organization_id=\$\{organizationId\} and i\.seller_id=\$\{sellerId\}/);
+  assert.doesNotMatch(portal,/cell_code|source_cell|audit_logs|organization_members/);
+  assert.doesNotMatch(portal,/token_encrypted|DATABASE_URL/);
+  assert.match(ui,/state\.user\.role==='SELLER'/);
+  assert.match(portal,/Остатки по складам/);
+  assert.match(portal,/FBS заказы/);
+});
+
+test('client access creation is atomic and Wildberries ownership is enforced', async () => {
+  const opsRoute=await readFile(new URL('../app/api/ops/route.js',import.meta.url),'utf8');
+  const wbRoute=await readFile(new URL('../app/api/integrations/wildberries/route.js',import.meta.url),'utf8');
+  const migration=await readFile(new URL('../migrations/005_seller_portal.sql',import.meta.url),'utf8');
+  assert.match(opsRoute,/action==='CREATE_SELLER_USER'/);
+  assert.match(opsRoute,/insert into seller_members/);
+  assert.match(opsRoute,/transaction\(tx=>/);
+  assert.match(wbRoute,/user\.seller_access_role!=='OWNER'/);
+  assert.match(wbRoute,/seller_id=\$\{user\.seller_id\}/);
+  assert.match(migration,/CREATE TABLE IF NOT EXISTS seller_members/i);
+  assert.match(migration,/seller_members_organization_user_key/);
+  assert.match(migration,/ALTER TABLE warehouses ADD COLUMN IF NOT EXISTS city/i);
 });
