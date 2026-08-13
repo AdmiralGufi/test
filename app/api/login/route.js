@@ -1,2 +1,2 @@
-import {NextResponse} from 'next/server';import {sql} from '../../../lib/db';import {createSession} from '../../../lib/auth';
-export async function POST(r){const {email,password}=await r.json();const u=await sql`select id,email,name,role from users where lower(email)=lower(${email||''}) and active=true and password_hash=crypt(${password||''},password_hash) limit 1`;if(!u[0])return NextResponse.json({error:'INVALID_CREDENTIALS'},{status:401});await createSession(u[0].id);return NextResponse.json({user:u[0]});}
+import {NextResponse} from 'next/server';
+export async function POST(){return NextResponse.json({error:'Используйте REGISTER_DEVICE через /api/ops'},{status:410})}

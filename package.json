@@ -1,6 +1,17 @@
-{
-  "name":"fulfillment-wms",
-  "private":true,
-  "scripts":{"dev":"next dev","build":"next build","start":"next start"},
-  "dependencies":{"@neondatabase/serverless":"0.10.4","@zxing/browser":"0.1.5","next":"15.5.7","react":"19.1.1","react-dom":"19.1.1"}
-}
+/** @type {import('next').NextConfig} */
+const nextConfig = {
+  outputFileTracingRoot: process.cwd(),
+  poweredByHeader: false,
+  async headers() {
+    return [{
+      source: '/(.*)',
+      headers: [
+        {key: 'X-Content-Type-Options', value: 'nosniff'},
+        {key: 'Referrer-Policy', value: 'strict-origin-when-cross-origin'},
+        {key: 'Permissions-Policy', value: 'camera=(self), microphone=(), geolocation=()'},
+        {key: 'X-Frame-Options', value: 'DENY'}
+      ]
+    }];
+  }
+};
+export default nextConfig;
