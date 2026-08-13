@@ -1,8 +1,17 @@
-şŠmş&yºŞÃòân¶«Ëñè™æë{Ü™ßì…éez{ì†X§{_?n)ÿ¦Ã©z¶­Š‰ç¢Ú^®h­µçKÊŠˆ\HÚ[\Ü
-	Û™^	ÊK“™^ÛÛ™šYßH
-‹Â˜ÛÛœİ™^ÛÛ™šYÈHÂˆİ]]š[U˜XÚ[™Ô›Ûİˆ›ØÙ\ÜË˜İÙ
-
-KˆİÙ\™YRXY\ˆ˜[ÙKˆ\Ş[˜ÈXY\œÊ
-HÂˆ™]\›ˆŞÂˆÛİ\˜ÙNˆ	ËÊŠŠIËˆXY\œÎˆÂˆÚÙ^Nˆ	ÖPÛÛ[U\KSÜ[ÛœÉË˜[YNˆ	Û›ÜÛšY™‰ßKˆÚÙ^Nˆ	Ô™Y™\œ™\‹TÛXŞIË˜[YNˆ	ÜİšXİ[ÜšYÚ[‹]Ú[‹XÜ›ÜÜË[ÜšYÚ[‰ßKˆÚÙ^Nˆ	Ô\›Z\ÜÚ[ÛœËTÛXŞIË˜[YNˆ	ØØ[Y\˜OJÙ[ŠKZXÜ›ÜÛ™OJ
-KÙ[ÛØØ][ÛJ
-IßKˆÚÙ^Nˆ	ÖQœ˜[YKSÜ[ÛœÉË˜[YNˆ	ÑS–IßBˆBˆWNÂˆBŸNÂ™^ÜY˜][™^ÛÛ™šYÎÂ
+/** @type {import('next').NextConfig} */
+const nextConfig = {
+  outputFileTracingRoot: process.cwd(),
+  poweredByHeader: false,
+  async headers() {
+    return [{
+      source: '/(.*)',
+      headers: [
+        {key: 'X-Content-Type-Options', value: 'nosniff'},
+        {key: 'Referrer-Policy', value: 'strict-origin-when-cross-origin'},
+        {key: 'Permissions-Policy', value: 'camera=(self), microphone=(), geolocation=()'},
+        {key: 'X-Frame-Options', value: 'DENY'}
+      ]
+    }];
+  }
+};
+export default nextConfig;

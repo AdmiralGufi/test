@@ -1,216 +1,271 @@
-şŠmş&yºŞÃòân¶«Ëñè™æë{Ü™ßì…éez{ì†X§{_?n)ÿ¦Ã©z¶­Š‰ç¢Ú^®h­µçIİ\ÙHÛY[	ÎÂ‚š[\ÜØÛÛ™Q[[Y[\ÙQY™™Xİ\ÙRY\ÙT™Y‹\ÙTİ]_Hœ›ÛH	Ü™XXİ	ÎÂ‚˜ÛÛœİ“ÓWÕP”Ï^ÂˆQRS–Éô'´,t-ô/´`	Ë	ô(t.´,4/IË	ô'ô`4.4dt/4.´,	Ë	ô&´/´`4/´,t,	Ë	ô(´/´,´,4`4bÉË	ô&´.ô.4-t/t`´bÉË	ô%ô,4.´,4-ôbÉË	ô(ô`t`´`4/´.t`t`´,´,	Ë	ô(t/´`´`4`ô-4/t.4.´.	Ë	ô%´`ô`4/t,4.É×KˆPSQÑT–Éô'´,t-ô/´`	Ë	ô(t.´,4/IË	ô'ô`4.4dt/4.´,	Ë	ô&´/´`4/´,t,	Ë	ô(´/´,´,4`4bÉË	ô&´.ô.4-t/t`´bÉË	ô%ô,4.´,4-ôbÉË	ô(ô`t`´`4/´.t`t`´,´,	Ë	ô%´`ô`4/t,4.É×Kˆ‘PÑRU‘T–Éô'´,t-ô/´`	Ë	ô(t.´,4/IË	ô'ô`4.4dt/4.´,	Ë	ô&´/´`4/´,t,	Ë	ô(´/´,´,4`4bÉË	ô(ô`t`´`4/´.t`t`´,´,	×KˆPÒÑT–Éô'´,t-ô/´`	Ë	ô(t.´,4/IË	ô&´/´`4/´,t,	Ë	ô%ô,4.´,4-ôbÉË	ô(ô`t`´`4/´.t`t`´,´,	×KˆPÒÑT–Éô'´,t-ô/´`	Ë	ô(t.´,4/IË	ô&´/´`4/´,t,	Ë	ô%ô,4.´,4-ôbÉË	ô(ô`t`´`4/´.t`t`´,´,	×KˆÒTT–Éô'´,t-ô/´`	Ë	ô(t.´,4/IË	ô%ô,4.´,4-ôbÉË	ô(ô`t`´`4/´.t`t`´,´,	×Kˆ’QUÑT–Éô'´,t-ô/´`	Ë	ô(t.´,4/IË	ô&´/´`4/´,t,	Ë	ô(´/´,´,4`4bÉË	ô%ô,4.´,4-ôbÉ×BŸNÂ˜ÛÛœİSĞ’SOVÉô'´,t-ô/´`	Ë	ô(t.´,4/IË	ô'ô`4.4dt/4.´,	Ë	ô&´/´`4/´,t,	Ë	ô%ô,4.´,4-ôbÉ×NÂ˜ÛÛœİPÓÓ”Ï^ô'´,t-ô/´`‰ø£ ‰Ë4(t.´,4/N‰ø£%ÉË4'ô`4.4dt/4.´,‰ø¡¤ÉË4&´/´`4/´,t,‰ø¥¨IË4(´/´,´,4`4bÎ‰ø¥á‰Ë4&´.ô.4-t/t`´bÎ‰ø¥ã‰Ë4%ô,4.´,4-ôbÎ‰ø¢hIË4(ô`t`´`4/´.t`t`´,´,‰ø£ IË4(t/´`´`4`ô-4/t.4.´.‰ø¦fIË4%´`ô`4/t,4.Î‰ø¥íÉßNÂ˜ÛÛœİÕUT×ÓP‘SÏ^Ó‘UÎ‰ô't/´,´bô.IËPÒÒS‘Î‰ô(t,t/´`4.´,	ËPÒÑQ‰ô(t/´,t`4,4/IËPÒÑQ‰ô(ô/ô,4.´/´,´,4/IË‘PQN‰ô$ô/´`´/´,‰ËÒTQ‰ô'´`´,ô`4`ô-´-t/IËĞSÑSQ‰ô'´`´/4-t/tdt/IßNÂ‚˜\Ş[˜È[˜İ[Ûˆ\J\›Ü[ÛœÏ^ßJ^ÂˆÛÛœİ™\ÜÛœÙOX]ØZ]™]Ú
-\›ØØXÚN‰Û›Ë\İÜ™IËXY\œÎÉØÛÛ[]\IÎ‰Ø\XØ][Û‹ÚœÛÛ‰Ë‹‹ŠÜ[ÛœËšXY\œßßJ_K‹‹›Ü[ÛœßJNÂˆÛÛœİœÛÛX]ØZ]™\ÜÛœÙKšœÛÛŠ
-K˜Ø]Ú
+'use client';
 
+import {cloneElement,useEffect,useId,useRef,useState} from 'react';
 
-OOŠßJJNÂˆYŠ\™\ÜÛœÙK›ÚÊ]›İÈ™]È\œ›ÜŠœÛÛ‹™\œ›ÜŸ	ô't-H4`ô-4,4.ô/´`tc4,´bô/ô/´.ô/t.4`´c4/´/ô-t`4,4a´.4c‰ÊNÂˆ™]\›ˆœÛÛÂŸB˜ÛÛœİÜÏX›ÙOO˜\J	ËØ\KÛÜÉËÛY]Ù‰ÔÔÕ	Ë›ÙN’”ÓÓ‹œİš[™ÚYJ›ÙJ_JNÂ‚™^ÜY˜][[˜İ[ÛˆÛ\Ğ\ŒÊ
-^ÂˆÛÛœİÜİ]KÙ]İ]WO]\ÙTİ]JÛØY[™ÎY_JNÂˆÛÛœİİX‹Ù]X—O]\ÙTİ]J	ô'´,t-ô/´`	ÊNÂˆÛÛœİİØ\İÙ]Ø\İO]\ÙTİ]J	ÉÊNÂˆÛÛœİÛ[Ù[Ù][Ù[O]\ÙTİ]J[
-NÂˆÛÛœİÜ]Y\KÙ]]Y\WO]\ÙTİ]J	ÉÊNÂ‚ˆ\Ş[˜È[˜İ[ÛˆØY
-Ü]ZY]Y˜[Ù_O^ßJ^Âˆ^ÂˆYŠ\]ZY]
-\Ù]İ]Jİ\œ™[OŠË‹‹˜İ\œ™[ØY[™ÎY_JJNÂˆÙ]İ]J]ØZ]\J	ËØ\KØ›Ûİİ˜\	ÊJNÂˆXØ]Ú
-\œ›ÜŠ^ÜÙ]İ]Jİ\œ™[OŠË‹‹˜İ\œ™[ØY[™Î™˜[ÙK\œ›Ü™\œ›Ü‹›Y\ÜØYÙ_JJ_BˆBˆ\ÙQY™™Xİ
+const ROLE_TABS={
+  ADMIN:['ĞĞ±Ğ·Ğ¾Ñ€','Ğ¡ĞºĞ°Ğ½','ĞŸÑ€Ğ¸Ñ‘Ğ¼ĞºĞ°','ĞšĞ¾Ñ€Ğ¾Ğ±Ğ°','Ğ¢Ğ¾Ğ²Ğ°Ñ€Ñ‹','ĞšĞ»Ğ¸ĞµĞ½Ñ‚Ñ‹','Ğ—Ğ°ĞºĞ°Ğ·Ñ‹','Ğ£ÑÑ‚Ñ€Ğ¾Ğ¹ÑÑ‚Ğ²Ğ°','Ğ¡Ğ¾Ñ‚Ñ€ÑƒĞ´Ğ½Ğ¸ĞºĞ¸','Ğ–ÑƒÑ€Ğ½Ğ°Ğ»'],
+  MANAGER:['ĞĞ±Ğ·Ğ¾Ñ€','Ğ¡ĞºĞ°Ğ½','ĞŸÑ€Ğ¸Ñ‘Ğ¼ĞºĞ°','ĞšĞ¾Ñ€Ğ¾Ğ±Ğ°','Ğ¢Ğ¾Ğ²Ğ°Ñ€Ñ‹','ĞšĞ»Ğ¸ĞµĞ½Ñ‚Ñ‹','Ğ—Ğ°ĞºĞ°Ğ·Ñ‹','Ğ£ÑÑ‚Ñ€Ğ¾Ğ¹ÑÑ‚Ğ²Ğ°','Ğ–ÑƒÑ€Ğ½Ğ°Ğ»'],
+  RECEIVER:['ĞĞ±Ğ·Ğ¾Ñ€','Ğ¡ĞºĞ°Ğ½','ĞŸÑ€Ğ¸Ñ‘Ğ¼ĞºĞ°','ĞšĞ¾Ñ€Ğ¾Ğ±Ğ°','Ğ¢Ğ¾Ğ²Ğ°Ñ€Ñ‹','Ğ£ÑÑ‚Ñ€Ğ¾Ğ¹ÑÑ‚Ğ²Ğ°'],
+  PICKER:['ĞĞ±Ğ·Ğ¾Ñ€','Ğ¡ĞºĞ°Ğ½','ĞšĞ¾Ñ€Ğ¾Ğ±Ğ°','Ğ—Ğ°ĞºĞ°Ğ·Ñ‹','Ğ£ÑÑ‚Ñ€Ğ¾Ğ¹ÑÑ‚Ğ²Ğ°'],
+  PACKER:['ĞĞ±Ğ·Ğ¾Ñ€','Ğ¡ĞºĞ°Ğ½','ĞšĞ¾Ñ€Ğ¾Ğ±Ğ°','Ğ—Ğ°ĞºĞ°Ğ·Ñ‹','Ğ£ÑÑ‚Ñ€Ğ¾Ğ¹ÑÑ‚Ğ²Ğ°'],
+  SHIPPER:['ĞĞ±Ğ·Ğ¾Ñ€','Ğ¡ĞºĞ°Ğ½','Ğ—Ğ°ĞºĞ°Ğ·Ñ‹','Ğ£ÑÑ‚Ñ€Ğ¾Ğ¹ÑÑ‚Ğ²Ğ°'],
+  VIEWER:['ĞĞ±Ğ·Ğ¾Ñ€','Ğ¡ĞºĞ°Ğ½','ĞšĞ¾Ñ€Ğ¾Ğ±Ğ°','Ğ¢Ğ¾Ğ²Ğ°Ñ€Ñ‹','Ğ—Ğ°ĞºĞ°Ğ·Ñ‹']
+};
+const MOBILE=['ĞĞ±Ğ·Ğ¾Ñ€','Ğ¡ĞºĞ°Ğ½','ĞŸÑ€Ğ¸Ñ‘Ğ¼ĞºĞ°','ĞšĞ¾Ñ€Ğ¾Ğ±Ğ°','Ğ—Ğ°ĞºĞ°Ğ·Ñ‹'];
+const ICONS={ĞĞ±Ğ·Ğ¾Ñ€:'âŒ‚',Ğ¡ĞºĞ°Ğ½:'âŒ—',ĞŸÑ€Ğ¸Ñ‘Ğ¼ĞºĞ°:'â†“',ĞšĞ¾Ñ€Ğ¾Ğ±Ğ°:'â–¡',Ğ¢Ğ¾Ğ²Ğ°Ñ€Ñ‹:'â—†',ĞšĞ»Ğ¸ĞµĞ½Ñ‚Ñ‹:'â—',Ğ—Ğ°ĞºĞ°Ğ·Ñ‹:'â‰¡',Ğ£ÑÑ‚Ñ€Ğ¾Ğ¹ÑÑ‚Ğ²Ğ°:'âŒ',Ğ¡Ğ¾Ñ‚Ñ€ÑƒĞ´Ğ½Ğ¸ĞºĞ¸:'â™™',Ğ–ÑƒÑ€Ğ½Ğ°Ğ»:'â—·'};
+const STATUS_LABELS={NEW:'ĞĞ¾Ğ²Ñ‹Ğ¹',PICKING:'Ğ¡Ğ±Ğ¾Ñ€ĞºĞ°',PICKED:'Ğ¡Ğ¾Ğ±Ñ€Ğ°Ğ½',PACKED:'Ğ£Ğ¿Ğ°ĞºĞ¾Ğ²Ğ°Ğ½',READY:'Ğ“Ğ¾Ñ‚Ğ¾Ğ²',SHIPPED:'ĞÑ‚Ğ³Ñ€ÑƒĞ¶ĞµĞ½',CANCELLED:'ĞÑ‚Ğ¼ĞµĞ½Ñ‘Ğ½'};
 
+async function api(url,options={}){
+  const response=await fetch(url,{cache:'no-store',headers:{'content-type':'application/json',...(options.headers||{})},...options});
+  const json=await response.json().catch(()=>({}));
+  if(!response.ok)throw new Error(json.error||'ĞĞµ ÑƒĞ´Ğ°Ğ»Ğ¾ÑÑŒ Ğ²Ñ‹Ğ¿Ğ¾Ğ»Ğ½Ğ¸Ñ‚ÑŒ Ğ¾Ğ¿ĞµÑ€Ğ°Ñ†Ğ¸Ñ');
+  return json;
+}
+const ops=body=>api('/api/ops',{method:'POST',body:JSON.stringify(body)});
 
-OOÛØY
+export default function WmsAppV3(){
+  const[state,setState]=useState({loading:true});
+  const[tab,setTab]=useState('ĞĞ±Ğ·Ğ¾Ñ€');
+  const[toast,setToast]=useState('');
+  const[modal,setModal]=useState(null);
+  const[query,setQuery]=useState('');
 
-_K×JNÂˆ\Ş[˜È[˜İ[Ûˆ™Yœ™\Ú
-Y\ÜØYÙJ^Âˆ]ØZ]ØY
-Ü]ZY]Y_JNÂˆYŠY\ÜØYÙJ^ÜÙ]Ø\İ
-Y\ÜØYÙJNİÚ[™İËœÙ][Y[İ]
+  async function load({quiet=false}={}){
+    try{
+      if(!quiet)setState(current=>({...current,loading:true}));
+      setState(await api('/api/bootstrap'));
+    }catch(error){setState(current=>({...current,loading:false,error:error.message}))}
+  }
+  useEffect(()=>{load()},[]);
+  async function refresh(message){
+    await load({quiet:true});
+    if(message){setToast(message);window.setTimeout(()=>setToast(''),2600)}
+  }
 
+  if(state.loading)return <Loading/>;
+  if(state.error)return <ErrorState message={state.error} retry={()=>load()}/>;
+  if(state.setupRequired)return <Auth setup done={()=>load()}/>;
+  if(!state.user)return <Auth done={()=>load()}/>;
 
-OOœÙ]Ø\İ
-	ÉÊKŒ
-_BˆB‚ˆYŠİ]K›ØY[™Ê\™]\›ˆØY[™ËÏÂˆYŠİ]K™\œ›ÜŠ\™]\›ˆ\œ›Ü”İ]HY\ÜØYÙO^Üİ]K™\œ›ÜŸH™]O^Ê
-OO›ØY
+  const data=state.data||{};
+  const tabs=ROLE_TABS[state.user.role]||ROLE_TABS.VIEWER;
+  const visible=tabs.includes(tab)?tab:'ĞĞ±Ğ·Ğ¾Ñ€';
+  const boxes=(data.boxes||[]).filter(box=>
+    `${box.box_code} ${box.seller_name||''} ${box.zone_name||''} ${box.cell_code||''}`
+      .toLowerCase().includes(query.toLowerCase())
+  );
 
-_KÏÂˆYŠİ]KœÙ]\™\]Z\™Y
-\™]\›ˆ]]Ù]\Û™O^Ê
-OO›ØY
+  return <div className="app">
+    <aside className="side">
+      <div className="brand"><span className="brandMark">F</span><span>Fulfillment<small>Warehouse OS</small></span></div>
+      <nav className="nav" aria-label="ĞÑĞ½Ğ¾Ğ²Ğ½Ğ°Ñ Ğ½Ğ°Ğ²Ğ¸Ğ³Ğ°Ñ†Ğ¸Ñ">
+        {tabs.map(item=><button key={item} className={visible===item?'active':''} aria-current={visible===item?'page':undefined} onClick={()=>setTab(item)}><span aria-hidden="true">{ICONS[item]}</span>{item}</button>)}
+      </nav>
+      <div className="profile"><span className="online" aria-hidden="true"/><div><b>{state.user.name}</b><small>{state.user.role}</small></div></div>
+    </aside>
 
-_KÏÂˆYŠ\İ]K\Ù\Š\™]\›ˆ]]Û™O^Ê
-OO›ØY
+    <main className="content" id="main-content">
+      <header className="pageHeader">
+        <div><p className="eyebrow">FULFILLMENT CONTROL CENTER</p><h1>{visible}</h1><p className="subtitle">FBS Â· ĞµĞ´Ğ¸Ğ½Ğ°Ñ Ğ±Ğ°Ğ·Ğ° ÑĞºĞ»Ğ°Ğ´Ğ° Â· Ğ¢Ğ¡Ğ” Ğ¸ Ñ‚ĞµĞ»ĞµÑ„Ğ¾Ğ½</p></div>
+        <div className="actions"><button className="btn primary" onClick={()=>setTab('Ğ¡ĞºĞ°Ğ½')}>âŒ— Ğ¡ĞºĞ°Ğ½Ğ¸Ñ€Ğ¾Ğ²Ğ°Ñ‚ÑŒ</button><button className="btn ghost" onClick={async()=>{await api('/api/auth/logout',{method:'POST'});load()}}>Ğ’Ñ‹Ğ¹Ñ‚Ğ¸</button></div>
+      </header>
+      {toast&&<div className="toast" role="status">âœ“ {toast}</div>}
+      <Metrics data={data}/>
+      {visible==='ĞĞ±Ğ·Ğ¾Ñ€'&&<Overview data={data} setTab={setTab}/>}
+      {visible==='Ğ¡ĞºĞ°Ğ½'&&<Scanner/>}
+      {visible==='ĞŸÑ€Ğ¸Ñ‘Ğ¼ĞºĞ°'&&<Receiving data={data} done={refresh}/>}
+      {visible==='ĞšĞ¾Ñ€Ğ¾Ğ±Ğ°'&&<Boxes rows={boxes} query={query} setQuery={setQuery} open={setModal}/>}
+      {visible==='Ğ¢Ğ¾Ğ²Ğ°Ñ€Ñ‹'&&<Products data={data} done={refresh}/>}
+      {visible==='ĞšĞ»Ğ¸ĞµĞ½Ñ‚Ñ‹'&&<Clients data={data} done={refresh}/>}
+      {visible==='Ğ—Ğ°ĞºĞ°Ğ·Ñ‹'&&<Orders data={data} role={state.user.role} done={refresh}/>}
+      {visible==='Ğ£ÑÑ‚Ñ€Ğ¾Ğ¹ÑÑ‚Ğ²Ğ°'&&<Devices data={data} done={refresh}/>}
+      {visible==='Ğ¡Ğ¾Ñ‚Ñ€ÑƒĞ´Ğ½Ğ¸ĞºĞ¸'&&<Users data={data} done={refresh}/>}
+      {visible==='Ğ–ÑƒÑ€Ğ½Ğ°Ğ»'&&<Audit data={data}/>}
+    </main>
 
-_KÏÂ‚ˆÛÛœİ]O\İ]K™]_ßNÂˆÛÛœİXœÏT“ÓWÕP”ÖÜİ]K\Ù\‹œ›ÛW_“ÓWÕP”Ë•’QUÑTÂˆÛÛœİš\ÚX›O]XœËš[˜ÛY\ÊXŠOİX‰ô'´,t-ô/´`	ÎÂˆÛÛœİ›Ş\ÏJ]K˜›Ş\ß×JK™š[\Š›ŞO‚ˆ	Ø›Ş˜›ŞØÛÙ_H	Ø›ŞœÙ[\—Û˜[Y_	ÉßH	Ø›Ş›Û™WÛ˜[Y_	ÉßH	Ø›Ş˜Ù[ØÛÙ_	ÉßXˆÓİÙ\Ø\ÙJ
-Kš[˜ÛY\Ê]Y\KÓİÙ\Ø\ÙJ
-JBˆ
-NÂ‚ˆ™]\›ˆ]ˆÛ\ÜÓ˜[YOH˜\‚ˆ\ÚYHÛ\ÜÓ˜[YOHœÚYH‚ˆ]ˆÛ\ÜÓ˜[YOH˜œ˜[™Ü[ˆÛ\ÜÓ˜[YOH˜œ˜[™X\šÈ‘ÜÜ[Ü[‘[š[Y[ÛX[•Ø\™Zİ\ÙHÔÏÜÛX[ÜÜ[Ù]‚ˆ˜]ˆÛ\ÜÓ˜[YOH›˜]ˆˆ\šXK[X™[H´'´`t/t/´,´/t,4cÈ4/t,4,´.4,ô,4a´.4cÈ‚ˆİXœË›X\
-][OO]ÛˆÙ^O^Ú][_HÛ\ÜÓ˜[YO^İš\ÚX›OOOZ][OÉØXİ]™IÎ‰ÉßH\šXKXİ\œ™[^İš\ÚX›OOOZ][OÉÜYÙIÎ[™Yš[™YHÛÛXÚÏ^Ê
-OOœÙ]XŠ][J_OÜ[ˆ\šXKZY[HYHÒPÓÓ”ÖÚ][W_OÜÜ[Ú][_OØ]ÛŠ_BˆÛ˜]‚ˆ]ˆÛ\ÜÓ˜[YOHœ›Ùš[HÜ[ˆÛ\ÜÓ˜[YOH›Û›[™Hˆ\šXKZY[HYH‹Ï]Üİ]K\Ù\‹›˜[Y_OØÛX[Üİ]K\Ù\‹œ›Û_OÜÛX[Ù]Ù]‚ˆØ\ÚYO‚‚ˆXZ[ˆÛ\ÜÓ˜[YOH˜ÛÛ[ˆYH›XZ[‹XÛÛ[‚ˆXY\ˆÛ\ÜÓ˜[YOHœYÙRXY\ˆ‚ˆ]Û\ÜÓ˜[YOH™^YXœ›İÈ‘•S’SQS•ÓÓ•“ÓÑS•TÜOİš\ÚX›_OÚOÛ\ÜÓ˜[YOHœİX]H‘”È0­È4-t-4.4/t,4cÈ4,t,4-ô,4`t.´.ô,4-4,0­È4(´(t%4.4`´-t.ô-ta4/´/OÜÙ]‚ˆ]ˆÛ\ÜÓ˜[YOH˜Xİ[ÛœÈ]ÛˆÛ\ÜÓ˜[YOH˜ˆš[X\HˆÛÛXÚÏ^Ê
-OOœÙ]XŠ	ô(t.´,4/IÊ_O¸£%È4(t.´,4/t.4`4/´,´,4`´cØ]Û]ÛˆÛ\ÜÓ˜[YOH˜ˆÚÜİˆÛÛXÚÏ^Ø\Ş[˜Ê
-OOØ]ØZ]\J	ËØ\KØ]]ÛÙÛİ]	ËÛY]Ù‰ÔÔÕ	ßJNÛØY
+    <nav className="mobilebar" aria-label="ĞœĞ¾Ğ±Ğ¸Ğ»ÑŒĞ½Ğ°Ñ Ğ½Ğ°Ğ²Ğ¸Ğ³Ğ°Ñ†Ğ¸Ñ">
+      {MOBILE.filter(item=>tabs.includes(item)).map(item=><button key={item} className={visible===item?'active':''} aria-current={visible===item?'page':undefined} onClick={()=>setTab(item)}><span aria-hidden="true">{ICONS[item]}</span>{item}</button>)}
+    </nav>
+    {modal&&<BoxModal spec={modal} data={data} close={()=>setModal(null)} done={async message=>{setModal(null);await refresh(message)}}/>}
+  </div>;
+}
 
-__O´$´bô.t`´.Ø]ÛÙ]‚ˆÚXY\‚ˆİØ\İ	‰]ˆÛ\ÜÓ˜[YOHØ\İˆ›ÛOHœİ]\È¸§$ÈİØ\İOÙ]ŸBˆY]šXÜÈ]O^Ù]_KÏ‚ˆİš\ÚX›OOOIô'´,t-ô/´`	É‰İ™\šY]È]O^Ù]_HÙ]X^ÜÙ]XŸKÏŸBˆİš\ÚX›OOOIô(t.´,4/IÉ‰ØØ[›™\‹ÏŸBˆİš\ÚX›OOOIô'ô`4.4dt/4.´,	É‰™XÙZ]š[™È]O^Ù]_HÛ™O^Ü™Yœ™\ÚKÏŸBˆİš\ÚX›OOOIô&´/´`4/´,t,	É‰›Ş\È›İÜÏ^Ø›Ş\ßH]Y\O^Ü]Y\_HÙ]]Y\O^ÜÙ]]Y\_HÜ[^ÜÙ][Ù[KÏŸBˆİš\ÚX›OOOIô(´/´,´,4`4bÉÉ‰›ÙXİÈ]O^Ù]_HÛ™O^Ü™Yœ™\ÚKÏŸBˆİš\ÚX›OOOIô&´.ô.4-t/t`´bÉÉ‰ÛY[È]O^Ù]_HÛ™O^Ü™Yœ™\ÚKÏŸBˆİš\ÚX›OOOIô%ô,4.´,4-ôbÉÉ‰Ü™\œÈ]O^Ù]_H›ÛO^Üİ]K\Ù\‹œ›Û_HÛ™O^Ü™Yœ™\ÚKÏŸBˆİš\ÚX›OOOIô(ô`t`´`4/´.t`t`´,´,	É‰]šXÙ\È]O^Ù]_HÛ™O^Ü™Yœ™\ÚKÏŸBˆİš\ÚX›OOOIô(t/´`´`4`ô-4/t.4.´.	É‰\Ù\œÈ]O^Ù]_HÛ™O^Ü™Yœ™\ÚKÏŸBˆİš\ÚX›OOOIô%´`ô`4/t,4.ÉÉ‰]Y]]O^Ù]_KÏŸBˆÛXZ[‚‚ˆ˜]ˆÛ\ÜÓ˜[YOH›[Øš[X˜\ˆˆ\šXK[X™[H´'4/´,t.4.ôc4/t,4cÈ4/t,4,´.4,ô,4a´.4cÈ‚ˆÓSĞ’SK™š[\Š][OOXœËš[˜ÛY\Ê][JJK›X\
-][OO]ÛˆÙ^O^Ú][_HÛ\ÜÓ˜[YO^İš\ÚX›OOOZ][OÉØXİ]™IÎ‰ÉßH\šXKXİ\œ™[^İš\ÚX›OOOZ][OÉÜYÙIÎ[™Yš[™YHÛÛXÚÏ^Ê
-OOœÙ]XŠ][J_OÜ[ˆ\šXKZY[HYHÒPÓÓ”ÖÚ][W_OÜÜ[Ú][_OØ]ÛŠ_BˆÛ˜]‚ˆÛ[Ù[	‰›Ş[Ù[ÜXÏ^Û[Ù[H]O^Ù]_HÛÜÙO^Ê
-OOœÙ][Ù[
-[
-_HÛ™O^Ø\Ş[˜ÈY\ÜØYÙOOÜÙ][Ù[
-[
-NØ]ØZ]™Yœ™\Ú
-Y\ÜØYÙJ__KÏŸBˆÙ]ÂŸB‚™[˜İ[ÛˆØY[™Ê
-^Ü™]\›ˆXZ[ˆÛ\ÜÓ˜[YOHœİ]TYÙHˆ\šXK[]™OHœÛ]H]ˆÛ\ÜÓ˜[YOH›ØY\ˆ‹ÏO´%ô,4,ô`4`ô-´,4-t/4`t.´.ô,4-ÚO´'ô/´.ô`ôaô,4-t/4,4.´`´`ô,4.ôc4/tbô-H4/´`t`´,4`´.´.4.4-ô,4-4,4/t.4cø )ÜÛXZ[ŸB™[˜İ[Ûˆ\œ›Ü”İ]JÛY\ÜØYÙK™]_J^Ü™]\›ˆXZ[ˆÛ\ÜÓ˜[YOHœİ]TYÙH]ˆÛ\ÜÓ˜[YOHœİ]RXÛÛˆ[™Ù\ˆˆOÙ]O´'t-t`ˆ4`t,´cô-ô.4`HÓTÏÚOÛY\ÜØYÙ_OÜ]ÛˆÛ\ÜÓ˜[YOH˜ˆš[X\HˆÛÛXÚÏ^Ü™]_O´'ô/´,´`´/´`4.4`´cØ]ÛÛXZ[ŸB™[˜İ[Ûˆ\œ›Ü“Y\ÜØYÙJØÚ[™[ŸJ^Ü™]\›ˆÚ[™[Ï]ˆÛ\ÜÓ˜[YOH››İXÙH[™Ù\ˆˆ›ÛOH˜[\ØÚ[™[ŸOÙ]›[B‚™[˜İ[Ûˆ]]
-ÜÙ]\Y˜[ÙKÛ™_J^ÂˆÛÛœİÙ›Ü›KÙ]›Ü›WO]\ÙTİ]JÛ˜[YN‰ÉË[XZ[‰ÉË\ÜİÛÜ™‰ÉßJNÂˆÛÛœİÙ\œ›Ü‹Ù]\œ›Ü—O]\ÙTİ]J	ÉÊNÂˆÛÛœİØ\ŞKÙ]\ŞWO]\ÙTİ]J˜[ÙJNÂˆ\Ş[˜È[˜İ[ÛˆİX›Z]
-]™[
-^Âˆ]™[Ëœ™]™[Y˜][
+function Loading(){return <main className="statePage" aria-live="polite"><div className="loader"/><h1>Ğ—Ğ°Ğ³Ñ€ÑƒĞ¶Ğ°ĞµĞ¼ ÑĞºĞ»Ğ°Ğ´</h1><p>ĞŸĞ¾Ğ»ÑƒÑ‡Ğ°ĞµĞ¼ Ğ°ĞºÑ‚ÑƒĞ°Ğ»ÑŒĞ½Ñ‹Ğµ Ğ¾ÑÑ‚Ğ°Ñ‚ĞºĞ¸ Ğ¸ Ğ·Ğ°Ğ´Ğ°Ğ½Ğ¸Ñâ€¦</p></main>}
+function ErrorState({message,retry}){return <main className="statePage"><div className="stateIcon danger">!</div><h1>ĞĞµÑ‚ ÑĞ²ÑĞ·Ğ¸ Ñ WMS</h1><p>{message}</p><button className="btn primary" onClick={retry}>ĞŸĞ¾Ğ²Ñ‚Ğ¾Ñ€Ğ¸Ñ‚ÑŒ</button></main>}
+function ErrorMessage({children}){return children?<div className="notice danger" role="alert">{children}</div>:null}
 
-NÂˆYŠ\ŞJ\™]\›ÂˆÙ]\ŞJYJNÜÙ]\œ›ÜŠ	ÉÊNÂˆ^Ø]ØZ]\JÙ]\ÉËØ\KØ]]ÜÙ]\	Î‰ËØ\KØ]]ÛÙÚ[‰ËÛY]Ù‰ÔÔÕ	Ë›ÙN’”ÓÓ‹œİš[™ÚYJ›Ü›J_JNØ]ØZ]Û™J
-_BˆØ]Ú
-\œŠ^ÜÙ]\œ›ÜŠ\œ‹›Y\ÜØYÙJ_Bˆš[˜[^ÜÙ]\ŞJ˜[ÙJ_BˆBˆ™]\›ˆXZ[ˆÛ\ÜÓ˜[YOH˜]]Ú[‚ˆÙXİ[ÛˆÛ\ÜÓ˜[YOH˜]]š\İX[ˆ\šXKZY[HYH]ˆÛ\ÜÓ˜[YOH˜]]œ˜[™Ü[ˆÛ\ÜÓ˜[YOH˜œ˜[™X\šÈ‘ÜÜ[ˆ[š[Y[ÓTÏÙ]]ˆÛ\ÜÓ˜[YOHš\İX[ÛÜHÜ[ˆÛ\ÜÓ˜[YOHœ[•ĞT‘RÕTÑHÔÏÜÜ[O´(t.´.ô,4-4,ˆ4/´-4/t/´/4`4,4,t/´aô-t/4.´/´/t`´`ô`4-KÚO´'ô`4.4dt/4.´,4,4-4`4-t`t/t/´-H4at`4,4/t-t/t.4-KXÚÚ[™È4.4/´`´,ô`4`ô-ô.´,8 %4,t-t-È4`4,4-ô`4bô,´/´,ˆ4/4-t-´-4`È4-4,4/t/tbô/4.4.4/´/ô-t`4,4a´.4cô/4.ÜÙ]]ˆÛ\ÜÓ˜[YOHš\İX[ÜšYÜ[‹ÏÜ[‹ÏÜ[‹ÏÜ[‹ÏÜ[‹ÏÜ[‹ÏÙ]ÜÙXİ[Û‚ˆÙXİ[ÛˆÛ\ÜÓ˜[YOH˜]][™[›Ü›HÛ\ÜÓ˜[YOH˜]]Ø\™ˆÛ”İX›Z]^ÜİX›Z]OÛ\ÜÓ˜[YOH™^YXœ›İÈÜÙ]\Éô'ô%t(4$´*ô&H4%ô$4'ô(ô(t&‰Î‰ô%ô$4*t&4*t t't't*ô&H4$´)t'´%	ßOÜÜÙ]\Éô(t/´-ô-4,4/t.4-H4,4-4/4.4/t.4`t`´`4,4`´/´`4,	Î‰ô%4/´,t`4/ˆ4/ô/´-´,4.ô/´,´,4`´c	ßOÚÛ\ÜÓ˜[YOHœİX]HÜÙ]\Éô't,4`t`´`4/´.t`´-H4,´.ô,4-4-t.ôc4a´,4`t.4`t`´-t/4bËˆ4'ô/´-ô-´-H4`t/´`´`4`ô-4/t.4.´/´,ˆ4/4/´-´/t/ˆ4-4/´,t,4,´.4`´c4/ô/ˆ4`4/´.ôcô/‰Î‰ô$´/´.t-4.4`´-H4,ˆ4`4,4,t/´aô`ôcˆ4/ô,4/t-t.ôc4`t.´.ô,4-4,‰ßOÜ‚ˆÜÙ]\	‰šY[X™[H´&4/4cÈ4,4-4/4.4/t.4`t`´`4,4`´/´`4,[œ]]]ĞÛÛ\]OH›˜[YHˆ˜[YO^Ù›Ü›K›˜[Y_HÛÚ[™ÙO^ÙOOœÙ]›Ü›JË‹‹™›Ü›K˜[YN™K\™Ù]˜[Y_J_H™\]Z\™YÏÑšY[ŸBˆšY[X™[H‘[XZ[[œ]\OH™[XZ[ˆ[œ][ÙOH™[XZ[ˆ]]ĞÛÛ\]OH™[XZ[ˆ˜[YO^Ù›Ü›K™[XZ[HÛÚ[™ÙO^ÙOOœÙ]›Ü›JË‹‹™›Ü›K[XZ[™K\™Ù]˜[Y_J_H™\]Z\™YÏÑšY[‚ˆšY[X™[H´'ô,4`4/´.ôcˆ[^ÜÙ]\Éô'4.4/t.4/4`ô/4`t.4/4,´/´.ô/´,‰Î[™Yš[™YO[œ]\OHœ\ÜİÛÜ™ˆ]]ĞÛÛ\]O^ÜÙ]\ÉÛ™]Ë\\ÜİÛÜ™	Î‰Øİ\œ™[\\ÜİÛÜ™	ßHZ[“[™İ^ÎH˜[YO^Ù›Ü›Kœ\ÜİÛÜ™HÛÚ[™ÙO^ÙOOœÙ]›Ü›JË‹‹™›Ü›K\ÜİÛÜ™™K\™Ù]˜[Y_J_H™\]Z\™YÏÑšY[‚ˆ\œ›Ü“Y\ÜØYÙOÙ\œ›ÜŸOÑ\œ›Ü“Y\ÜØYÙO‚ˆ]ÛˆÛ\ÜÓ˜[YOH˜ˆš[X\HÚYHˆ\ØX›Y^Ø\Ş_OØ\ŞOÉô'ô/´-4/´-´-4.4`´-x )‰ÎœÙ]\Éô(t/´-ô-4,4`´c4,4-4/4.4/t.4`t`´`4,4`´/´`4,	Î‰ô$´/´.t`´.4,ˆÓTÉßOØ]Û‚ˆÙ›Ü›OÜÙXİ[Û‚ˆÛXZ[ÂŸB‚™[˜İ[ÛˆšY[
-ÛX™[[Ú[™[ŸJ^ÂˆÛÛœİY]\ÙRY
+function Auth({setup=false,done}){
+  const[form,setForm]=useState({name:'',email:'',password:''});
+  const[error,setError]=useState('');
+  const[busy,setBusy]=useState(false);
+  async function submit(event){
+    event?.preventDefault();
+    if(busy)return;
+    setBusy(true);setError('');
+    try{await api(setup?'/api/auth/setup':'/api/auth/login',{method:'POST',body:JSON.stringify(form)});await done()}
+    catch(err){setError(err.message)}
+    finally{setBusy(false)}
+  }
+  return <main className="authShell">
+    <section className="authVisual" aria-hidden="true"><div className="authBrand"><span className="brandMark">F</span> Fulfillment WMS</div><div className="visualCopy"><span className="pill">WAREHOUSE OS</span><h1>Ğ¡ĞºĞ»Ğ°Ğ´ Ğ² Ğ¾Ğ´Ğ½Ğ¾Ğ¼ Ñ€Ğ°Ğ±Ğ¾Ñ‡ĞµĞ¼ ĞºĞ¾Ğ½Ñ‚ÑƒÑ€Ğµ.</h1><p>ĞŸÑ€Ğ¸Ñ‘Ğ¼ĞºĞ°, Ğ°Ğ´Ñ€ĞµÑĞ½Ğ¾Ğµ Ñ…Ñ€Ğ°Ğ½ĞµĞ½Ğ¸Ğµ, picking Ğ¸ Ğ¾Ñ‚Ğ³Ñ€ÑƒĞ·ĞºĞ° â€” Ğ±ĞµĞ· Ñ€Ğ°Ğ·Ñ€Ñ‹Ğ²Ğ¾Ğ² Ğ¼ĞµĞ¶Ğ´Ñƒ Ğ´Ğ°Ğ½Ğ½Ñ‹Ğ¼Ğ¸ Ğ¸ Ğ¾Ğ¿ĞµÑ€Ğ°Ñ†Ğ¸ÑĞ¼Ğ¸.</p></div><div className="visualGrid"><span/><span/><span/><span/><span/><span/></div></section>
+    <section className="authPanel"><form className="authCard" onSubmit={submit}><p className="eyebrow">{setup?'ĞŸĞ•Ğ Ğ’Ğ«Ğ™ Ğ—ĞĞŸĞ£Ğ¡Ğš':'Ğ—ĞĞ©Ğ˜Ğ©ĞĞĞĞ«Ğ™ Ğ’Ğ¥ĞĞ”'}</p><h2>{setup?'Ğ¡Ğ¾Ğ·Ğ´Ğ°Ğ½Ğ¸Ğµ Ğ°Ğ´Ğ¼Ğ¸Ğ½Ğ¸ÑÑ‚Ñ€Ğ°Ñ‚Ğ¾Ñ€Ğ°':'Ğ”Ğ¾Ğ±Ñ€Ğ¾ Ğ¿Ğ¾Ğ¶Ğ°Ğ»Ğ¾Ğ²Ğ°Ñ‚ÑŒ'}</h2><p className="subtitle">{setup?'ĞĞ°ÑÑ‚Ñ€Ğ¾Ğ¹Ñ‚Ğµ Ğ²Ğ»Ğ°Ğ´ĞµĞ»ÑŒÑ†Ğ° ÑĞ¸ÑÑ‚ĞµĞ¼Ñ‹. ĞŸĞ¾Ğ·Ğ¶Ğµ ÑĞ¾Ñ‚Ñ€ÑƒĞ´Ğ½Ğ¸ĞºĞ¾Ğ² Ğ¼Ğ¾Ğ¶Ğ½Ğ¾ Ğ´Ğ¾Ğ±Ğ°Ğ²Ğ¸Ñ‚ÑŒ Ğ¿Ğ¾ Ñ€Ğ¾Ğ»ÑĞ¼.':'Ğ’Ğ¾Ğ¹Ğ´Ğ¸Ñ‚Ğµ Ğ² Ñ€Ğ°Ğ±Ğ¾Ñ‡ÑƒÑ Ğ¿Ğ°Ğ½ĞµĞ»ÑŒ ÑĞºĞ»Ğ°Ğ´Ğ°.'}</p>
+      {setup&&<Field label="Ğ˜Ğ¼Ñ Ğ°Ğ´Ğ¼Ğ¸Ğ½Ğ¸ÑÑ‚Ñ€Ğ°Ñ‚Ğ¾Ñ€Ğ°"><input autoComplete="name" value={form.name} onChange={e=>setForm({...form,name:e.target.value})} required/></Field>}
+      <Field label="Email"><input type="email" inputMode="email" autoComplete="email" value={form.email} onChange={e=>setForm({...form,email:e.target.value})} required/></Field>
+      <Field label="ĞŸĞ°Ñ€Ğ¾Ğ»ÑŒ" hint={setup?'ĞœĞ¸Ğ½Ğ¸Ğ¼ÑƒĞ¼ 8 ÑĞ¸Ğ¼Ğ²Ğ¾Ğ»Ğ¾Ğ²':undefined}><input type="password" autoComplete={setup?'new-password':'current-password'} minLength={8} value={form.password} onChange={e=>setForm({...form,password:e.target.value})} required/></Field>
+      <ErrorMessage>{error}</ErrorMessage>
+      <button className="btn primary wide" disabled={busy}>{busy?'ĞŸĞ¾Ğ´Ğ¾Ğ¶Ğ´Ğ¸Ñ‚Ğµâ€¦':setup?'Ğ¡Ğ¾Ğ·Ğ´Ğ°Ñ‚ÑŒ Ğ°Ğ´Ğ¼Ğ¸Ğ½Ğ¸ÑÑ‚Ñ€Ğ°Ñ‚Ğ¾Ñ€Ğ°':'Ğ’Ğ¾Ğ¹Ñ‚Ğ¸ Ğ² WMS'}</button>
+    </form></section>
+  </main>;
+}
 
-NÂˆ™]\›ˆX™[Û\ÜÓ˜[YOH™šY[ˆ[›Ü^ÚYOÜ[ÛX™[^Ú[	‰ÛX[Ú[OÜÛX[ŸOÜÜ[ØÛÛ™Q[[Y[
-Ú[™[‹ÚYJ_OÛX™[ÂŸB‚™[˜İ[ÛˆY]šXÜÊÙ]_J^ÂˆÛÛœİ][\ÏVÂˆÉô&´/´`4/´,t,	Ë]K˜›Ş\ÏË›[™İ	ø¥¨IË	ô$´`t-t,ô/ˆ4,ˆ4`t.4`t`´-t/4-I×KˆÉÔÒÕIË]Kœ›ÙXİÏË›[™İ	ø¥á‰Ë	ô$4.´`´.4,´/tbô.H4.´,4`´,4.ô/´,É×KˆÉô%ô,4.´,4-ôbÉË]K›Ü™\œÏË›[™İ	ø¢hIË	Ñ”È4/ô/´`´/´.‰×KˆÉô&´.ô.4-t/t`´bÉË]KœÙ[\œÏË›[™İ	ø¥ã‰Ë	ô$´.ô,4-4-t.ôc4a´bÈ4`´/´,´,4`4,	×BˆNÂˆ™]\›ˆÙXİ[ÛˆÛ\ÜÓ˜[YOH›Y]šXÜÈˆ\šXK[X™[H´&´.ôc´aô-t,´bô-H4/ô/´.´,4-ô,4`´-t.ô.Ú][\Ë›X\
+function Field({label,hint,children}){
+  const id=useId();
+  return <label className="field" htmlFor={id}><span>{label}{hint&&<small>{hint}</small>}</span>{cloneElement(children,{id})}</label>;
+}
 
-ÛX™[˜[YKXÛÛ‹›İWJOO\XÛHÛ\ÜÓ˜[YOH›Y]šXÈˆÙ^O^ÛX™[OÜ[ˆÛ\ÜÓ˜[YOH›Y]šXÒXÛÛˆˆ\šXKZY[HYHÚXÛÛŸOÜÜ[]ÛX[ÛX™[OÜÛX[İ˜[Y_OØÛ›İ_OÜÙ]Ø\XÛOŠ_OÜÙXİ[ÛÂŸB‚™[˜İ[Ûˆİ™\šY]ÊÙ]KÙ]XŸJ^ÂˆÛÛœİİYÙ\ÏVÖÉô'ô`4.4dt/4.´,	Ë	ÔÕ‰×KÉÔPÉË	ÔPÉ×KÉô(t/´`4`´.4`4/´,´.´,	Ë	ÔÔ•	×KÉô)t`4,4/t-t/t.4-IË	ÔÕÉ×KÉÔXÚÚ[™ÉË	ÔÒÉ×KÉÔXÚÚ[™ÉË	ÔRÉ×KÉô$ô/´`´/´,´/‰Ë	Ô‘I×KÉô'´`´,ô`4`ô-ô.´,	Ë	ÔÒ	×WNÂˆ™]\›ˆ]ˆÛ\ÜÓ˜[YOH™\Ú›Ø\™ÜšY‚ˆÙXİ[ÛˆÛ\ÜÓ˜[YOH˜Ø\™Ü[ŒˆÙXİ[Û•]H]OH´'´/ô-t`4,4a´.4/´/t/tbô.H4/ô/´`´/´.ˆˆ^H´(´-t.´`ôbt-t-H4`4,4`t/ô`4-t-4-t.ô-t/t.4-H4.´/´`4/´,t/´,ˆ4/ô/ˆ4-ô/´/t,4/‹Ï‚ˆ]ˆÛ\ÜÓ˜[YOH™›İÈÜİYÙ\Ë›X\
+function Metrics({data}){
+  const items=[
+    ['ĞšĞ¾Ñ€Ğ¾Ğ±Ğ°',data.boxes?.length||0,'â–¡','Ğ’ÑĞµĞ³Ğ¾ Ğ² ÑĞ¸ÑÑ‚ĞµĞ¼Ğµ'],
+    ['SKU',data.products?.length||0,'â—†','ĞĞºÑ‚Ğ¸Ğ²Ğ½Ñ‹Ğ¹ ĞºĞ°Ñ‚Ğ°Ğ»Ğ¾Ğ³'],
+    ['Ğ—Ğ°ĞºĞ°Ğ·Ñ‹',data.orders?.length||0,'â‰¡','FBS Ğ¿Ğ¾Ñ‚Ğ¾Ğº'],
+    ['ĞšĞ»Ğ¸ĞµĞ½Ñ‚Ñ‹',data.sellers?.length||0,'â—','Ğ’Ğ»Ğ°Ğ´ĞµĞ»ÑŒÑ†Ñ‹ Ñ‚Ğ¾Ğ²Ğ°Ñ€Ğ°']
+  ];
+  return <section className="metrics" aria-label="ĞšĞ»ÑÑ‡ĞµĞ²Ñ‹Ğµ Ğ¿Ğ¾ĞºĞ°Ğ·Ğ°Ñ‚ĞµĞ»Ğ¸">{items.map(([label,value,icon,note])=><article className="metric" key={label}><span className="metricIcon" aria-hidden="true">{icon}</span><div><small>{label}</small><b>{value}</b><p>{note}</p></div></article>)}</section>;
+}
 
-Û˜[YKÛÙWK[™^
-OO]ÛˆÛ\ÜÓ˜[YOH™›İÔİ\ˆÙ^O^ØÛÙ_HÛÛXÚÏ^Ê
-OOœÙ]XŠÛÙOOOIÔÕ‰ÏÉô'ô`4.4dt/4.´,	Î–ÉÔÒÉË	ÔRÉË	Ô‘IË	ÔÒ	×Kš[˜ÛY\ÊÛÙJOÉô%ô,4.´,4-ôbÉÎ‰ô&´/´`4/´,t,	Ê_OÜ[ˆÛ\ÜÓ˜[YOH™›İÒ[™^Ôİš[™Ê[™^
-ÌJKœYİ\
-‹	Ì	Ê_OÜÜ[Û˜[Y_OØİ›Û™ÏÊ]K˜›Ş\ß×JK™š[\Š›ŞO˜›Ş›Û™WØÛÙOOOXÛÙJK›[™İOÜİ›Û™ÏÛX[´.´/´`4/´,t/´,ÜÛX[Ø]ÛŠ_OÙ]‚ˆÜÙXİ[Û‚ˆÙXİ[ÛˆÛ\ÜÓ˜[YOH˜Ø\™ÙXİ[Û•]H]OH´$tbô`t`´`4bô-H4-4-t.t`t`´,´.4cÈˆ^H´)ô,4`t`´bô-H4/´/ô-t`4,4a´.4.4,ˆ4/´-4.4/H4/ô-t`4-tat/´-‹Ï]ˆÛ\ÜÓ˜[YOHœ]ZXÚĞXİ[ÛœÈ]ÛˆÛ\ÜÓ˜[YOHœ]ZXÚÈš[X\T]ZXÚÈˆÛÛXÚÏ^Ê
-OOœÙ]XŠ	ô(t.´,4/IÊ_OÜ[¸£%ÏÜÜ[]´(t.´,4/Kta´-t/t`´`ØÛX[´&´/´`4/´,KÒÕK4côaô-t.t.´,ÜÛX[Ù]O¸¡¤ÚOØ]Û]ÛˆÛ\ÜÓ˜[YOHœ]ZXÚÈˆÛÛXÚÏ^Ê
-OOœÙ]XŠ	ô'ô`4.4dt/4.´,	Ê_OÜ[¸¡¤ÏÜÜ[]´'ô`4.4/tcô`´c4.´/´`4/´,OØÛX[´'t/´,´,4cÈ4/ô/´`t`´,4,´.´,ÜÛX[Ù]O¸¡¤ÚOØ]Û]ÛˆÛ\ÜÓ˜[YOHœ]ZXÚÈˆÛÛXÚÏ^Ê
-OOœÙ]XŠ	ô%ô,4.´,4-ôbÉÊ_OÜ[¸¢hOÜÜ[]‘”È4-ô,4.´,4-ôbÏØÛX[”XÚÚ[™È4.XÚÚ[™ÏÜÛX[Ù]O¸¡¤ÚOØ]ÛÙ]ÜÙXİ[Û‚ˆÙXİ[ÛˆÛ\ÜÓ˜[YOH˜Ø\™Ü[ŒÈÙXİ[Û•]H]OH´(t/´`t`´/´cô/t.4-H4`t.´.ô,4-4,ˆ^H´&´/´/t`´`4/´.ôc4/tbô-H4`t.4,ô/t,4.ôbÈ‹Ï]ˆÛ\ÜÓ˜[YOHšX[›İÈX[X™[H´$t,4-ô,4-4,4/t/tbôaHˆ˜[YOH´'ô/´-4.´.ôc´aô-t/t,ˆÚËÏX[X™[H´(ô`t`´`4/´.t`t`´,´,ˆ˜[YO^Ø	Ù]K™]šXÙ\ÏË™š[\ŠO˜Xİ]™JK›[™İH4,4.´`´.4,´/t/˜HÚËÏX[X™[H´'t/´,´bô-H4-ô,4.´,4-ôbÈˆ˜[YO^Ôİš[™Ê]K›Ü™\œÏË™š[\ŠOœİ]\ÏOOIÓ‘UÉÊK›[™İ
-_KÏX[X™[H´$ô/´`´/´,´bÈ4.ˆ4/´`´,ô`4`ô-ô.´-Hˆ˜[YO^Ôİš[™Ê]K›Ü™\œÏË™š[\ŠOœİ]\ÏOOIÔ‘PQIÊK›[™İ
-_KÏÙ]ÜÙXİ[Û‚ˆÙ]ÂŸB™[˜İ[ÛˆX[
-ÛX™[˜[YKÚÏY˜[Ù_J^Ü™]\›ˆ]ˆÛ\ÜÓ˜[YOHšX[Ü[ˆÛ\ÜÓ˜[YO^ÛÚÏÉÙİÚÑİ	Î‰Ùİ	ßKÏ]ÛX[ÛX™[OÜÛX[İ˜[Y_OØÙ]Ù]ŸB™[˜İ[ÛˆÙXİ[Û•]Jİ]K^Xİ[ÛŸJ^Ü™]\›ˆXY\ˆÛ\ÜÓ˜[YOHœÙXİ[Û•]H]İ]_OÚİ^	‰İ^OÜŸOÙ]ØXİ[ÛŸOÚXY\ŸB‚™[˜İ[ÛˆØØ[›™\Š
-^ÂˆÛÛœİØÛÙKÙ]ÛÙWO]\ÙTİ]J	ÉÊNÂˆÛÛœİÜ™\İ[Ù]™\İ[O]\ÙTİ]J[
-NÂˆÛÛœİØØ[Y\˜KÙ]Ø[Y\˜WO]\ÙTİ]J˜[ÙJNÂˆÛÛœİØ\ŞKÙ]\ŞWO]\ÙTİ]J˜[ÙJNÂˆÛÛœİšY[Ï]\ÙT™YŠ[
-KÛÛ›ÛÏ]\ÙT™YŠ[
-NÂˆ\Ş[˜È[˜İ[ÛˆÛÚİ\
-[œ]XÛÙJ^ÂˆÛÛœİ˜[YOTİš[™Ê[œ]	ÉÊKš[J
-NÂˆYŠ]˜[Y_\ŞJ\™]\›ÂˆÙ]\ŞJYJNÜÙ]™\İ[
-[
-NÂˆ^ÜÙ]™\İ[
-]ØZ]\J	ËØ\KÜØØ[‰ËÛY]Ù‰ÔÔÕ	Ë›ÙN’”ÓÓ‹œİš[™ÚYJØ˜\˜ÛÙN˜[Y_J_JJNÜÙ]ÛÙJ	ÉÊ_BˆØ]Ú
-\œ›ÜŠ^ÜÙ]™\İ[
-Ù\œ›Ü™\œ›Ü‹›Y\ÜØYÙ_J_Bˆš[˜[^ÜÙ]\ŞJ˜[ÙJ_BˆBˆ\ÙQY™™Xİ
+function Overview({data,setTab}){
+  const stages=[['ĞŸÑ€Ğ¸Ñ‘Ğ¼ĞºĞ°','RCV'],['QC','QC'],['Ğ¡Ğ¾Ñ€Ñ‚Ğ¸Ñ€Ğ¾Ğ²ĞºĞ°','SRT'],['Ğ¥Ñ€Ğ°Ğ½ĞµĞ½Ğ¸Ğµ','STG'],['Picking','PCK'],['Packing','PAK'],['Ğ“Ğ¾Ñ‚Ğ¾Ğ²Ğ¾','RDY'],['ĞÑ‚Ğ³Ñ€ÑƒĞ·ĞºĞ°','SHP']];
+  return <div className="dashboardGrid">
+    <section className="card span2"><SectionTitle title="ĞĞ¿ĞµÑ€Ğ°Ñ†Ğ¸Ğ¾Ğ½Ğ½Ñ‹Ğ¹ Ğ¿Ğ¾Ñ‚Ğ¾Ğº" text="Ğ¢ĞµĞºÑƒÑ‰ĞµĞµ Ñ€Ğ°ÑĞ¿Ñ€ĞµĞ´ĞµĞ»ĞµĞ½Ğ¸Ğµ ĞºĞ¾Ñ€Ğ¾Ğ±Ğ¾Ğ² Ğ¿Ğ¾ Ğ·Ğ¾Ğ½Ğ°Ğ¼"/>
+      <div className="flow">{stages.map(([name,code],index)=><button className="flowStep" key={code} onClick={()=>setTab(code==='RCV'?'ĞŸÑ€Ğ¸Ñ‘Ğ¼ĞºĞ°':['PCK','PAK','RDY','SHP'].includes(code)?'Ğ—Ğ°ĞºĞ°Ğ·Ñ‹':'ĞšĞ¾Ñ€Ğ¾Ğ±Ğ°')}><span className="flowIndex">{String(index+1).padStart(2,'0')}</span><b>{name}</b><strong>{(data.boxes||[]).filter(box=>box.zone_code===code).length}</strong><small>ĞºĞ¾Ñ€Ğ¾Ğ±Ğ¾Ğ²</small></button>)}</div>
+    </section>
+    <section className="card"><SectionTitle title="Ğ‘Ñ‹ÑÑ‚Ñ€Ñ‹Ğµ Ğ´ĞµĞ¹ÑÑ‚Ğ²Ğ¸Ñ" text="Ğ§Ğ°ÑÑ‚Ñ‹Ğµ Ğ¾Ğ¿ĞµÑ€Ğ°Ñ†Ğ¸Ğ¸ Ğ² Ğ¾Ğ´Ğ¸Ğ½ Ğ¿ĞµÑ€ĞµÑ…Ğ¾Ğ´"/><div className="quickActions"><button className="quick primaryQuick" onClick={()=>setTab('Ğ¡ĞºĞ°Ğ½')}><span>âŒ—</span><div><b>Ğ¡ĞºĞ°Ğ½-Ñ†ĞµĞ½Ñ‚Ñ€</b><small>ĞšĞ¾Ñ€Ğ¾Ğ±, SKU, ÑÑ‡ĞµĞ¹ĞºĞ°</small></div><i>â†’</i></button><button className="quick" onClick={()=>setTab('ĞŸÑ€Ğ¸Ñ‘Ğ¼ĞºĞ°')}><span>â†“</span><div><b>ĞŸÑ€Ğ¸Ğ½ÑÑ‚ÑŒ ĞºĞ¾Ñ€Ğ¾Ğ±</b><small>ĞĞ¾Ğ²Ğ°Ñ Ğ¿Ğ¾ÑÑ‚Ğ°Ğ²ĞºĞ°</small></div><i>â†’</i></button><button className="quick" onClick={()=>setTab('Ğ—Ğ°ĞºĞ°Ğ·Ñ‹')}><span>â‰¡</span><div><b>FBS Ğ·Ğ°ĞºĞ°Ğ·Ñ‹</b><small>Picking Ğ¸ packing</small></div><i>â†’</i></button></div></section>
+    <section className="card span3"><SectionTitle title="Ğ¡Ğ¾ÑÑ‚Ğ¾ÑĞ½Ğ¸Ğµ ÑĞºĞ»Ğ°Ğ´Ğ°" text="ĞšĞ¾Ğ½Ñ‚Ñ€Ğ¾Ğ»ÑŒĞ½Ñ‹Ğµ ÑĞ¸Ğ³Ğ½Ğ°Ğ»Ñ‹"/><div className="healthRow"><Health label="Ğ‘Ğ°Ğ·Ğ° Ğ´Ğ°Ğ½Ğ½Ñ‹Ñ…" value="ĞŸĞ¾Ğ´ĞºĞ»ÑÑ‡ĞµĞ½Ğ°" ok/><Health label="Ğ£ÑÑ‚Ñ€Ğ¾Ğ¹ÑÑ‚Ğ²Ğ°" value={`${data.devices?.filter(x=>x.active).length||0} Ğ°ĞºÑ‚Ğ¸Ğ²Ğ½Ğ¾`} ok/><Health label="ĞĞ¾Ğ²Ñ‹Ğµ Ğ·Ğ°ĞºĞ°Ğ·Ñ‹" value={String(data.orders?.filter(x=>x.status==='NEW').length||0)}/><Health label="Ğ“Ğ¾Ñ‚Ğ¾Ğ²Ñ‹ Ğº Ğ¾Ñ‚Ğ³Ñ€ÑƒĞ·ĞºĞµ" value={String(data.orders?.filter(x=>x.status==='READY').length||0)}/></div></section>
+  </div>;
+}
+function Health({label,value,ok=false}){return <div className="health"><span className={ok?'dot okDot':'dot'}/><div><small>{label}</small><b>{value}</b></div></div>}
+function SectionTitle({title,text,action}){return <header className="sectionTitle"><div><h2>{title}</h2>{text&&<p>{text}</p>}</div>{action}</header>}
 
+function Scanner(){
+  const[code,setCode]=useState('');
+  const[result,setResult]=useState(null);
+  const[camera,setCamera]=useState(false);
+  const[busy,setBusy]=useState(false);
+  const video=useRef(null),controls=useRef(null);
+  async function lookup(input=code){
+    const value=String(input||'').trim();
+    if(!value||busy)return;
+    setBusy(true);setResult(null);
+    try{setResult(await api('/api/scan',{method:'POST',body:JSON.stringify({barcode:value})}));setCode('')}
+    catch(error){setResult({error:error.message})}
+    finally{setBusy(false)}
+  }
+  useEffect(()=>{
+    if(!camera)return;
+    let stopped=false;
+    async function start(){
+      try{
+        const {BrowserMultiFormatReader}=await import('@zxing/browser');
+        const reader=new BrowserMultiFormatReader();
+        controls.current=await reader.decodeFromConstraints({video:{facingMode:{ideal:'environment'}}},video.current,(found)=>{
+          if(found&&!stopped){stopped=true;controls.current?.stop();setCamera(false);lookup(found.getText())}
+        });
+      }catch(error){setResult({error:'ĞĞµ ÑƒĞ´Ğ°Ğ»Ğ¾ÑÑŒ Ğ·Ğ°Ğ¿ÑƒÑÑ‚Ğ¸Ñ‚ÑŒ ĞºĞ°Ğ¼ĞµÑ€Ñƒ. ĞŸÑ€Ğ¾Ğ²ĞµÑ€ÑŒÑ‚Ğµ Ñ€Ğ°Ğ·Ñ€ĞµÑˆĞµĞ½Ğ¸Ğµ Ğ±Ñ€Ğ°ÑƒĞ·ĞµÑ€Ğ°.'});setCamera(false)}
+    }
+    start();
+    return()=>{stopped=true;controls.current?.stop()}
+  },[camera]);
+  return <section className="card scannerCard"><SectionTitle title="Ğ¡ĞºĞ°Ğ½-Ñ†ĞµĞ½Ñ‚Ñ€" text="Ğ¢Ğ¡Ğ” Ñ€Ğ°Ğ±Ğ¾Ñ‚Ğ°ĞµÑ‚ Ğ² Ñ€ĞµĞ¶Ğ¸Ğ¼Ğµ HID/Keyboard: ÑĞºĞ°Ğ½Ğ¸Ñ€Ğ¾Ğ²Ğ°Ğ½Ğ¸Ğµ Ğ·Ğ°Ğ²ĞµÑ€ÑˆĞ°ĞµÑ‚ÑÑ ĞºĞ»Ğ°Ğ²Ğ¸ÑˆĞµĞ¹ Enter"/>
+    <div className="scanner"><span className="scanGlyph" aria-hidden="true">âŒ—</span><label htmlFor="scan-input">Ğ¨Ñ‚Ñ€Ğ¸Ñ…ĞºĞ¾Ğ´ Ğ¸Ğ»Ğ¸ Ğ²Ğ½ÑƒÑ‚Ñ€ĞµĞ½Ğ½Ğ¸Ğ¹ ĞºĞ¾Ğ´</label><input id="scan-input" autoFocus value={code} placeholder="BOX / SKU / ÑÑ‡ĞµĞ¹ĞºĞ° / Ğ·Ğ°ĞºĞ°Ğ·" onChange={e=>setCode(e.target.value)} onKeyDown={e=>{if(e.key==='Enter')lookup()}}/><div className="actions center"><button className="btn primary" disabled={!code.trim()||busy} onClick={()=>lookup()}>{busy?'Ğ˜Ñ‰ĞµĞ¼â€¦':'Ğ Ğ°ÑĞ¿Ğ¾Ğ·Ğ½Ğ°Ñ‚ÑŒ'}</button><button className="btn" aria-pressed={camera} onClick={()=>setCamera(value=>!value)}>{camera?'Ğ—Ğ°ĞºÑ€Ñ‹Ñ‚ÑŒ ĞºĞ°Ğ¼ĞµÑ€Ñƒ':'ĞšĞ°Ğ¼ĞµÑ€Ğ° Ñ‚ĞµĞ»ĞµÑ„Ğ¾Ğ½Ğ°'}</button></div>{camera&&<video ref={video} className="camera" playsInline muted aria-label="Ğ˜Ğ·Ğ¾Ğ±Ñ€Ğ°Ğ¶ĞµĞ½Ğ¸Ğµ Ñ ĞºĞ°Ğ¼ĞµÑ€Ñ‹"/>}{result&&<div className={`scanResult ${result.error?'errorResult':'successResult'}`} role="status">{result.error?<><b>ĞšĞ¾Ğ´ Ğ½Ğµ Ñ€Ğ°ÑĞ¿Ğ¾Ğ·Ğ½Ğ°Ğ½</b><p>{result.error}</p></>:<><span className="resultType">{result.kind}</span><h3>{result.code}</h3><p>{result.title}</p><small>{result.location}</small></>}</div>}</div>
+  </section>;
+}
 
-OOÂˆYŠXØ[Y\˜J\™]\›Âˆ]İÜYY˜[ÙNÂˆ\Ş[˜È[˜İ[Ûˆİ\
+function Receiving({data,done}){
+  const[form,setForm]=useState({seller_id:'',box_code:'',notes:''}),[error,setError]=useState(''),[busy,setBusy]=useState(false);
+  async function save(event){event.preventDefault();setBusy(true);setError('');try{await ops({action:'CREATE_BOX',...form});setForm({seller_id:'',box_code:'',notes:''});await done('ĞšĞ¾Ñ€Ğ¾Ğ± Ğ¿Ñ€Ğ¸Ğ½ÑÑ‚')}catch(err){setError(err.message)}finally{setBusy(false)}}
+  return <section className="card formCard"><SectionTitle title="ĞŸÑ€Ğ¸Ñ‘Ğ¼ĞºĞ° ĞºĞ¾Ñ€Ğ¾Ğ±Ğ°" text="ĞšĞ¾Ñ€Ğ¾Ğ± Ğ±ÑƒĞ´ĞµÑ‚ Ğ·Ğ°Ñ€ĞµĞ³Ğ¸ÑÑ‚Ñ€Ğ¸Ñ€Ğ¾Ğ²Ğ°Ğ½ Ğ² Ğ·Ğ¾Ğ½Ğµ Â«ĞŸÑ€Ğ¸Ñ‘Ğ¼ĞºĞ°Â»"/>{!data.sellers?.length&&<div className="notice danger">Ğ¡Ğ½Ğ°Ñ‡Ğ°Ğ»Ğ° ÑĞ¾Ğ·Ğ´Ğ°Ğ¹Ñ‚Ğµ ĞºĞ»Ğ¸ĞµĞ½Ñ‚Ğ° Ğ²Ğ¾ Ğ²ĞºĞ»Ğ°Ğ´ĞºĞµ Â«ĞšĞ»Ğ¸ĞµĞ½Ñ‚Ñ‹Â».</div>}<form className="formGrid" onSubmit={save}><Field label="ĞšĞ»Ğ¸ĞµĞ½Ñ‚"><select value={form.seller_id} onChange={e=>setForm({...form,seller_id:e.target.value})} required><option value="">Ğ’Ñ‹Ğ±ĞµÑ€Ğ¸Ñ‚Ğµ ĞºĞ»Ğ¸ĞµĞ½Ñ‚Ğ°</option>{data.sellers?.map(s=><option key={s.id} value={s.id}>{s.name}</option>)}</select></Field><Field label="ĞšĞ¾Ğ´ ĞºĞ¾Ñ€Ğ¾Ğ±Ğ°" hint="ĞœĞ¾Ğ¶Ğ½Ğ¾ Ğ¾Ñ‚ÑĞºĞ°Ğ½Ğ¸Ñ€Ğ¾Ğ²Ğ°Ñ‚ÑŒ Ğ¢Ğ¡Ğ”"><input value={form.box_code} onChange={e=>setForm({...form,box_code:e.target.value})} placeholder="Ğ¡Ğ³ĞµĞ½ĞµÑ€Ğ¸Ñ€ÑƒĞµÑ‚ÑÑ Ğ°Ğ²Ñ‚Ğ¾Ğ¼Ğ°Ñ‚Ğ¸Ñ‡ĞµÑĞºĞ¸"/></Field><Field label="ĞšĞ¾Ğ¼Ğ¼ĞµĞ½Ñ‚Ğ°Ñ€Ğ¸Ğ¹"><textarea value={form.notes} onChange={e=>setForm({...form,notes:e.target.value})} rows="3"/></Field><ErrorMessage>{error}</ErrorMessage><button className="btn primary" disabled={busy||!form.seller_id}>{busy?'ĞŸÑ€Ğ¸Ğ½Ğ¸Ğ¼Ğ°ĞµĞ¼â€¦':'ĞŸÑ€Ğ¸Ğ½ÑÑ‚ÑŒ ĞºĞ¾Ñ€Ğ¾Ğ±'}</button></form></section>;
+}
 
-^Âˆ^ÂˆÛÛœİĞœ›İÜÙ\“][Q›Ü›X]™XY\ŸOX]ØZ][\Ü
-	Ğ[™ËØœ›İÜÙ\‰ÊNÂˆÛÛœİ™XY\[™]Èœ›İÜÙ\“][Q›Ü›X]™XY\Š
-NÂˆÛÛ›ÛË˜İ\œ™[X]ØZ]™XY\‹™XÛÙQœ›ÛPÛÛœİ˜Z[ÊİšY[ÎÙ˜XÚ[™Ó[ÙNÚYX[‰Ù[š\›Û›Y[	ß__KšY[Ë˜İ\œ™[
-›İ[™
-OOÂˆYŠ›İ[™	‰ˆ\İÜY
-^ÜİÜY]YNØÛÛ›ÛË˜İ\œ™[ËœİÜ
+function Boxes({rows,query,setQuery,open}){return <section className="card"><SectionTitle title="ĞšĞ¾Ñ€Ğ¾Ğ±Ğ°" text={`ĞĞ°Ğ¹Ğ´ĞµĞ½Ğ¾: ${rows.length}`} action={<label className="search"><span aria-hidden="true">âŒ•</span><input aria-label="ĞŸĞ¾Ğ¸ÑĞº ĞºĞ¾Ñ€Ğ¾Ğ±Ğ¾Ğ²" value={query} placeholder="ĞšĞ¾Ñ€Ğ¾Ğ±, ĞºĞ»Ğ¸ĞµĞ½Ñ‚, ÑÑ‡ĞµĞ¹ĞºĞ°â€¦" onChange={e=>setQuery(e.target.value)}/></label>}/><DataTable heads={['ĞšĞ¾Ñ€Ğ¾Ğ±','ĞšĞ»Ğ¸ĞµĞ½Ñ‚','Ğ—Ğ¾Ğ½Ğ°','Ğ¯Ñ‡ĞµĞ¹ĞºĞ°','Ğ•Ğ´Ğ¸Ğ½Ğ¸Ñ†','Ğ”ĞµĞ¹ÑÑ‚Ğ²Ğ¸Ñ']} empty="ĞšĞ¾Ñ€Ğ¾Ğ±Ğ° Ğ½Ğµ Ğ½Ğ°Ğ¹Ğ´ĞµĞ½Ñ‹" rows={rows.map(box=>[<b className="mono">{box.box_code}</b>,box.seller_name,<Status value={box.zone_name}/>,box.cell_code||'â€”',box.item_qty||0,<div className="rowActions"><button className="btn small" onClick={()=>open({kind:'item',id:box.id,sellerId:box.seller_id})}>+ SKU</button><button className="btn small" onClick={()=>open({kind:'move',id:box.id})}>ĞŸĞµÑ€ĞµĞ¼ĞµÑÑ‚Ğ¸Ñ‚ÑŒ</button></div>])}/></section>}
 
-NÜÙ]Ø[Y\˜J˜[ÙJNÛÛÚİ\
-›İ[™™Ù]^
+function Products({data,done}){
+  const[form,setForm]=useState({seller_id:'',sku:'',name:'',barcode:''}),[error,setError]=useState('');
+  async function save(event){event.preventDefault();setError('');try{await ops({action:'CREATE_PRODUCT',...form});setForm({seller_id:'',sku:'',name:'',barcode:''});done('SKU Ğ´Ğ¾Ğ±Ğ°Ğ²Ğ»ĞµĞ½')}catch(err){setError(err.message)}}
+  return <section className="card"><SectionTitle title="Ğ¢Ğ¾Ğ²Ğ°Ñ€Ñ‹" text="ĞšĞ°Ñ‚Ğ°Ğ»Ğ¾Ğ³ Ğ°ĞºÑ‚Ğ¸Ğ²Ğ½Ñ‹Ñ… SKU"/><form className="inlineForm" onSubmit={save}><Field label="ĞšĞ»Ğ¸ĞµĞ½Ñ‚"><select value={form.seller_id} onChange={e=>setForm({...form,seller_id:e.target.value})} required><option value="">Ğ’Ñ‹Ğ±ĞµÑ€Ğ¸Ñ‚Ğµ</option>{data.sellers?.map(s=><option key={s.id} value={s.id}>{s.name}</option>)}</select></Field><Field label="SKU"><input value={form.sku} onChange={e=>setForm({...form,sku:e.target.value})} required/></Field><Field label="ĞĞ°Ğ·Ğ²Ğ°Ğ½Ğ¸Ğµ"><input value={form.name} onChange={e=>setForm({...form,name:e.target.value})} required/></Field><Field label="Ğ¨Ñ‚Ñ€Ğ¸Ñ…ĞºĞ¾Ğ´"><input value={form.barcode} onChange={e=>setForm({...form,barcode:e.target.value})}/></Field><button className="btn primary">Ğ”Ğ¾Ğ±Ğ°Ğ²Ğ¸Ñ‚ÑŒ</button></form><ErrorMessage>{error}</ErrorMessage><DataTable heads={['SKU','ĞĞ°Ğ·Ğ²Ğ°Ğ½Ğ¸Ğµ','ĞšĞ»Ğ¸ĞµĞ½Ñ‚','Ğ¨Ñ‚Ñ€Ğ¸Ñ…ĞºĞ¾Ğ´']} empty="ĞšĞ°Ñ‚Ğ°Ğ»Ğ¾Ğ³ Ğ¿ÑƒÑÑ‚" rows={(data.products||[]).map(p=>[<b className="mono">{p.sku}</b>,p.name,p.seller_name,p.wb_barcode||'â€”'])}/></section>;
+}
 
-J_BˆJNÂˆXØ]Ú
-\œ›ÜŠ^ÜÙ]™\İ[
-Ù\œ›Ü‰ô't-H4`ô-4,4.ô/´`tc4-ô,4/ô`ô`t`´.4`´c4.´,4/4-t`4`Ëˆ4'ô`4/´,´-t`4c4`´-H4`4,4-ô`4-tb4-t/t.4-H4,t`4,4`ô-ô-t`4,‰ßJNÜÙ]Ø[Y\˜J˜[ÙJ_BˆBˆİ\
+function Clients({data,done}){
+  const[form,setForm]=useState({name:'',contact:'',phone:'',email:''}),[error,setError]=useState('');
+  async function save(event){event.preventDefault();setError('');try{await ops({action:'CREATE_SELLER',...form});setForm({name:'',contact:'',phone:'',email:''});done('ĞšĞ»Ğ¸ĞµĞ½Ñ‚ Ğ´Ğ¾Ğ±Ğ°Ğ²Ğ»ĞµĞ½')}catch(err){setError(err.message)}}
+  return <section className="card"><SectionTitle title="ĞšĞ»Ğ¸ĞµĞ½Ñ‚Ñ‹" text="Ğ’Ğ»Ğ°Ğ´ĞµĞ»ÑŒÑ†Ñ‹ Ñ‚Ğ¾Ğ²Ğ°Ñ€Ğ° Ğ¸ ĞºĞ¾Ğ½Ñ‚Ğ°ĞºÑ‚Ğ½Ñ‹Ğµ Ğ´Ğ°Ğ½Ğ½Ñ‹Ğµ"/><form className="inlineForm" onSubmit={save}><Field label="ĞĞ°Ğ·Ğ²Ğ°Ğ½Ğ¸Ğµ"><input value={form.name} onChange={e=>setForm({...form,name:e.target.value})} required/></Field><Field label="ĞšĞ¾Ğ½Ñ‚Ğ°ĞºÑ‚"><input value={form.contact} onChange={e=>setForm({...form,contact:e.target.value})}/></Field><Field label="Ğ¢ĞµĞ»ĞµÑ„Ğ¾Ğ½"><input type="tel" value={form.phone} onChange={e=>setForm({...form,phone:e.target.value})}/></Field><Field label="Email"><input type="email" value={form.email} onChange={e=>setForm({...form,email:e.target.value})}/></Field><button className="btn primary">Ğ”Ğ¾Ğ±Ğ°Ğ²Ğ¸Ñ‚ÑŒ</button></form><ErrorMessage>{error}</ErrorMessage><DataTable heads={['ĞšĞ»Ğ¸ĞµĞ½Ñ‚','ĞšĞ¾Ğ½Ñ‚Ğ°ĞºÑ‚','Ğ¢ĞµĞ»ĞµÑ„Ğ¾Ğ½','Email']} empty="ĞšĞ»Ğ¸ĞµĞ½Ñ‚Ğ¾Ğ² Ğ¿Ğ¾ĞºĞ° Ğ½ĞµÑ‚" rows={(data.sellers||[]).map(s=>[<b>{s.name}</b>,s.contact_name||'â€”',s.phone||'â€”',s.email||'â€”'])}/></section>;
+}
 
-NÂˆ™]\›Š
-OOÜİÜY]YNØÛÛ›ÛË˜İ\œ™[ËœİÜ
+function Orders({data,role,done}){
+  const[selected,setSelected]=useState(null);
+  const order=data.orders?.find(item=>item.id===selected);
+  const items=data.orderItems?.filter(item=>item.order_id===selected)||[];
+  return <div className="ordersGrid"><section className="card"><SectionTitle title="FBS Ğ·Ğ°ĞºĞ°Ğ·Ñ‹" text={`Ğ’ÑĞµĞ³Ğ¾: ${data.orders?.length||0}`} action={['ADMIN','MANAGER'].includes(role)?<OrderCreate data={data} done={done}/>:null}/><DataTable heads={['Ğ—Ğ°ĞºĞ°Ğ·','ĞšĞ»Ğ¸ĞµĞ½Ñ‚','Ğ¡Ñ‚Ğ°Ñ‚ÑƒÑ','Ğ”ĞµĞ´Ğ»Ğ°Ğ¹Ğ½']} empty="Ğ—Ğ°ĞºĞ°Ğ·Ğ¾Ğ² Ğ¿Ğ¾ĞºĞ° Ğ½ĞµÑ‚" rows={(data.orders||[]).map(item=>[<button className="linkButton mono" onClick={()=>setSelected(item.id)}>{item.order_no}</button>,item.seller_name,<Status value={STATUS_LABELS[item.status]||item.status} tone={item.status}/>,item.deadline?new Date(item.deadline).toLocaleString('ru-RU'):'â€”'])}/></section>{order&&<section className="card orderDetail"><SectionTitle title={order.order_no} text={order.seller_name}/><Status value={STATUS_LABELS[order.status]||order.status} tone={order.status}/>{items.map(item=><PickLine key={item.id} item={item} data={data} role={role} done={done}/>)}<OrderActions order={order} role={role} done={done}/></section>}</div>;
+}
 
-_BˆKØØ[Y\˜WJNÂˆ™]\›ˆÙXİ[ÛˆÛ\ÜÓ˜[YOH˜Ø\™ØØ[›™\Ø\™ÙXİ[Û•]H]OH´(t.´,4/Kta´-t/t`´`ˆ^H´(´(t%4`4,4,t/´`´,4-t`ˆ4,ˆ4`4-t-´.4/4-HQÒÙ^X›Ø\™ˆ4`t.´,4/t.4`4/´,´,4/t.4-H4-ô,4,´-t`4b4,4-t`´`tcÈ4.´.ô,4,´.4b4-t.H[\ˆ‹Ï‚ˆ]ˆÛ\ÜÓ˜[YOHœØØ[›™\ˆÜ[ˆÛ\ÜÓ˜[YOHœØØ[‘Û\ˆ\šXKZY[HYH¸£%ÏÜÜ[X™[[›ÜHœØØ[‹Z[œ]´*4`´`4.4at.´/´-4.4.ô.4,´/t`ô`´`4-t/t/t.4.H4.´/´-ÛX™[[œ]YHœØØ[‹Z[œ]ˆ]]Ñ›Øİ\È˜[YO^ØÛÙ_HXÙZÛ\H“ÖÈÒÕHÈ4côaô-t.t.´,È4-ô,4.´,4-ÈˆÛÚ[™ÙO^ÙOOœÙ]ÛÙJK\™Ù]˜[YJ_HÛ’Ù^QİÛ^ÙOOÚYŠKšÙ^OOOIÑ[\‰Ê[ÛÚİ\
+function OrderCreate({data,done}){
+  const[open,setOpen]=useState(false);
+  const[form,setForm]=useState({seller_id:'',order_no:'',deadline:'',priority:'NORMAL'});
+  const[line,setLine]=useState({product_id:'',qty:1});
+  const[items,setItems]=useState([]),[error,setError]=useState('');
+  function add(){const qty=Number(line.qty);if(!line.product_id||!Number.isInteger(qty)||qty<1)return;const product=data.products?.find(x=>x.id===line.product_id);setItems(current=>[...current,{product_id:line.product_id,qty,label:product?`${product.sku} â€” ${product.name}`:line.product_id}]);setLine({product_id:'',qty:1})}
+  async function save(){setError('');try{await ops({action:'CREATE_ORDER',...form,deadline:form.deadline||null,items:items.map(({product_id,qty})=>({product_id,qty}))});setOpen(false);setItems([]);done('Ğ—Ğ°ĞºĞ°Ğ· ÑĞ¾Ğ·Ğ´Ğ°Ğ½')}catch(err){setError(err.message)}}
+  return <><button className="btn primary" onClick={()=>setOpen(true)}>+ ĞĞ¾Ğ²Ñ‹Ğ¹ Ğ·Ğ°ĞºĞ°Ğ·</button>{open&&<Modal title="ĞĞ¾Ğ²Ñ‹Ğ¹ FBS Ğ·Ğ°ĞºĞ°Ğ·" close={()=>setOpen(false)}><div className="formGrid"><Field label="ĞšĞ»Ğ¸ĞµĞ½Ñ‚"><select value={form.seller_id} onChange={e=>setForm({...form,seller_id:e.target.value})} required><option value="">Ğ’Ñ‹Ğ±ĞµÑ€Ğ¸Ñ‚Ğµ</option>{data.sellers?.map(s=><option key={s.id} value={s.id}>{s.name}</option>)}</select></Field><Field label="ĞĞ¾Ğ¼ĞµÑ€ Ğ·Ğ°ĞºĞ°Ğ·Ğ°" hint="ĞĞµĞ¾Ğ±ÑĞ·Ğ°Ñ‚ĞµĞ»ÑŒĞ½Ğ¾"><input value={form.order_no} onChange={e=>setForm({...form,order_no:e.target.value})}/></Field><Field label="Ğ”ĞµĞ´Ğ»Ğ°Ğ¹Ğ½"><input type="datetime-local" value={form.deadline} onChange={e=>setForm({...form,deadline:e.target.value})}/></Field><Field label="ĞŸÑ€Ğ¸Ğ¾Ñ€Ğ¸Ñ‚ĞµÑ‚"><select value={form.priority} onChange={e=>setForm({...form,priority:e.target.value})}><option value="NORMAL">ĞĞ±Ñ‹Ñ‡Ğ½Ñ‹Ğ¹</option><option value="HIGH">Ğ’Ñ‹ÑĞ¾ĞºĞ¸Ğ¹</option><option value="URGENT">Ğ¡Ñ€Ğ¾Ñ‡Ğ½Ñ‹Ğ¹</option><option value="LOW">ĞĞ¸Ğ·ĞºĞ¸Ğ¹</option></select></Field><div className="lineBuilder"><Field label="SKU"><select value={line.product_id} onChange={e=>setLine({...line,product_id:e.target.value})}><option value="">Ğ’Ñ‹Ğ±ĞµÑ€Ğ¸Ñ‚Ğµ</option>{data.products?.filter(p=>!form.seller_id||p.seller_id===form.seller_id).map(p=><option key={p.id} value={p.id}>{p.sku} â€” {p.name}</option>)}</select></Field><Field label="ĞšĞ¾Ğ»Ğ¸Ñ‡ĞµÑÑ‚Ğ²Ğ¾"><input type="number" min="1" step="1" value={line.qty} onChange={e=>setLine({...line,qty:e.target.value})}/></Field><button className="btn" type="button" onClick={add}>Ğ”Ğ¾Ğ±Ğ°Ğ²Ğ¸Ñ‚ÑŒ</button></div><div className="orderLines">{items.map((item,index)=><div key={item.product_id+index}><span>{item.label}</span><b>Ã— {item.qty}</b><button aria-label={`Ğ£Ğ´Ğ°Ğ»Ğ¸Ñ‚ÑŒ ${item.label}`} onClick={()=>setItems(current=>current.filter((_,i)=>i!==index))}>Ã—</button></div>)}</div><ErrorMessage>{error}</ErrorMessage><div className="modalActions"><button className="btn" onClick={()=>setOpen(false)}>ĞÑ‚Ğ¼ĞµĞ½Ğ°</button><button className="btn primary" disabled={!form.seller_id||!items.length} onClick={save}>Ğ¡Ğ¾Ğ·Ğ´Ğ°Ñ‚ÑŒ Ğ·Ğ°ĞºĞ°Ğ·</button></div></div></Modal>}</>;
+}
 
-__KÏ]ˆÛ\ÜÓ˜[YOH˜Xİ[ÛœÈÙ[\ˆ]ÛˆÛ\ÜÓ˜[YOH˜ˆš[X\Hˆ\ØX›Y^ÈXÛÙKš[J
-_\Ş_HÛÛXÚÏ^Ê
-OO›ÛÚİ\
+function PickLine({item,data,role,done}){
+  const[box,setBox]=useState(''),[qty,setQty]=useState(1),[error,setError]=useState('');
+  const left=Math.max(0,item.qty-item.picked_qty);
+  const candidates=(data.boxItems||[]).filter(x=>x.product_id===item.product_id&&x.qty>0);
+  async function pick(){setError('');try{await ops({action:'PICK_ITEM',order_item_id:item.id,box_id:box,qty:Number(qty)});done('ĞŸĞ¾Ğ·Ğ¸Ñ†Ğ¸Ñ ÑĞ¾Ğ±Ñ€Ğ°Ğ½Ğ°')}catch(err){setError(err.message)}}
+  return <article className="pickLine"><div className="pickHead"><div><b>{item.sku}</b><p>{item.product_name}</p></div><strong>{item.picked_qty}/{item.qty}</strong></div><div className="progress"><span style={{width:`${Math.min(100,(item.picked_qty/item.qty)*100)}%`}}/></div>{left>0&&['ADMIN','MANAGER','PICKER'].includes(role)&&<div className="pickControls"><select aria-label="ĞšĞ¾Ñ€Ğ¾Ğ±-Ğ¸ÑÑ‚Ğ¾Ñ‡Ğ½Ğ¸Ğº" value={box} onChange={e=>setBox(e.target.value)}><option value="">ĞšĞ¾Ñ€Ğ¾Ğ±-Ğ¸ÑÑ‚Ğ¾Ñ‡Ğ½Ğ¸Ğº</option>{candidates.map(c=><option key={c.box_id} value={c.box_id}>{c.box_code} Â· {c.cell_code||'Ğ±ĞµĞ· ÑÑ‡ĞµĞ¹ĞºĞ¸'} Â· {c.qty} ÑˆÑ‚.</option>)}</select><input aria-label="ĞšĞ¾Ğ»Ğ¸Ñ‡ĞµÑÑ‚Ğ²Ğ¾ Ğ´Ğ»Ñ ÑĞ±Ğ¾Ñ€ĞºĞ¸" type="number" min="1" max={left} step="1" value={qty} onChange={e=>setQty(e.target.value)}/><button className="btn primary small" disabled={!box} onClick={pick}>Ğ¡Ğ¾Ğ±Ñ€Ğ°Ñ‚ÑŒ</button></div>}<ErrorMessage>{error}</ErrorMessage></article>;
+}
 
-_OØ\ŞOÉô&4bt-t/8 )‰Î‰ô(4,4`t/ô/´-ô/t,4`´c	ßOØ]Û]ÛˆÛ\ÜÓ˜[YOH˜ˆˆ\šXK\™\ÜÙY^ØØ[Y\˜_HÛÛXÚÏ^Ê
-OOœÙ]Ø[Y\˜J˜[YOOˆ]˜[YJ_OØØ[Y\˜OÉô%ô,4.´`4bô`´c4.´,4/4-t`4`ÉÎ‰ô&´,4/4-t`4,4`´-t.ô-ta4/´/t,	ßOØ]ÛÙ]ØØ[Y\˜I‰šY[È™Y^İšY[ßHÛ\ÜÓ˜[YOH˜Ø[Y\˜Hˆ^\Ò[›[™H]]Y\šXK[X™[H´&4-ô/´,t`4,4-´-t/t.4-H4`H4.´,4/4-t`4bÈ‹ÏŸ^Ü™\İ[	‰]ˆÛ\ÜÓ˜[YO^ØØØ[”™\İ[	Ü™\İ[™\œ›ÜÉÙ\œ›Ü”™\İ[	Î‰ÜİXØÙ\ÜÔ™\İ[	ßXH›ÛOHœİ]\ÈÜ™\İ[™\œ›ÜÏ´&´/´-4/t-H4`4,4`t/ô/´-ô/t,4/OØÜ™\İ[™\œ›ÜŸOÜÏÜ[ˆÛ\ÜÓ˜[YOHœ™\İ[\HÜ™\İ[šÚ[™OÜÜ[ÏÜ™\İ[˜ÛÙ_OÚÏÜ™\İ[]_OÜÛX[Ü™\İ[›ØØ][ÛŸOÜÛX[ÏŸOÙ]ŸOÙ]‚ˆÜÙXİ[ÛÂŸB‚™[˜İ[Ûˆ™XÙZ]š[™ÊÙ]KÛ™_J^ÂˆÛÛœİÙ›Ü›KÙ]›Ü›WO]\ÙTİ]JÜÙ[\—ÚY‰ÉË›ŞØÛÙN‰ÉË›İ\Î‰ÉßJKÙ\œ›Ü‹Ù]\œ›Ü—O]\ÙTİ]J	ÉÊKØ\ŞKÙ]\ŞWO]\ÙTİ]J˜[ÙJNÂˆ\Ş[˜È[˜İ[ÛˆØ]™J]™[
-^Ù]™[œ™]™[Y˜][
+function OrderActions({order,role,done}){
+  const[error,setError]=useState('');
+  const config=order.status==='PICKED'&&['ADMIN','MANAGER','PACKER'].includes(role)?['ORDER_PACKED','ĞŸĞ¾Ğ´Ñ‚Ğ²ĞµÑ€Ğ´Ğ¸Ñ‚ÑŒ ÑƒĞ¿Ğ°ĞºĞ¾Ğ²ĞºÑƒ','Ğ—Ğ°ĞºĞ°Ğ· ÑƒĞ¿Ğ°ĞºĞ¾Ğ²Ğ°Ğ½']:order.status==='PACKED'&&['ADMIN','MANAGER','PACKER'].includes(role)?['ORDER_READY','Ğ“Ğ¾Ñ‚Ğ¾Ğ² Ğº Ğ¾Ñ‚Ğ³Ñ€ÑƒĞ·ĞºĞµ','Ğ¡Ñ‚Ğ°Ñ‚ÑƒÑ Ğ¸Ğ·Ğ¼ĞµĞ½Ñ‘Ğ½']:order.status==='READY'&&['ADMIN','MANAGER','PACKER','SHIPPER'].includes(role)?['ORDER_SHIPPED','ĞÑ‚Ğ³Ñ€ÑƒĞ·Ğ¸Ñ‚ÑŒ Ğ·Ğ°ĞºĞ°Ğ·','Ğ—Ğ°ĞºĞ°Ğ· Ğ¾Ñ‚Ğ³Ñ€ÑƒĞ¶ĞµĞ½']:null;
+  if(!config)return null;
+  return <div className="orderActions"><ErrorMessage>{error}</ErrorMessage><button className="btn primary wide" onClick={async()=>{setError('');try{await ops({action:config[0],order_id:order.id});done(config[2])}catch(err){setError(err.message)}}}>{config[1]}</button></div>;
+}
 
-NÜÙ]\ŞJYJNÜÙ]\œ›ÜŠ	ÉÊNİ^Ø]ØZ]ÜÊØXİ[Û‰ĞÔ‘PUWĞ“Ö	Ë‹‹™›Ü›_JNÜÙ]›Ü›JÜÙ[\—ÚY‰ÉË›ŞØÛÙN‰ÉË›İ\Î‰ÉßJNØ]ØZ]Û™J	ô&´/´`4/´,H4/ô`4.4/tcô`‰Ê_XØ]Ú
-\œŠ^ÜÙ]\œ›ÜŠ\œ‹›Y\ÜØYÙJ_Yš[˜[^ÜÙ]\ŞJ˜[ÙJ__Bˆ™]\›ˆÙXİ[ÛˆÛ\ÜÓ˜[YOH˜Ø\™›Ü›PØ\™ÙXİ[Û•]H]OH´'ô`4.4dt/4.´,4.´/´`4/´,t,ˆ^H´&´/´`4/´,H4,t`ô-4-t`ˆ4-ô,4`4-t,ô.4`t`´`4.4`4/´,´,4/H4,ˆ4-ô/´/t-H0ªô'ô`4.4dt/4.´,0®È‹ÏÈY]KœÙ[\œÏË›[™İ	‰]ˆÛ\ÜÓ˜[YOH››İXÙH[™Ù\ˆ´(t/t,4aô,4.ô,4`t/´-ô-4,4.t`´-H4.´.ô.4-t/t`´,4,´/ˆ4,´.´.ô,4-4.´-H0ªô&´.ô.4-t/t`´bğ®ËÙ]ŸO›Ü›HÛ\ÜÓ˜[YOH™›Ü›QÜšYˆÛ”İX›Z]^ÜØ]™_OšY[X™[H´&´.ô.4-t/t`ˆÙ[Xİ˜[YO^Ù›Ü›KœÙ[\—ÚYHÛÚ[™ÙO^ÙOOœÙ]›Ü›JË‹‹™›Ü›KÙ[\—ÚY™K\™Ù]˜[Y_J_H™\]Z\™YÜ[Ûˆ˜[YOHˆ´$´bô,t-t`4.4`´-H4.´.ô.4-t/t`´,ÛÜ[ÛÙ]KœÙ[\œÏË›X\
-ÏOÜ[ÛˆÙ^O^ÜËšYH˜[YO^ÜËšYOÜË›˜[Y_OÛÜ[ÛŠ_OÜÙ[XİÑšY[šY[X™[H´&´/´-4.´/´`4/´,t,ˆ[H´'4/´-´/t/ˆ4/´`´`t.´,4/t.4`4/´,´,4`´c4(´(t%[œ]˜[YO^Ù›Ü›K˜›ŞØÛÙ_HÛÚ[™ÙO^ÙOOœÙ]›Ü›JË‹‹™›Ü›K›ŞØÛÙN™K\™Ù]˜[Y_J_HXÙZÛ\H´(t,ô-t/t-t`4.4`4`ô-t`´`tcÈ4,4,´`´/´/4,4`´.4aô-t`t.´.‹ÏÑšY[šY[X™[H´&´/´/4/4-t/t`´,4`4.4.H^\™XH˜[YO^Ù›Ü›K››İ\ßHÛÚ[™ÙO^ÙOOœÙ]›Ü›JË‹‹™›Ü›K›İ\Î™K\™Ù]˜[Y_J_H›İÜÏHŒÈ‹ÏÑšY[\œ›Ü“Y\ÜØYÙOÙ\œ›ÜŸOÑ\œ›Ü“Y\ÜØYÙO]ÛˆÛ\ÜÓ˜[YOH˜ˆš[X\Hˆ\ØX›Y^Ø\Ş_Y›Ü›KœÙ[\—ÚYOØ\ŞOÉô'ô`4.4/t.4/4,4-t/8 )‰Î‰ô'ô`4.4/tcô`´c4.´/´`4/´,IßOØ]ÛÙ›Ü›OÜÙXİ[ÛÂŸB‚™[˜İ[Ûˆ›Ş\ÊÜ›İÜË]Y\KÙ]]Y\KÜ[ŸJ^Ü™]\›ˆÙXİ[ÛˆÛ\ÜÓ˜[YOH˜Ø\™ÙXİ[Û•]H]OH´&´/´`4/´,t,ˆ^^Ø4't,4.t-4-t/t/ˆ	Ü›İÜË›[™İXHXİ[Û^ÏX™[Û\ÜÓ˜[YOHœÙX\˜ÚÜ[ˆ\šXKZY[HYH¸£%OÜÜ[[œ]\šXK[X™[H´'ô/´.4`t.ˆ4.´/´`4/´,t/´,ˆˆ˜[YO^Ü]Y\_HXÙZÛ\H´&´/´`4/´,K4.´.ô.4-t/t`‹4côaô-t.t.´,8 )ˆˆÛÚ[™ÙO^ÙOOœÙ]]Y\JK\™Ù]˜[YJ_KÏÛX™[ŸKÏ]UX›HXYÏ^ÖÉô&´/´`4/´,IË	ô&´.ô.4-t/t`‰Ë	ô%ô/´/t,	Ë	ô+ôaô-t.t.´,	Ë	ô%t-4.4/t.4a‰Ë	ô%4-t.t`t`´,´.4cÉ×_H[\OH´&´/´`4/´,t,4/t-H4/t,4.t-4-t/tbÈˆ›İÜÏ^Ü›İÜË›X\
-›ŞO–ÏˆÛ\ÜÓ˜[YOH›[Û›ÈØ›Ş˜›ŞØÛÙ_OØ‹›ŞœÙ[\—Û˜[YKİ]\È˜[YO^Ø›Ş›Û™WÛ˜[Y_KÏ‹›Ş˜Ù[ØÛÙ_	ø %	Ë›Şš][WÜ]_]ˆÛ\ÜÓ˜[YOHœ›İĞXİ[ÛœÈ]ÛˆÛ\ÜÓ˜[YOH˜ˆÛX[ˆÛÛXÚÏ^Ê
-OO›Ü[ŠÚÚ[™‰Ú][IËY˜›ŞšYÙ[\’Y˜›ŞœÙ[\—ÚYJ_OŠÈÒÕOØ]Û]ÛˆÛ\ÜÓ˜[YOH˜ˆÛX[ˆÛÛXÚÏ^Ê
-OO›Ü[ŠÚÚ[™‰Û[İ™IËY˜›ŞšYJ_O´'ô-t`4-t/4-t`t`´.4`´cØ]ÛÙ]—J_KÏÜÙXİ[ÛŸB‚™[˜İ[Ûˆ›ÙXİÊÙ]KÛ™_J^ÂˆÛÛœİÙ›Ü›KÙ]›Ü›WO]\ÙTİ]JÜÙ[\—ÚY‰ÉËÚİN‰ÉË˜[YN‰ÉË˜\˜ÛÙN‰ÉßJKÙ\œ›Ü‹Ù]\œ›Ü—O]\ÙTİ]J	ÉÊNÂˆ\Ş[˜È[˜İ[ÛˆØ]™J]™[
-^Ù]™[œ™]™[Y˜][
+function Devices({data,done}){
+  const[form,setForm]=useState({device_type:'TSD',label:'',device_code:''}),[error,setError]=useState('');
+  async function register(event){event.preventDefault();setError('');try{const result=await ops({action:'REGISTER_DEVICE',...form,platform:navigator.platform,user_agent:navigator.userAgent});done('Ğ£ÑÑ‚Ñ€Ğ¾Ğ¹ÑÑ‚Ğ²Ğ¾ Ğ¿Ğ¾Ğ´ĞºĞ»ÑÑ‡ĞµĞ½Ğ¾: '+result.device_code)}catch(err){setError(err.message)}}
+  return <section className="card"><SectionTitle title="Ğ£ÑÑ‚Ñ€Ğ¾Ğ¹ÑÑ‚Ğ²Ğ°" text="ĞŸÑ€Ğ¸Ğ²ÑĞ·ĞºĞ° Ğ¢Ğ¡Ğ”, Ñ‚ĞµĞ»ĞµÑ„Ğ¾Ğ½Ğ¾Ğ² Ğ¸ Ğ¿Ğ»Ğ°Ğ½ÑˆĞµÑ‚Ğ¾Ğ² Ğº Ñ€Ğ°Ğ±Ğ¾Ñ‡ĞµĞ¼Ñƒ Ğ¼ĞµÑÑ‚Ñƒ"/><div className="infoBanner"><b>Ğ¢Ğ¡Ğ”:</b> Ğ²ĞºĞ»ÑÑ‡Ğ¸Ñ‚Ğµ HID/Keyboard Ğ¸ ÑÑƒÑ„Ñ„Ğ¸ĞºÑ Enter. <b>Ğ¢ĞµĞ»ĞµÑ„Ğ¾Ğ½:</b> Ñ€Ğ°Ğ·Ñ€ĞµÑˆĞ¸Ñ‚Ğµ Ğ´Ğ¾ÑÑ‚ÑƒĞ¿ Ğº ĞºĞ°Ğ¼ĞµÑ€Ğµ.</div><form className="inlineForm" onSubmit={register}><Field label="Ğ¢Ğ¸Ğ¿"><select value={form.device_type} onChange={e=>setForm({...form,device_type:e.target.value})}><option>TSD</option><option>PHONE</option><option>TABLET</option></select></Field><Field label="ĞĞ°Ğ·Ğ²Ğ°Ğ½Ğ¸Ğµ"><input value={form.label} onChange={e=>setForm({...form,label:e.target.value})}/></Field><Field label="ĞšĞ¾Ğ´" hint="ĞĞµĞ¾Ğ±ÑĞ·Ğ°Ñ‚ĞµĞ»ÑŒĞ½Ğ¾"><input value={form.device_code} onChange={e=>setForm({...form,device_code:e.target.value})}/></Field><button className="btn primary">ĞŸĞ¾Ğ´ĞºĞ»ÑÑ‡Ğ¸Ñ‚ÑŒ</button></form><ErrorMessage>{error}</ErrorMessage><DataTable heads={['ĞšĞ¾Ğ´','Ğ¢Ğ¸Ğ¿','ĞĞ°Ğ·Ğ²Ğ°Ğ½Ğ¸Ğµ','Ğ¡Ñ‚Ğ°Ñ‚ÑƒÑ']} empty="ĞĞµÑ‚ Ğ¿Ğ¾Ğ´ĞºĞ»ÑÑ‡Ñ‘Ğ½Ğ½Ñ‹Ñ… ÑƒÑÑ‚Ñ€Ğ¾Ğ¹ÑÑ‚Ğ²" rows={(data.devices||[]).map(item=>[<b className="mono">{item.device_code}</b>,item.device_type,item.label||'â€”',<Status value={item.active?'ĞĞºÑ‚Ğ¸Ğ²Ğ½Ğ¾':'ĞÑ‚ĞºĞ»ÑÑ‡ĞµĞ½Ğ¾'} tone={item.active?'READY':'CANCELLED'}/>])}/></section>;
+}
 
-NÜÙ]\œ›ÜŠ	ÉÊNİ^Ø]ØZ]ÜÊØXİ[Û‰ĞÔ‘PUWÔ“ÑPÕ	Ë‹‹™›Ü›_JNÜÙ]›Ü›JÜÙ[\—ÚY‰ÉËÚİN‰ÉË˜[YN‰ÉË˜\˜ÛÙN‰ÉßJNÙÛ™J	ÔÒÕH4-4/´,t,4,´.ô-t/IÊ_XØ]Ú
-\œŠ^ÜÙ]\œ›ÜŠ\œ‹›Y\ÜØYÙJ__Bˆ™]\›ˆÙXİ[ÛˆÛ\ÜÓ˜[YOH˜Ø\™ÙXİ[Û•]H]OH´(´/´,´,4`4bÈˆ^H´&´,4`´,4.ô/´,È4,4.´`´.4,´/tbôaHÒÕH‹Ï›Ü›HÛ\ÜÓ˜[YOHš[›[™Q›Ü›HˆÛ”İX›Z]^ÜØ]™_OšY[X™[H´&´.ô.4-t/t`ˆÙ[Xİ˜[YO^Ù›Ü›KœÙ[\—ÚYHÛÚ[™ÙO^ÙOOœÙ]›Ü›JË‹‹™›Ü›KÙ[\—ÚY™K\™Ù]˜[Y_J_H™\]Z\™YÜ[Ûˆ˜[YOHˆ´$´bô,t-t`4.4`´-OÛÜ[ÛÙ]KœÙ[\œÏË›X\
-ÏOÜ[ÛˆÙ^O^ÜËšYH˜[YO^ÜËšYOÜË›˜[Y_OÛÜ[ÛŠ_OÜÙ[XİÑšY[šY[X™[H”ÒÕH[œ]˜[YO^Ù›Ü›KœÚİ_HÛÚ[™ÙO^ÙOOœÙ]›Ü›JË‹‹™›Ü›KÚİN™K\™Ù]˜[Y_J_H™\]Z\™YÏÑšY[šY[X™[H´'t,4-ô,´,4/t.4-H[œ]˜[YO^Ù›Ü›K›˜[Y_HÛÚ[™ÙO^ÙOOœÙ]›Ü›JË‹‹™›Ü›K˜[YN™K\™Ù]˜[Y_J_H™\]Z\™YÏÑšY[šY[X™[H´*4`´`4.4at.´/´-[œ]˜[YO^Ù›Ü›K˜˜\˜ÛÙ_HÛÚ[™ÙO^ÙOOœÙ]›Ü›JË‹‹™›Ü›K˜\˜ÛÙN™K\™Ù]˜[Y_J_KÏÑšY[]ÛˆÛ\ÜÓ˜[YOH˜ˆš[X\H´%4/´,t,4,´.4`´cØ]ÛÙ›Ü›O\œ›Ü“Y\ÜØYÙOÙ\œ›ÜŸOÑ\œ›Ü“Y\ÜØYÙO]UX›HXYÏ^ÖÉÔÒÕIË	ô't,4-ô,´,4/t.4-IË	ô&´.ô.4-t/t`‰Ë	ô*4`´`4.4at.´/´-	×_H[\OH´&´,4`´,4.ô/´,È4/ô`ô`t`ˆˆ›İÜÏ^Ê]Kœ›ÙXİß×JK›X\
-O–ÏˆÛ\ÜÓ˜[YOH›[Û›ÈÜœÚİ_OØ‹›˜[YKœÙ[\—Û˜[YKØ—Ø˜\˜ÛÙ_	ø %	×J_KÏÜÙXİ[ÛÂŸB‚™[˜İ[ÛˆÛY[ÊÙ]KÛ™_J^ÂˆÛÛœİÙ›Ü›KÙ]›Ü›WO]\ÙTİ]JÛ˜[YN‰ÉËÛÛXİ‰ÉËÛ™N‰ÉË[XZ[‰ÉßJKÙ\œ›Ü‹Ù]\œ›Ü—O]\ÙTİ]J	ÉÊNÂˆ\Ş[˜È[˜İ[ÛˆØ]™J]™[
-^Ù]™[œ™]™[Y˜][
+function Users({data,done}){
+  const[form,setForm]=useState({name:'',email:'',password:'',role:'RECEIVER'}),[error,setError]=useState('');
+  async function save(event){event.preventDefault();setError('');try{await ops({action:'CREATE_USER',...form});setForm({name:'',email:'',password:'',role:'RECEIVER'});done('Ğ¡Ğ¾Ñ‚Ñ€ÑƒĞ´Ğ½Ğ¸Ğº ÑĞ¾Ğ·Ğ´Ğ°Ğ½')}catch(err){setError(err.message)}}
+  return <section className="card"><SectionTitle title="Ğ¡Ğ¾Ñ‚Ñ€ÑƒĞ´Ğ½Ğ¸ĞºĞ¸ Ğ¸ Ñ€Ğ¾Ğ»Ğ¸" text="Ğ”Ğ¾ÑÑ‚ÑƒĞ¿ Ğº Ğ¾Ğ¿ĞµÑ€Ğ°Ñ†Ğ¸ÑĞ¼ Ğ¾Ğ³Ñ€Ğ°Ğ½Ğ¸Ñ‡Ğ¸Ğ²Ğ°ĞµÑ‚ÑÑ Ñ€Ğ¾Ğ»ÑŒÑ"/><form className="inlineForm" onSubmit={save}><Field label="Ğ˜Ğ¼Ñ"><input value={form.name} onChange={e=>setForm({...form,name:e.target.value})} required/></Field><Field label="Email"><input type="email" value={form.email} onChange={e=>setForm({...form,email:e.target.value})} required/></Field><Field label="ĞŸĞ°Ñ€Ğ¾Ğ»ÑŒ" hint="ĞœĞ¸Ğ½Ğ¸Ğ¼ÑƒĞ¼ 8 ÑĞ¸Ğ¼Ğ²Ğ¾Ğ»Ğ¾Ğ²"><input type="password" minLength="8" value={form.password} onChange={e=>setForm({...form,password:e.target.value})} required/></Field><Field label="Ğ Ğ¾Ğ»ÑŒ"><select value={form.role} onChange={e=>setForm({...form,role:e.target.value})}>{Object.keys(ROLE_TABS).map(role=><option key={role}>{role}</option>)}</select></Field><button className="btn primary">Ğ¡Ğ¾Ğ·Ğ´Ğ°Ñ‚ÑŒ</button></form><ErrorMessage>{error}</ErrorMessage><DataTable heads={['Ğ˜Ğ¼Ñ','Email','Ğ Ğ¾Ğ»ÑŒ','Ğ¡Ñ‚Ğ°Ñ‚ÑƒÑ']} empty="ĞĞµÑ‚ ÑĞ¾Ñ‚Ñ€ÑƒĞ´Ğ½Ğ¸ĞºĞ¾Ğ²" rows={(data.users||[]).map(user=>[<b>{user.name}</b>,user.email,<Status value={user.role}/>,<Status value={user.active?'ĞĞºÑ‚Ğ¸Ğ²ĞµĞ½':'ĞÑ‚ĞºĞ»ÑÑ‡Ñ‘Ğ½'} tone={user.active?'READY':'CANCELLED'}/>])}/></section>;
+}
 
-NÜÙ]\œ›ÜŠ	ÉÊNİ^Ø]ØZ]ÜÊØXİ[Û‰ĞÔ‘PUWÔÑST‰Ë‹‹™›Ü›_JNÜÙ]›Ü›JÛ˜[YN‰ÉËÛÛXİ‰ÉËÛ™N‰ÉË[XZ[‰ÉßJNÙÛ™J	ô&´.ô.4-t/t`ˆ4-4/´,t,4,´.ô-t/IÊ_XØ]Ú
-\œŠ^ÜÙ]\œ›ÜŠ\œ‹›Y\ÜØYÙJ__Bˆ™]\›ˆÙXİ[ÛˆÛ\ÜÓ˜[YOH˜Ø\™ÙXİ[Û•]H]OH´&´.ô.4-t/t`´bÈˆ^H´$´.ô,4-4-t.ôc4a´bÈ4`´/´,´,4`4,4.4.´/´/t`´,4.´`´/tbô-H4-4,4/t/tbô-H‹Ï›Ü›HÛ\ÜÓ˜[YOHš[›[™Q›Ü›HˆÛ”İX›Z]^ÜØ]™_OšY[X™[H´'t,4-ô,´,4/t.4-H[œ]˜[YO^Ù›Ü›K›˜[Y_HÛÚ[™ÙO^ÙOOœÙ]›Ü›JË‹‹™›Ü›K˜[YN™K\™Ù]˜[Y_J_H™\]Z\™YÏÑšY[šY[X™[H´&´/´/t`´,4.´`ˆ[œ]˜[YO^Ù›Ü›K˜ÛÛXİHÛÚ[™ÙO^ÙOOœÙ]›Ü›JË‹‹™›Ü›KÛÛXİ™K\™Ù]˜[Y_J_KÏÑšY[šY[X™[H´(´-t.ô-ta4/´/H[œ]\OH[ˆ˜[YO^Ù›Ü›KœÛ™_HÛÚ[™ÙO^ÙOOœÙ]›Ü›JË‹‹™›Ü›KÛ™N™K\™Ù]˜[Y_J_KÏÑšY[šY[X™[H‘[XZ[[œ]\OH™[XZ[ˆ˜[YO^Ù›Ü›K™[XZ[HÛÚ[™ÙO^ÙOOœÙ]›Ü›JË‹‹™›Ü›K[XZ[™K\™Ù]˜[Y_J_KÏÑšY[]ÛˆÛ\ÜÓ˜[YOH˜ˆš[X\H´%4/´,t,4,´.4`´cØ]ÛÙ›Ü›O\œ›Ü“Y\ÜØYÙOÙ\œ›ÜŸOÑ\œ›Ü“Y\ÜØYÙO]UX›HXYÏ^ÖÉô&´.ô.4-t/t`‰Ë	ô&´/´/t`´,4.´`‰Ë	ô(´-t.ô-ta4/´/IË	Ñ[XZ[	×_H[\OH´&´.ô.4-t/t`´/´,ˆ4/ô/´.´,4/t-t`ˆˆ›İÜÏ^Ê]KœÙ[\œß×JK›X\
-ÏO–ÏÜË›˜[Y_OØ‹Ë˜ÛÛXİÛ˜[Y_	ø %	ËËœÛ™_	ø %	ËË™[XZ[	ø %	×J_KÏÜÙXİ[ÛÂŸB‚™[˜İ[ÛˆÜ™\œÊÙ]K›ÛKÛ™_J^ÂˆÛÛœİÜÙ[XİYÙ]Ù[XİYO]\ÙTİ]J[
-NÂˆÛÛœİÜ™\Y]K›Ü™\œÏË™š[™
-][OOš][KšYOO\Ù[XİY
-NÂˆÛÛœİ][\ÏY]K›Ü™\’][\ÏË™š[\Š][OOš][K›Ü™\—ÚYOO\Ù[XİY
-_×NÂˆ™]\›ˆ]ˆÛ\ÜÓ˜[YOH›Ü™\œÑÜšYÙXİ[ÛˆÛ\ÜÓ˜[YOH˜Ø\™ÙXİ[Û•]H]OH‘”È4-ô,4.´,4-ôbÈˆ^^Ø4$´`t-t,ô/ˆ	Ù]K›Ü™\œÏË›[™İXHXİ[Û^ÖÉĞQRS‰Ë	ÓPSQÑT‰×Kš[˜ÛY\Ê›ÛJOÏÜ™\Ü™X]H]O^Ù]_HÛ™O^ÙÛ™_KÏ›[KÏ]UX›HXYÏ^ÖÉô%ô,4.´,4-ÉË	ô&´.ô.4-t/t`‰Ë	ô(t`´,4`´`ô`IË	ô%4-t-4.ô,4.t/I×_H[\OH´%ô,4.´,4-ô/´,ˆ4/ô/´.´,4/t-t`ˆˆ›İÜÏ^Ê]K›Ü™\œß×JK›X\
-][OO–Ï]ÛˆÛ\ÜÓ˜[YOH›[šĞ]Ûˆ[Û›ÈˆÛÛXÚÏ^Ê
-OOœÙ]Ù[XİY
-][KšY
-_OÚ][K›Ü™\—Û›ßOØ]Û‹][KœÙ[\—Û˜[YKİ]\È˜[YO^ÔÕUT×ÓP‘SÖÚ][Kœİ]\×_][Kœİ]\ßHÛ™O^Ú][Kœİ]\ßKÏ‹][K™XY[™OÛ™]È]J][K™XY[™JKÓØØ[Tİš[™Ê	ÜKT•IÊN‰ø %	×J_KÏÜÙXİ[ÛÛÜ™\‰‰ÙXİ[ÛˆÛ\ÜÓ˜[YOH˜Ø\™Ü™\‘]Z[ÙXİ[Û•]H]O^ÛÜ™\‹›Ü™\—Û›ßH^^ÛÜ™\‹œÙ[\—Û˜[Y_KÏİ]\È˜[YO^ÔÕUT×ÓP‘SÖÛÜ™\‹œİ]\×_Ü™\‹œİ]\ßHÛ™O^ÛÜ™\‹œİ]\ßKÏÚ][\Ë›X\
-][OOXÚÓ[™HÙ^O^Ú][KšYH][O^Ú][_H]O^Ù]_H›ÛO^Ü›Û_HÛ™O^ÙÛ™_KÏŠ_OÜ™\Xİ[ÛœÈÜ™\^ÛÜ™\ŸH›ÛO^Ü›Û_HÛ™O^ÙÛ™_KÏÜÙXİ[ÛŸOÙ]ÂŸB‚™[˜İ[ÛˆÜ™\Ü™X]JÙ]KÛ™_J^ÂˆÛÛœİÛÜ[‹Ù]Ü[—O]\ÙTİ]J˜[ÙJNÂˆÛÛœİÙ›Ü›KÙ]›Ü›WO]\ÙTİ]JÜÙ[\—ÚY‰ÉËÜ™\—Û›Î‰ÉËXY[™N‰ÉËš[Üš]N‰Ó“Ô“PS	ßJNÂˆÛÛœİÛ[™KÙ][™WO]\ÙTİ]JÜ›ÙXİÚY‰ÉË]NŒ_JNÂˆÛÛœİÚ][\ËÙ]][\×O]\ÙTİ]J×JKÙ\œ›Ü‹Ù]\œ›Ü—O]\ÙTİ]J	ÉÊNÂˆ[˜İ[ÛˆY
+function Audit({data}){return <section className="card"><SectionTitle title="Ğ–ÑƒÑ€Ğ½Ğ°Ğ» Ğ¾Ğ¿ĞµÑ€Ğ°Ñ†Ğ¸Ğ¹" text="ĞŸĞ¾ÑĞ»ĞµĞ´Ğ½Ğ¸Ğµ 500 Ğ´ĞµĞ¹ÑÑ‚Ğ²Ğ¸Ğ¹ Ğ² ÑĞ¸ÑÑ‚ĞµĞ¼Ğµ"/><DataTable heads={['Ğ”Ğ°Ñ‚Ğ°','ĞŸĞ¾Ğ»ÑŒĞ·Ğ¾Ğ²Ğ°Ñ‚ĞµĞ»ÑŒ','Ğ”ĞµĞ¹ÑÑ‚Ğ²Ğ¸Ğµ','ĞĞ±ÑŠĞµĞºÑ‚']} empty="Ğ–ÑƒÑ€Ğ½Ğ°Ğ» Ğ¿ÑƒÑÑ‚" rows={(data.audit||[]).map(item=>[new Date(item.created_at).toLocaleString('ru-RU'),item.user_name||'system',<span className="mono">{item.action}</span>,item.entity_type||'â€”'])}/></section>}
 
-^ØÛÛœİ]OS[X™\Š[™Kœ]JNÚYŠ[[™Kœ›ÙXİÚYS[X™\‹š\Ò[YÙ\Š]J_]OJ\™]\›ØÛÛœİ›ÙXİY]Kœ›ÙXİÏË™š[™
-OšYOO[[™Kœ›ÙXİÚY
-NÜÙ]][\Êİ\œ™[O–Ë‹‹˜İ\œ™[Ü›ÙXİÚY›[™Kœ›ÙXİÚY]KX™[œ›ÙXİØ	Ü›ÙXİœÚİ_H8 %	Ü›ÙXİ›˜[Y_X›[™Kœ›ÙXİÚYWJNÜÙ][™JÜ›ÙXİÚY‰ÉË]NŒ_J_Bˆ\Ş[˜È[˜İ[ÛˆØ]™J
-^ÜÙ]\œ›ÜŠ	ÉÊNİ^Ø]ØZ]ÜÊØXİ[Û‰ĞÔ‘PUWÓÔ‘T‰Ë‹‹™›Ü›KXY[™N™›Ü›K™XY[™_[][\Îš][\Ë›X\
+function Status({value,tone=''}){return <span className={`status status-${String(tone).toLowerCase()}`}>{value}</span>}
+function DataTable({heads,rows,empty}){
+  return <div className="tableWrap"><table><thead><tr>{heads.map(head=><th key={head} scope="col">{head}</th>)}</tr></thead><tbody>{rows.length?rows.map((row,index)=><tr key={index}>{row.map((cell,i)=><td key={i} data-label={heads[i]}>{cell}</td>)}</tr>):<tr><td colSpan={heads.length}><div className="emptyState"><span>â–¡</span><b>{empty}</b><small>Ğ”Ğ°Ğ½Ğ½Ñ‹Ğµ Ğ¿Ğ¾ÑĞ²ÑÑ‚ÑÑ Ğ¿Ğ¾ÑĞ»Ğµ Ğ¿ĞµÑ€Ğ²Ğ¾Ğ¹ Ğ¾Ğ¿ĞµÑ€Ğ°Ñ†Ğ¸Ğ¸</small></div></td></tr>}</tbody></table></div>;
+}
 
-Ü›ÙXİÚY]_JOOŠÜ›ÙXİÚY]_JJ_JNÜÙ]Ü[Š˜[ÙJNÜÙ]][\Ê×JNÙÛ™J	ô%ô,4.´,4-È4`t/´-ô-4,4/IÊ_XØ]Ú
-\œŠ^ÜÙ]\œ›ÜŠ\œ‹›Y\ÜØYÙJ__Bˆ™]\›ˆ]ÛˆÛ\ÜÓ˜[YOH˜ˆš[X\HˆÛÛXÚÏ^Ê
-OOœÙ]Ü[ŠYJ_OŠÈ4't/´,´bô.H4-ô,4.´,4-ÏØ]ÛÛÜ[‰‰[Ù[]OH´'t/´,´bô.H”È4-ô,4.´,4-ÈˆÛÜÙO^Ê
-OOœÙ]Ü[Š˜[ÙJ_O]ˆÛ\ÜÓ˜[YOH™›Ü›QÜšYšY[X™[H´&´.ô.4-t/t`ˆÙ[Xİ˜[YO^Ù›Ü›KœÙ[\—ÚYHÛÚ[™ÙO^ÙOOœÙ]›Ü›JË‹‹™›Ü›KÙ[\—ÚY™K\™Ù]˜[Y_J_H™\]Z\™YÜ[Ûˆ˜[YOHˆ´$´bô,t-t`4.4`´-OÛÜ[ÛÙ]KœÙ[\œÏË›X\
-ÏOÜ[ÛˆÙ^O^ÜËšYH˜[YO^ÜËšYOÜË›˜[Y_OÛÜ[ÛŠ_OÜÙ[XİÑšY[šY[X™[H´'t/´/4-t`4-ô,4.´,4-ô,ˆ[H´'t-t/´,tcô-ô,4`´-t.ôc4/t/ˆ[œ]˜[YO^Ù›Ü›K›Ü™\—Û›ßHÛÚ[™ÙO^ÙOOœÙ]›Ü›JË‹‹™›Ü›KÜ™\—Û›Î™K\™Ù]˜[Y_J_KÏÑšY[šY[X™[H´%4-t-4.ô,4.t/H[œ]\OH™]][YK[ØØ[ˆ˜[YO^Ù›Ü›K™XY[™_HÛÚ[™ÙO^ÙOOœÙ]›Ü›JË‹‹™›Ü›KXY[™N™K\™Ù]˜[Y_J_KÏÑšY[šY[X™[H´'ô`4.4/´`4.4`´-t`ˆÙ[Xİ˜[YO^Ù›Ü›Kœš[Üš]_HÛÚ[™ÙO^ÙOOœÙ]›Ü›JË‹‹™›Ü›Kš[Üš]N™K\™Ù]˜[Y_J_OÜ[Ûˆ˜[YOH““Ô“PS´'´,tbôaô/tbô.OÛÜ[ÛÜ[Ûˆ˜[YOH’QÒ´$´bô`t/´.´.4.OÛÜ[ÛÜ[Ûˆ˜[YOH•T‘ÑS•´(t`4/´aô/tbô.OÛÜ[ÛÜ[Ûˆ˜[YOH“ÕÈ´'t.4-ô.´.4.OÛÜ[ÛÜÙ[XİÑšY[]ˆÛ\ÜÓ˜[YOH›[™PZ[\ˆšY[X™[H”ÒÕHÙ[Xİ˜[YO^Û[™Kœ›ÙXİÚYHÛÚ[™ÙO^ÙOOœÙ][™JË‹‹›[™K›ÙXİÚY™K\™Ù]˜[Y_J_OÜ[Ûˆ˜[YOHˆ´$´bô,t-t`4.4`´-OÛÜ[ÛÙ]Kœ›ÙXİÏË™š[\ŠOˆY›Ü›KœÙ[\—ÚYœÙ[\—ÚYOOY›Ü›KœÙ[\—ÚY
-K›X\
-OÜ[ÛˆÙ^O^ÜšYH˜[YO^ÜšYOÜœÚİ_H8 %Ü›˜[Y_OÛÜ[ÛŠ_OÜÙ[XİÑšY[šY[X™[H´&´/´.ô.4aô-t`t`´,´/ˆ[œ]\OH›[X™\ˆˆZ[HŒHˆİ\HŒHˆ˜[YO^Û[™Kœ]_HÛÚ[™ÙO^ÙOOœÙ][™JË‹‹›[™K]N™K\™Ù]˜[Y_J_KÏÑšY[]ÛˆÛ\ÜÓ˜[YOH˜ˆˆ\OH˜]ÛˆˆÛÛXÚÏ^ØYO´%4/´,t,4,´.4`´cØ]ÛÙ]]ˆÛ\ÜÓ˜[YOH›Ü™\“[™\ÈÚ][\Ë›X\
+function Modal({title,close,children}){
+  const ref=useRef(null);
+  useEffect(()=>{const previous=document.activeElement;ref.current?.focus();const handler=event=>{if(event.key==='Escape')close()};document.addEventListener('keydown',handler);return()=>{document.removeEventListener('keydown',handler);previous?.focus?.()}},[close]);
+  return <div className="modalBackdrop" onMouseDown={event=>{if(event.target===event.currentTarget)close()}}><section className="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title" tabIndex="-1" ref={ref}><header><h2 id="modal-title">{title}</h2><button className="iconButton" aria-label="Ğ—Ğ°ĞºÑ€Ñ‹Ñ‚ÑŒ" onClick={close}>Ã—</button></header>{children}</section></div>;
+}
 
-][K[™^
-OO]ˆÙ^O^Ú][Kœ›ÙXİÚY
-Ú[™^OÜ[Ú][K›X™[OÜÜ[°åÈÚ][Kœ]_OØ]Ûˆ\šXK[X™[^Ø4(ô-4,4.ô.4`´c	Ú][K›X™[XHÛÛXÚÏ^Ê
-OOœÙ]][\Êİ\œ™[O˜İ\œ™[™š[\Š
-ËJOOšHOOZ[™^
-J_O°åÏØ]ÛÙ]Š_OÙ]\œ›Ü“Y\ÜØYÙOÙ\œ›ÜŸOÑ\œ›Ü“Y\ÜØYÙO]ˆÛ\ÜÓ˜[YOH›[Ù[Xİ[ÛœÈ]ÛˆÛ\ÜÓ˜[YOH˜ˆˆÛÛXÚÏ^Ê
-OOœÙ]Ü[Š˜[ÙJ_O´'´`´/4-t/t,Ø]Û]ÛˆÛ\ÜÓ˜[YOH˜ˆš[X\Hˆ\ØX›Y^ÈY›Ü›KœÙ[\—ÚYZ][\Ë›[™İHÛÛXÚÏ^ÜØ]™_O´(t/´-ô-4,4`´c4-ô,4.´,4-ÏØ]ÛÙ]Ù]Ó[Ù[ŸOÏÂŸB‚™[˜İ[ÛˆXÚÓ[™JÚ][K]K›ÛKÛ™_J^ÂˆÛÛœİØ›ŞÙ]›ŞO]\ÙTİ]J	ÉÊKÜ]KÙ]]WO]\ÙTİ]JJKÙ\œ›Ü‹Ù]\œ›Ü—O]\ÙTİ]J	ÉÊNÂˆÛÛœİYSX]›X^
-][Kœ]KZ][KœXÚÙYÜ]JNÂˆÛÛœİØ[™Y]\ÏJ]K˜›Ş][\ß×JK™š[\ŠOœ›ÙXİÚYOOZ][Kœ›ÙXİÚY	‰œ]OŒ
-NÂˆ\Ş[˜È[˜İ[ÛˆXÚÊ
-^ÜÙ]\œ›ÜŠ	ÉÊNİ^Ø]ØZ]ÜÊØXİ[Û‰ÔPÒ×ÒUSIËÜ™\—Ú][WÚYš][KšY›ŞÚY˜›Ş]N“[X™\Š]J_JNÙÛ™J	ô'ô/´-ô.4a´.4cÈ4`t/´,t`4,4/t,	Ê_XØ]Ú
-\œŠ^ÜÙ]\œ›ÜŠ\œ‹›Y\ÜØYÙJ__Bˆ™]\›ˆ\XÛHÛ\ÜÓ˜[YOHœXÚÓ[™H]ˆÛ\ÜÓ˜[YOHœXÚÒXY]Ú][KœÚİ_OØÚ][Kœ›ÙXİÛ˜[Y_OÜÙ]İ›Û™ÏÚ][KœXÚÙYÜ]_KŞÚ][Kœ]_OÜİ›Û™ÏÙ]]ˆÛ\ÜÓ˜[YOHœ›ÙÜ™\ÜÈÜ[ˆİ[O^ŞİÚY˜	ÓX]›Z[ŠL
-][KœXÚÙYÜ]KÚ][Kœ]JJŒL
-_IX_KÏÙ]ÛYŒ	‰–ÉĞQRS‰Ë	ÓPSQÑT‰Ë	ÔPÒÑT‰×Kš[˜ÛY\Ê›ÛJI‰]ˆÛ\ÜÓ˜[YOHœXÚĞÛÛ›ÛÈÙ[Xİ\šXK[X™[H´&´/´`4/´,Kt.4`t`´/´aô/t.4.ˆˆ˜[YO^Ø›ŞHÛÚ[™ÙO^ÙOOœÙ]›Ş
-K\™Ù]˜[YJ_OÜ[Ûˆ˜[YOHˆ´&´/´`4/´,Kt.4`t`´/´aô/t.4.ÛÜ[ÛØØ[™Y]\Ë›X\
-ÏOÜ[ÛˆÙ^O^ØË˜›ŞÚYH˜[YO^ØË˜›ŞÚYOØË˜›ŞØÛÙ_H0­ÈØË˜Ù[ØÛÙ_	ô,t-t-È4côaô-t.t.´.	ßH0­ÈØËœ]_H4b4`‹ÛÜ[ÛŠ_OÜÙ[Xİ[œ]\šXK[X™[H´&´/´.ô.4aô-t`t`´,´/ˆ4-4.ôcÈ4`t,t/´`4.´.ˆ\OH›[X™\ˆˆZ[HŒHˆX^^ÛYHİ\HŒHˆ˜[YO^Ü]_HÛÚ[™ÙO^ÙOOœÙ]]JK\™Ù]˜[YJ_KÏ]ÛˆÛ\ÜÓ˜[YOH˜ˆš[X\HÛX[ˆ\ØX›Y^ÈX›ŞHÛÛXÚÏ^ÜXÚßO´(t/´,t`4,4`´cØ]ÛÙ]ŸO\œ›Ü“Y\ÜØYÙOÙ\œ›ÜŸOÑ\œ›Ü“Y\ÜØYÙOØ\XÛOÂŸB‚™[˜İ[ÛˆÜ™\Xİ[ÛœÊÛÜ™\‹›ÛKÛ™_J^ÂˆÛÛœİÙ\œ›Ü‹Ù]\œ›Ü—O]\ÙTİ]J	ÉÊNÂˆÛÛœİÛÛ™šYÏ[Ü™\‹œİ]\ÏOOIÔPÒÑQ	É‰–ÉĞQRS‰Ë	ÓPSQÑT‰Ë	ÔPÒÑT‰×Kš[˜ÛY\Ê›ÛJOÖÉÓÔ‘T—ÔPÒÑQ	Ë	ô'ô/´-4`´,´-t`4-4.4`´c4`ô/ô,4.´/´,´.´`ÉË	ô%ô,4.´,4-È4`ô/ô,4.´/´,´,4/I×N›Ü™\‹œİ]\ÏOOIÔPÒÑQ	É‰–ÉĞQRS‰Ë	ÓPSQÑT‰Ë	ÔPÒÑT‰×Kš[˜ÛY\Ê›ÛJOÖÉÓÔ‘T—Ô‘PQIË	ô$ô/´`´/´,ˆ4.ˆ4/´`´,ô`4`ô-ô.´-IË	ô(t`´,4`´`ô`H4.4-ô/4-t/tdt/I×N›Ü™\‹œİ]\ÏOOIÔ‘PQIÉ‰–ÉĞQRS‰Ë	ÓPSQÑT‰Ë	ÔPÒÑT‰Ë	ÔÒTT‰×Kš[˜ÛY\Ê›ÛJOÖÉÓÔ‘T—ÔÒTQ	Ë	ô'´`´,ô`4`ô-ô.4`´c4-ô,4.´,4-ÉË	ô%ô,4.´,4-È4/´`´,ô`4`ô-´-t/I×N›[ÂˆYŠXÛÛ™šYÊ\™]\›ˆ[Âˆ™]\›ˆ]ˆÛ\ÜÓ˜[YOH›Ü™\Xİ[ÛœÈ\œ›Ü“Y\ÜØYÙOÙ\œ›ÜŸOÑ\œ›Ü“Y\ÜØYÙO]ÛˆÛ\ÜÓ˜[YOH˜ˆš[X\HÚYHˆÛÛXÚÏ^Ø\Ş[˜Ê
-OOÜÙ]\œ›ÜŠ	ÉÊNİ^Ø]ØZ]ÜÊØXİ[Û˜ÛÛ™šYÖÌKÜ™\—ÚY›Ü™\‹šYJNÙÛ™JÛÛ™šYÖÌ—J_XØ]Ú
-\œŠ^ÜÙ]\œ›ÜŠ\œ‹›Y\ÜØYÙJ___OØÛÛ™šYÖÌW_OØ]ÛÙ]ÂŸB‚™[˜İ[Ûˆ]šXÙ\ÊÙ]KÛ™_J^ÂˆÛÛœİÙ›Ü›KÙ]›Ü›WO]\ÙTİ]JÙ]šXÙWİ\N‰ÕÑ	ËX™[‰ÉË]šXÙWØÛÙN‰ÉßJKÙ\œ›Ü‹Ù]\œ›Ü—O]\ÙTİ]J	ÉÊNÂˆ\Ş[˜È[˜İ[Ûˆ™YÚ\İ\Š]™[
-^Ù]™[œ™]™[Y˜][
-
-NÜÙ]\œ›ÜŠ	ÉÊNİ^ØÛÛœİ™\İ[X]ØZ]ÜÊØXİ[Û‰Ô‘QÒTÕT—ÑU’PÑIË‹‹™›Ü›K]›Ü›N›˜]šYØ]Ü‹œ]›Ü›K\Ù\—ØYÙ[›˜]šYØ]Ü‹\Ù\YÙ[JNÙÛ™J	ô(ô`t`´`4/´.t`t`´,´/ˆ4/ô/´-4.´.ôc´aô-t/t/ˆ	ÊÜ™\İ[™]šXÙWØÛÙJ_XØ]Ú
-\œŠ^ÜÙ]\œ›ÜŠ\œ‹›Y\ÜØYÙJ__Bˆ™]\›ˆÙXİ[ÛˆÛ\ÜÓ˜[YOH˜Ø\™ÙXİ[Û•]H]OH´(ô`t`´`4/´.t`t`´,´,ˆ^H´'ô`4.4,´cô-ô.´,4(´(t%4`´-t.ô-ta4/´/t/´,ˆ4.4/ô.ô,4/tb4-t`´/´,ˆ4.ˆ4`4,4,t/´aô-t/4`È4/4-t`t`´`È‹Ï]ˆÛ\ÜÓ˜[YOHš[™›Ğ˜[›™\ˆ´(´(t%Øˆ4,´.´.ôc´aô.4`´-HQÒÙ^X›Ø\™4.4`t`ôa4a4.4.´`H[\‹ˆ´(´-t.ô-ta4/´/NØˆ4`4,4-ô`4-tb4.4`´-H4-4/´`t`´`ô/È4.ˆ4.´,4/4-t`4-KÙ]›Ü›HÛ\ÜÓ˜[YOHš[›[™Q›Ü›HˆÛ”İX›Z]^Ü™YÚ\İ\ŸOšY[X™[H´(´.4/ÈÙ[Xİ˜[YO^Ù›Ü›K™]šXÙWİ\_HÛÚ[™ÙO^ÙOOœÙ]›Ü›JË‹‹™›Ü›K]šXÙWİ\N™K\™Ù]˜[Y_J_OÜ[Û•ÑÛÜ[ÛÜ[Û”Ó‘OÛÜ[ÛÜ[Û•P“UÛÜ[ÛÜÙ[XİÑšY[šY[X™[H´'t,4-ô,´,4/t.4-H[œ]˜[YO^Ù›Ü›K›X™[HÛÚ[™ÙO^ÙOOœÙ]›Ü›JË‹‹™›Ü›KX™[™K\™Ù]˜[Y_J_KÏÑšY[šY[X™[H´&´/´-ˆ[H´'t-t/´,tcô-ô,4`´-t.ôc4/t/ˆ[œ]˜[YO^Ù›Ü›K™]šXÙWØÛÙ_HÛÚ[™ÙO^ÙOOœÙ]›Ü›JË‹‹™›Ü›K]šXÙWØÛÙN™K\™Ù]˜[Y_J_KÏÑšY[]ÛˆÛ\ÜÓ˜[YOH˜ˆš[X\H´'ô/´-4.´.ôc´aô.4`´cØ]ÛÙ›Ü›O\œ›Ü“Y\ÜØYÙOÙ\œ›ÜŸOÑ\œ›Ü“Y\ÜØYÙO]UX›HXYÏ^ÖÉô&´/´-	Ë	ô(´.4/ÉË	ô't,4-ô,´,4/t.4-IË	ô(t`´,4`´`ô`I×_H[\OH´'t-t`ˆ4/ô/´-4.´.ôc´aôdt/t/tbôaH4`ô`t`´`4/´.t`t`´,ˆˆ›İÜÏ^Ê]K™]šXÙ\ß×JK›X\
-][OO–ÏˆÛ\ÜÓ˜[YOH›[Û›ÈÚ][K™]šXÙWØÛÙ_OØ‹][K™]šXÙWİ\K][K›X™[	ø %	Ëİ]\È˜[YO^Ú][K˜Xİ]™OÉô$4.´`´.4,´/t/‰Î‰ô'´`´.´.ôc´aô-t/t/‰ßHÛ™O^Ú][K˜Xİ]™OÉÔ‘PQIÎ‰ĞĞSÑSQ	ßKÏ—J_KÏÜÙXİ[ÛÂŸB‚™[˜İ[Ûˆ\Ù\œÊÙ]KÛ™_J^ÂˆÛÛœİÙ›Ü›KÙ]›Ü›WO]\ÙTİ]JÛ˜[YN‰ÉË[XZ[‰ÉË\ÜİÛÜ™‰ÉË›ÛN‰Ô‘PÑRU‘T‰ßJKÙ\œ›Ü‹Ù]\œ›Ü—O]\ÙTİ]J	ÉÊNÂˆ\Ş[˜È[˜İ[ÛˆØ]™J]™[
-^Ù]™[œ™]™[Y˜][
-
-NÜÙ]\œ›ÜŠ	ÉÊNİ^Ø]ØZ]ÜÊØXİ[Û‰ĞÔ‘PUWÕTÑT‰Ë‹‹™›Ü›_JNÜÙ]›Ü›JÛ˜[YN‰ÉË[XZ[‰ÉË\ÜİÛÜ™‰ÉË›ÛN‰Ô‘PÑRU‘T‰ßJNÙÛ™J	ô(t/´`´`4`ô-4/t.4.ˆ4`t/´-ô-4,4/IÊ_XØ]Ú
-\œŠ^ÜÙ]\œ›ÜŠ\œ‹›Y\ÜØYÙJ__Bˆ™]\›ˆÙXİ[ÛˆÛ\ÜÓ˜[YOH˜Ø\™ÙXİ[Û•]H]OH´(t/´`´`4`ô-4/t.4.´.4.4`4/´.ô.ˆ^H´%4/´`t`´`ô/È4.ˆ4/´/ô-t`4,4a´.4cô/4/´,ô`4,4/t.4aô.4,´,4-t`´`tcÈ4`4/´.ôc4cˆ‹Ï›Ü›HÛ\ÜÓ˜[YOHš[›[™Q›Ü›HˆÛ”İX›Z]^ÜØ]™_OšY[X™[H´&4/4cÈ[œ]˜[YO^Ù›Ü›K›˜[Y_HÛÚ[™ÙO^ÙOOœÙ]›Ü›JË‹‹™›Ü›K˜[YN™K\™Ù]˜[Y_J_H™\]Z\™YÏÑšY[šY[X™[H‘[XZ[[œ]\OH™[XZ[ˆ˜[YO^Ù›Ü›K™[XZ[HÛÚ[™ÙO^ÙOOœÙ]›Ü›JË‹‹™›Ü›K[XZ[™K\™Ù]˜[Y_J_H™\]Z\™YÏÑšY[šY[X™[H´'ô,4`4/´.ôcˆ[H´'4.4/t.4/4`ô/4`t.4/4,´/´.ô/´,ˆ[œ]\OHœ\ÜİÛÜ™ˆZ[“[™İHˆ˜[YO^Ù›Ü›Kœ\ÜİÛÜ™HÛÚ[™ÙO^ÙOOœÙ]›Ü›JË‹‹™›Ü›K\ÜİÛÜ™™K\™Ù]˜[Y_J_H™\]Z\™YÏÑšY[šY[X™[H´(4/´.ôcÙ[Xİ˜[YO^Ù›Ü›Kœ›Û_HÛÚ[™ÙO^ÙOOœÙ]›Ü›JË‹‹™›Ü›K›ÛN™K\™Ù]˜[Y_J_OÓØš™XİšÙ^\Ê“ÓWÕP”ÊK›X\
-›ÛOOÜ[ÛˆÙ^O^Ü›Û_OÜ›Û_OÛÜ[ÛŠ_OÜÙ[XİÑšY[]ÛˆÛ\ÜÓ˜[YOH˜ˆš[X\H´(t/´-ô-4,4`´cØ]ÛÙ›Ü›O\œ›Ü“Y\ÜØYÙOÙ\œ›ÜŸOÑ\œ›Ü“Y\ÜØYÙO]UX›HXYÏ^ÖÉô&4/4cÉË	Ñ[XZ[	Ë	ô(4/´.ôc	Ë	ô(t`´,4`´`ô`I×_H[\OH´'t-t`ˆ4`t/´`´`4`ô-4/t.4.´/´,ˆˆ›İÜÏ^Ê]K\Ù\œß×JK›X\
-\Ù\O–Ïİ\Ù\‹›˜[Y_OØ‹\Ù\‹™[XZ[İ]\È˜[YO^İ\Ù\‹œ›Û_KÏ‹İ]\È˜[YO^İ\Ù\‹˜Xİ]™OÉô$4.´`´.4,´-t/IÎ‰ô'´`´.´.ôc´aôdt/IßHÛ™O^İ\Ù\‹˜Xİ]™OÉÔ‘PQIÎ‰ĞĞSÑSQ	ßKÏ—J_KÏÜÙXİ[ÛÂŸB‚™[˜İ[Ûˆ]Y]
-Ù]_J^Ü™]\›ˆÙXİ[ÛˆÛ\ÜÓ˜[YOH˜Ø\™ÙXİ[Û•]H]OH´%´`ô`4/t,4.È4/´/ô-t`4,4a´.4.Hˆ^H´'ô/´`t.ô-t-4/t.4-HL4-4-t.t`t`´,´.4.H4,ˆ4`t.4`t`´-t/4-H‹Ï]UX›HXYÏ^ÖÉô%4,4`´,	Ë	ô'ô/´.ôc4-ô/´,´,4`´-t.ôc	Ë	ô%4-t.t`t`´,´.4-IË	ô'´,tb´-t.´`‰×_H[\OH´%´`ô`4/t,4.È4/ô`ô`t`ˆˆ›İÜÏ^Ê]K˜]Y]×JK›X\
-][OO–Û™]È]J][K˜Ü™X]YØ]
-KÓØØ[Tİš[™Ê	ÜKT•IÊK][K\Ù\—Û˜[Y_	ÜŞ\İ[IËÜ[ˆÛ\ÜÓ˜[YOH›[Û›ÈÚ][K˜Xİ[ÛŸOÜÜ[‹][K™[]Wİ\_	ø %	×J_KÏÜÙXİ[ÛŸB‚™[˜İ[Ûˆİ]\Êİ˜[YKÛ™OIÉßJ^Ü™]\›ˆÜ[ˆÛ\ÜÓ˜[YO^Øİ]\Èİ]\ËIÔİš[™ÊÛ™JKÓİÙ\Ø\ÙJ
-_XOİ˜[Y_OÜÜ[ŸB™[˜İ[Ûˆ]UX›JÚXYË›İÜË[\_J^Âˆ™]\›ˆ]ˆÛ\ÜÓ˜[YOHX›UÜ˜\X›OXYÚXYË›X\
-XYOÙ^O^ÚXYHØÛÜOH˜ÛÛÚXYOİŠ_OİİXY›ÙOÜ›İÜË›[™İÜ›İÜË›X\
-
-›İË[™^
-OOˆÙ^O^Ú[™^OÜ›İË›X\
-
-Ù[JOOÙ^O^Ú_H]K[X™[^ÚXYÖÚW_OØÙ[OİŠ_OİŠNÛÛÜ[^ÚXYË›[™İO]ˆÛ\ÜÓ˜[YOH™[\Tİ]HÜ[¸¥¨OÜÜ[Ù[\_OØÛX[´%4,4/t/tbô-H4/ô/´cô,´cô`´`tcÈ4/ô/´`t.ô-H4/ô-t`4,´/´.H4/´/ô-t`4,4a´.4.ÜÛX[Ù]İİŸOİ›ÙOİX›OÙ]ÂŸB‚™[˜İ[Ûˆ[Ù[
-İ]KÛÜÙKÚ[™[ŸJ^ÂˆÛÛœİ™Y]\ÙT™YŠ[
-NÂˆ\ÙQY™™Xİ
-
-
-OOØÛÛœİ™]š[İ\ÏYØİ[Y[˜Xİ]™Q[[Y[Ü™Y‹˜İ\œ™[Ë™›Øİ\Ê
-NØÛÛœİ[™\Y]™[OÚYŠ]™[šÙ^OOOIÑ\ØØ\IÊXÛÜÙJ
-_NÙØİ[Y[˜Y]™[\İ[™\Š	ÚÙ^YİÛ‰Ë[™\ŠNÜ™]\›Š
-OOÙØİ[Y[œ™[[İ™Q]™[\İ[™\Š	ÚÙ^YİÛ‰Ë[™\ŠNÜ™]š[İ\ÏË™›Øİ\ÏËŠ
-__KØÛÜÙWJNÂˆ™]\›ˆ]ˆÛ\ÜÓ˜[YOH›[Ù[˜XÚÙ›ÜˆÛ“[İ\ÙQİÛ^Ù]™[OÚYŠ]™[\™Ù]OOY]™[˜İ\œ™[\™Ù]
-XÛÜÙJ
-__OÙXİ[ÛˆÛ\ÜÓ˜[YOH›[Ù[ˆ›ÛOH™X[ÙÈˆ\šXK[[Ù[HYHˆ\šXK[X™[YOH›[Ù[]]HˆX’[™^H‹LHˆ™Y^Ü™YŸOXY\ˆYH›[Ù[]]Hİ]_OÚ]ÛˆÛ\ÜÓ˜[YOHšXÛÛ]Ûˆˆ\šXK[X™[H´%ô,4.´`4bô`´cˆÛÛXÚÏ^ØÛÜÙ_O°åÏØ]ÛÚXY\ØÚ[™[ŸOÜÙXİ[ÛÙ]ÂŸB‚™[˜İ[Ûˆ›Ş[Ù[
-ÜÜXË]KÛÜÙKÛ™_J^ÂˆÛÛœİÙ›Ü›KÙ]›Ü›WO]\ÙTİ]Jİ\™Ù]‰ÉË™X\ÛÛ‰ÉË›ÙXİÚY‰ÉË]NŒ_JKÙ\œ›Ü‹Ù]\œ›Ü—O]\ÙTİ]J	ÉÊNÂˆÛÛœİ›ÙXİÏJ]Kœ›ÙXİß×JK™š[\Š›ÙXİOˆ\ÜXËœÙ[\’Y›ÙXİœÙ[\—ÚYOO\ÜXËœÙ[\’Y
-NÂˆ\Ş[˜È[˜İ[ÛˆØ]™J
-^ÂˆÙ]\œ›ÜŠ	ÉÊNÂˆ^ÂˆYŠÜXËšÚ[™OOIÛ[İ™IÊ^ØÛÛœİİ\™Ù]İ\K\™Ù]ÚYOY›Ü›K\™Ù]œÜ]
-	Î‰ÊNØ]ØZ]ÜÊØXİ[Û‰ÓSÕ‘WĞ“Ö	Ë›ŞÚYœÜXËšY\™Ù]İ\K\™Ù]ÚY™X\ÛÛ™›Ü›Kœ™X\ÛÛŸ	ô'ô-t`4-t/4-tbt-t/t.4-IßJNÙÛ™J	ô&´/´`4/´,H4/ô-t`4-t/4-tbtdt/IÊ_Bˆ[Ù^Ø]ØZ]ÜÊØXİ[Û‰ĞQĞ“ÖÒUSIË›ŞÚYœÜXËšY›ÙXİÚY™›Ü›Kœ›ÙXİÚY]N“[X™\Š›Ü›Kœ]J_JNÙÛ™J	ÔÒÕH4-4/´,t,4,´.ô-t/H4,ˆ4.´/´`4/´,IÊ_BˆXØ]Ú
-\œŠ^ÜÙ]\œ›ÜŠ\œ‹›Y\ÜØYÙJ_BˆBˆ™]\›ˆ[Ù[]O^ÜÜXËšÚ[™OOIÛ[İ™IÏÉô'ô-t`4-t/4-tbt-t/t.4-H4.´/´`4/´,t,	Î‰ô%4/´,t,4,´.ô-t/t.4-HÒÕIßHÛÜÙO^ØÛÜÙ_O]ˆÛ\ÜÓ˜[YOH™›Ü›QÜšYÜÜXËšÚ[™OOIÛ[İ™IÏÏšY[X™[H´%ô/´/t,4.4.ô.4côaô-t.t.´,Ù[Xİ˜[YO^Ù›Ü›K\™Ù]HÛÚ[™ÙO^ÙOOœÙ]›Ü›JË‹‹™›Ü›K\™Ù]™K\™Ù]˜[Y_J_H™\]Z\™YÜ[Ûˆ˜[YOHˆ´$´bô,t-t`4.4`´-H4/4-t`t`´/ÛÜ[ÛÜÜ›İ\X™[H´%ô/´/tbÈÙ]K›Û™\ÏË›X\
-OÜ[ÛˆÙ^O^Ş‹šYH˜[YO^Ø›Û™N‰Ş‹šYXOŞ‹›˜[Y_OÛÜ[ÛŠ_OÛÜÜ›İ\ÜÜ›İ\X™[H´+ôaô-t.t.´.Ù]K˜Ù[ÏË›X\
-ÏOÜ[ÛˆÙ^O^ØËšYH˜[YO^ØÙ[‰ØËšYXOØË˜ÛÙ_OÛÜ[ÛŠ_OÛÜÜ›İ\ÜÙ[XİÑšY[šY[X™[H´'ô`4.4aô.4/t,[œ]˜[YO^Ù›Ü›Kœ™X\ÛÛŸHÛÚ[™ÙO^ÙOOœÙ]›Ü›JË‹‹™›Ü›K™X\ÛÛ™K\™Ù]˜[Y_J_KÏÑšY[ÏšY[X™[H´(´/´,´,4`Ù[Xİ˜[YO^Ù›Ü›Kœ›ÙXİÚYHÛÚ[™ÙO^ÙOOœÙ]›Ü›JË‹‹™›Ü›K›ÙXİÚY™K\™Ù]˜[Y_J_H™\]Z\™YÜ[Ûˆ˜[YOHˆ´$´bô,t-t`4.4`´-HÒÕOÛÜ[ÛÜ›ÙXİË›X\
-OÜ[ÛˆÙ^O^ÜšYH˜[YO^ÜšYOÜœÚİ_H8 %Ü›˜[Y_OÛÜ[ÛŠ_OÜÙ[XİÑšY[šY[X™[H´&´/´.ô.4aô-t`t`´,´/ˆ[œ]\OH›[X™\ˆˆZ[HŒHˆİ\HŒHˆ˜[YO^Ù›Ü›Kœ]_HÛÚ[™ÙO^ÙOOœÙ]›Ü›JË‹‹™›Ü›K]N™K\™Ù]˜[Y_J_KÏÑšY[ÏŸO\œ›Ü“Y\ÜØYÙOÙ\œ›ÜŸOÑ\œ›Ü“Y\ÜØYÙO]ˆÛ\ÜÓ˜[YOH›[Ù[Xİ[ÛœÈ]ÛˆÛ\ÜÓ˜[YOH˜ˆˆÛÛXÚÏ^ØÛÜÙ_O´'´`´/4-t/t,Ø]Û]ÛˆÛ\ÜÓ˜[YOH˜ˆš[X\Hˆ\ØX›Y^ÜÜXËšÚ[™OOIÛ[İ™IÏÈY›Ü›K\™Ù]ˆY›Ü›Kœ›ÙXİÚYHÛÛXÚÏ^ÜØ]™_O´'ô/´-4`´,´-t`4-4.4`´cØ]ÛÙ]Ù]Ó[Ù[ÂŸB
+function BoxModal({spec,data,close,done}){
+  const[form,setForm]=useState({target:'',reason:'',product_id:'',qty:1}),[error,setError]=useState('');
+  const products=(data.products||[]).filter(product=>!spec.sellerId||product.seller_id===spec.sellerId);
+  async function save(){
+    setError('');
+    try{
+      if(spec.kind==='move'){const[target_type,target_id]=form.target.split(':');await ops({action:'MOVE_BOX',box_id:spec.id,target_type,target_id,reason:form.reason||'ĞŸĞµÑ€ĞµĞ¼ĞµÑ‰ĞµĞ½Ğ¸Ğµ'});done('ĞšĞ¾Ñ€Ğ¾Ğ± Ğ¿ĞµÑ€ĞµĞ¼ĞµÑ‰Ñ‘Ğ½')}
+      else{await ops({action:'ADD_BOX_ITEM',box_id:spec.id,product_id:form.product_id,qty:Number(form.qty)});done('SKU Ğ´Ğ¾Ğ±Ğ°Ğ²Ğ»ĞµĞ½ Ğ² ĞºĞ¾Ñ€Ğ¾Ğ±')}
+    }catch(err){setError(err.message)}
+  }
+  return <Modal title={spec.kind==='move'?'ĞŸĞµÑ€ĞµĞ¼ĞµÑ‰ĞµĞ½Ğ¸Ğµ ĞºĞ¾Ñ€Ğ¾Ğ±Ğ°':'Ğ”Ğ¾Ğ±Ğ°Ğ²Ğ»ĞµĞ½Ğ¸Ğµ SKU'} close={close}><div className="formGrid">{spec.kind==='move'?<><Field label="Ğ—Ğ¾Ğ½Ğ° Ğ¸Ğ»Ğ¸ ÑÑ‡ĞµĞ¹ĞºĞ°"><select value={form.target} onChange={e=>setForm({...form,target:e.target.value})} required><option value="">Ğ’Ñ‹Ğ±ĞµÑ€Ğ¸Ñ‚Ğµ Ğ¼ĞµÑÑ‚Ğ¾</option><optgroup label="Ğ—Ğ¾Ğ½Ñ‹">{data.zones?.map(z=><option key={z.id} value={`zone:${z.id}`}>{z.name}</option>)}</optgroup><optgroup label="Ğ¯Ñ‡ĞµĞ¹ĞºĞ¸">{data.cells?.map(c=><option key={c.id} value={`cell:${c.id}`}>{c.code}</option>)}</optgroup></select></Field><Field label="ĞŸÑ€Ğ¸Ñ‡Ğ¸Ğ½Ğ°"><input value={form.reason} onChange={e=>setForm({...form,reason:e.target.value})}/></Field></>:<><Field label="Ğ¢Ğ¾Ğ²Ğ°Ñ€"><select value={form.product_id} onChange={e=>setForm({...form,product_id:e.target.value})} required><option value="">Ğ’Ñ‹Ğ±ĞµÑ€Ğ¸Ñ‚Ğµ SKU</option>{products.map(p=><option key={p.id} value={p.id}>{p.sku} â€” {p.name}</option>)}</select></Field><Field label="ĞšĞ¾Ğ»Ğ¸Ñ‡ĞµÑÑ‚Ğ²Ğ¾"><input type="number" min="1" step="1" value={form.qty} onChange={e=>setForm({...form,qty:e.target.value})}/></Field></>}<ErrorMessage>{error}</ErrorMessage><div className="modalActions"><button className="btn" onClick={close}>ĞÑ‚Ğ¼ĞµĞ½Ğ°</button><button className="btn primary" disabled={spec.kind==='move'?!form.target:!form.product_id} onClick={save}>ĞŸĞ¾Ğ´Ñ‚Ğ²ĞµÑ€Ğ´Ğ¸Ñ‚ÑŒ</button></div></div></Modal>;
+}

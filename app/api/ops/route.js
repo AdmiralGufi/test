@@ -1,91 +1,128 @@
-˛äm˛&y∫ﬁ√Ú‚n∂´ÀÒËôÊÎ{‹ôﬂÏÖÈez{ÏÜXß{_?n)ˇ¶√©z∂≠äâÁ¢⁄^Æh≠µÁZ[\‹ù”ô^ô\‹€úŸ_Húõ€H	€ô^‹Ÿ\ùô\âŒ¬ö[\‹ù‹‹[Húõ€H	ÀããÀããÀãã€XãŸâŒ¬ö[\‹ùŸŸ]›\úô[ù\Ÿ\üHúõ€H	ÀããÀããÀãã€Xãÿ]]	Œ¬ö[\‹ùÿ€X[ï^UíP—W’TTÀ‘ëTó‘íS‘íUQTÀ‹⁄]]ôR[ùYŸ\ãì”TÀò[Y[XZ[Húõ€H	ÀããÀããÀãã€Xã›€\ÀX€€ùòX›	Œ¬ò€€ú›[›ŸYJõ€K\›
-OOõ\›ö[ò€Y\ õ€JN¬ò€€ú›òZ[JY\‹ÿYŸK›]\œM
-OOìô^ô\‹€úŸKöú€€äŸ\úõ‹éõY\‹ÿYŸ_K‹›]\ﬂJN¬ò€€ú›\úõ‹ìY\‹ÿYŸ\œ^¬àì‘êíQSéâÙ't-t-4/¥`t`¥,4`¥/¥aÙ/t/à4/Ù`4,4,à4-4.Ùc»4ct`¥/¥.H4/¥/Ù-t`4,4a¥.4.	Àà—STó‘ëTURTëQâÙ$¥bÙ,t-t`4.4`¥-H4.¥.Ù.4-t/t`¥,	Ààì—P’—íQS◊‘ëTURTëQâÙ%Ù,4/Ù/¥.Ù/t.4`¥-H4.¥.Ù.4-t/t`¥,“’H4.4/t,4-Ù,¥,4/t.4-IÀà—STó”êSQW‘ëTURTëQâÙ$¥,¥-t-4.4`¥-H4/t,4-Ù,¥,4/t.4-H4.¥.Ù.4-t/t`¥,	ÀàTë—U‘ëTURTëQâÙ$¥bÙ,t-t`4.4`¥-H4-Ù/¥/t`»4.4.Ù.4cÙaÙ-t.t.¥`…Àà—S”ì’—ì’SëâÙ+ÙaÙ-t.t.¥,4/t-H4/t,4.t-4-t/t,4.4.Ù.4/t-t-4/¥`t`¥`Ù/Ù/t,	ÀàUSW—íQS◊‘ëTURTëQâÙ$¥bÙ,t-t`4.4`¥-H4`¥/¥,¥,4`4.4`Ù.¥,4-¥.4`¥-H4.¥/¥.Ù.4aÙ-t`t`¥,¥/âÀà‘ëTó—íQS◊‘ëTURTëQâÙ$¥bÙ,t-t`4.4`¥-H4.¥.Ù.4-t/t`¥,4.4-4/¥,t,4,¥c4`¥-H4/Ù/¥-Ù.4a¥.4.	ÀàP“◊—íQS◊‘ëTURTëQâÙ$¥bÙ,t-t`4.4`¥-H4/Ù/¥-Ù.4a¥.4cã4.¥/¥`4/¥,H4.4.¥/¥.Ù.4aÙ-t`t`¥,¥/âÀàT—Tó—íQS◊‘ëTURTëQâÙ%Ù,4/Ù/¥.Ù/t.4`¥-H4-4,4/t/tbÙ-H4`t/¥`¥`4`Ù-4/t.4.¥,	ÀàT‘’”‘ë’”◊‘“‘ïâÙ'Ù,4`4/¥.Ùc4-4/¥.Ù-¥-t/H4`t/¥-4-t`4-¥,4`¥c4/4.4/t.4/4`Ù/4`t.4/4,¥/¥.Ù/¥,âÀàSïêSQ—SPRSâÙ'Ù`4/¥,¥-t`4c4`¥-H[XZ[	ÀàSïêSQ‘ì”NâÙ't-t-4/¥/Ù`Ù`t`¥.4/4,4c»4`4/¥.Ùc	ÀàSïêSQ—UíP—W’TNâÙ't-t-4/¥/Ù`Ù`t`¥.4/4bÙ.H4`¥.4/»4`Ù`t`¥`4/¥.t`t`¥,¥,	ÀàSïêSQ‘íS‘íUNâÙ't-t-4/¥/Ù`Ù`t`¥.4/4bÙ.H4/Ù`4.4/¥`4.4`¥-t`â¬üN¬ô^‹ù\ﬁ[ò»ù[ò›[€à‘’
-ä^¬à€€ú›OX]ÿZ]Ÿ]›\úô[ù\Ÿ\ä
-N¬àYä]J\ô]\õàô^ô\‹€úŸKöú€€äŸ\úõ‹éâ’SêUU‘íVëQ	ﬂK‹›]\Œç_JN¬à€€ú›X]ÿZ]ãöú€€ä
-Kòÿ]⁄
-
-
-OOõù[
-N¬àYä^\[ŸàOOI€ÿöôX›	 \ô]\õàòZ[
-	Ù't-t.¥/¥`4`4-t.¥`¥/tbÙ.H4-Ù,4/Ù`4/¥`I N¬àû^¬àYäòX›[€èOOI–‘ëPUW–ì÷	 ^¬àYäX[›ŸY
-Kúõ€K…–QRSâÀ	”PSêQ—TâÀ	‘ëP—RUëTâ◊JJ]õ›»ô]»\úõ‹ä	—ì‘êíQSâ N¬àYä^úŸ[\ó⁄Y
-]õ›»ô]»\úõ‹ä	‘—STó‘ëTURTëQ	 N¬à€€ú›€ŸOX€X[ï^
-òõﬁÿ€ŸK
-_
-	–ì÷I —]Kõõ› 
-Kù‘›ö[ô 
-Kú€XŸJNJJN¬à€€ú›OX]ÿZ]‹[Ÿ[X›€\◊‹ôXŸZ]ôWÿõﬁ
-	ﬁúŸ[\ó⁄YK	ﬁúôXŸZ\⁄Yù[K	ÿ€Ÿ_K	ÿ€X[ï^
-òò\ò€ŸKLå
-_€Ÿ_K	›KöYK	ÿ€X[ï^
-õõ›\ÀL
-_ù[JHY¬àô]\õàô^ô\‹€úŸKöú€€ä€⁄ŒùùYKYòVÃKöYõﬁÿ€ŸNò€Ÿ_JN¬àBàYäòX›[€èOOI–‘ëPUW‘ì—P’	 ^¬àYäX[›ŸY
-Kúõ€K…–QRSâÀ	”PSêQ—TâÀ	‘ëP—RUëTâ◊JJ]õ›»ô]»\úõ‹ä	—ì‘êíQSâ N¬àYä^úŸ[\ó⁄Y^ú⁄›_^õò[YJ]õ›»ô]»\úõ‹ä	‘ì—P’—íQS◊‘ëTURTëQ	 N¬à€€ú›OX]ÿZ]‹[[úŸ\ù[ù»õŸX› Ÿ[\ó⁄Y⁄›Kò[YKÿóÿò\ò€ŸKô[ô‹óÿ€ŸKX›]ôJHò[Y\ 	ﬁúŸ[\ó⁄YK	ÿ€X[ï^
-ú⁄›KL
-_K	ÿ€X[ï^
-õò[YKç
-_K	ÿ€X[ï^
-òò\ò€ŸKLå
-_ù[K	ÿ€X[ï^
-ùô[ô‹ãLå
-_ù[KùYJHô]\õö[ô»Y¬àô]\õàô^ô\‹€úŸKöú€€ä€⁄ŒùùYKYòVÃKöYJN¬àBàYäòX›[€èOOI–‘ëPUW‘—STâ ^¬àYäX[›ŸY
-Kúõ€K…–QRSâÀ	”PSêQ—Tâ◊JJ]õ›»ô]»\úõ‹ä	—ì‘êíQSâ N¬àYä^õò[YJ]õ›»ô]»\úõ‹ä	‘—STó”êSQW‘ëTURTëQ	 N¬àYäô[XZ[	âà]ò[Y[XZ[
-ô[XZ[
-J]õ›»ô]»\úõ‹ä	“SïêSQ—SPRS	 N¬à€€ú›OX]ÿZ]‹[[úŸ\ù[ù»Ÿ[\ú ò[YK€€ùX›€ò[YK€ôK[XZ[
-Hò[Y\ 	ÿ€X[ï^
-õò[YKå
-_K	ÿ€X[ï^
-ò€€ùX›Må
-_ù[K	ÿ€X[ï^
-ú€ôKå
-_ù[K	ÿ€X[ï^
-ô[XZ[çM
-Kù”›Ÿ\êÿ\ŸJ
-_ù[JHô]\õö[ô»Y¬àô]\õàô^ô\‹€úŸKöú€€ä€⁄ŒùùYKYòVÃKöYJN¬àBàYäòX›[€èOOI”S’ëW–ì÷	 ^¬àYäX[›ŸY
-Kúõ€K…–QRSâÀ	”PSêQ—TâÀ	‘ëP—RUëTâÀ	‘P“—TâÀ	‘P“—Tâ◊JJ]õ›»ô]»\úõ‹ä	—ì‘êíQSâ N¬à]õ€ôO[ù[Ÿ[[ù[¬àYäù\ôŸ]›\OOOIÿŸ[	 ^¬àŸ[^ù\ôŸ]⁄Y¬à€€ú›œX]ÿZ]‹[Ÿ[X›õ€ôW⁄Yúõ€HŸ[»⁄\ôHYIÿŸ[H[ô›]\œI–P’UëI»[Z]X¬àYäX÷ÃJ]õ›»ô]»\úõ‹ä	–—S”ì’—ì’Së	 N¬àõ€ôOX÷ÃKûõ€ôW⁄Y¬àY[ŸHYäù\ôŸ]›\OOOIﬁõ€ôI ^õ€ôO^ù\ôŸ]⁄YŸ[ŸHõ›»ô]»\úõ‹ä	’Të—U‘ëTURTëQ	 N¬à]ÿZ]‹[Ÿ[X›€\◊€[›ôWÿõﬁ
-	ﬁòõﬁ⁄YK	ﬁõ€ô_K	ÿŸ[K	›KöYK	ﬁúôX\€€ü	Ù'Ù-t`4-t/4-tbt-t/t.4-IﬂJX¬àô]\õàô^ô\‹€úŸKöú€€ä€⁄ŒùùY_JN¬àBàYäòX›[€èOOI–Q–ì÷“USI ^¬àYäX[›ŸY
-Kúõ€K…–QRSâÀ	”PSêQ—TâÀ	‘ëP—RUëTâ◊JJ]õ›»ô]»\úõ‹ä	—ì‘êíQSâ N¬à€€ú›]O\‹⁄]]ôR[ùYŸ\äú]JN¬àYä^òõﬁ⁄Y^úõŸX›⁄Y\]J]õ›»ô]»\úõ‹ä	“USW—íQS◊‘ëTURTëQ	 N¬à]ÿZ]‹[Ÿ[X›€\◊ÿYÿõﬁ⁄][J	ﬁòõﬁ⁄YK	ﬁúõŸX›⁄YK	‹]_K	›KöYJX¬àô]\õàô^ô\‹€úŸKöú€€ä€⁄ŒùùY_JN¬àBàYäòX›[€èOOI–‘ëPUW”‘ëTâ ^¬àYäX[›ŸY
-Kúõ€K…–QRSâÀ	”PSêQ—Tâ◊JJ]õ›»ô]»\úõ‹ä	—ì‘êíQSâ N¬àYä^úŸ[\ó⁄YP\úò^Kö\–\úò^Jö][\ _^ö][\Àõ[ô›
-]õ›»ô]»\úõ‹ä	”‘ëTó—íQS◊‘ëTURTëQ	 N¬àYäS‘ëTó‘íS‘íUQTÀö[ò€Y\ úö[‹ö]_	”ì‘ìPS	 J]õ›»ô]»\úõ‹ä	“SïêSQ‘íS‘íUI N¬à€€ú›][\œ^ö][\ÀõX\
-][OOä‹õŸX›⁄Yö][KúõŸX›⁄Y]Nú‹⁄]]ôR[ùYŸ\ä][Kú]J_JJN¬àYä][\Àú€€YJ][OOàZ][KúõŸX›⁄YZ][Kú]JJ]õ›»ô]»\úõ‹ä	”‘ëTó—íQS◊‘ëTURTëQ	 N¬à€€ú›õœX€X[ï^
-õ‹ô\ó€õÀL
-_
-	”‘ëI —]Kõõ› 
-Kù‘›ö[ô 
-Kú€XŸJNJJN¬à€€ú›OX]ÿZ]‹[Ÿ[X›€\◊ÿ‹ôX]W€‹ô\ä	€õﬂK	ﬁúŸ[\ó⁄YK	ﬁúö[‹ö]_	”ì‘ìPS	ﬂK	ﬁôXY[ô_ù[K	“î””ãú›ö[ô⁄YûJ][\ _Néöú€€òã	›KöYJHY¬àô]\õàô^ô\‹€úŸKöú€€ä€⁄ŒùùYKYòVÃKöY‹ô\ó€õŒõõﬂJN¬àBàYäòX›[€èOOI‘P“◊“USI ^¬àYäX[›ŸY
-Kúõ€K…–QRSâÀ	”PSêQ—TâÀ	‘P“—Tâ◊JJ]õ›»ô]»\úõ‹ä	—ì‘êíQSâ N¬à€€ú›]O\‹⁄]]ôR[ùYŸ\äú]JN¬àYä^õ‹ô\ó⁄][W⁄Y^òõﬁ⁄Y\]J]õ›»ô]»\úõ‹ä	‘P“◊—íQS◊‘ëTURTëQ	 N¬à]ÿZ]‹[Ÿ[X›€\◊‹X⁄◊€‹ô\ó⁄][J	ﬁõ‹ô\ó⁄][W⁄YK	ﬁòõﬁ⁄YK	‹]_K	›KöYJX¬àô]\õàô^ô\‹€úŸKöú€€ä€⁄ŒùùY_JN¬àBàYäòX›[€èOOI”‘ëTó‘P“—Q	 ^¬àYäX[›ŸY
-Kúõ€K…–QRSâÀ	”PSêQ—TâÀ	‘P“—Tâ◊JJ]õ›»ô]»\úõ‹ä	—ì‘êíQSâ N¬à]ÿZ]‹[Ÿ[X›€\◊‹X⁄◊€‹ô\ä	ﬁõ‹ô\ó⁄YK	›KöYJX¬àô]\õàô^ô\‹€úŸKöú€€ä€⁄ŒùùY_JN¬àBàYäòX›[€èOOI”‘ëTó‘ëPQI ^¬àYäX[›ŸY
-Kúõ€K…–QRSâÀ	”PSêQ—TâÀ	‘P“—Tâ◊JJ]õ›»ô]»\úõ‹ä	—ì‘êíQSâ N¬à]ÿZ]‹[Ÿ[X›€\◊‹ôXYW€‹ô\ä	ﬁõ‹ô\ó⁄YK	›KöYJX¬àô]\õàô^ô\‹€úŸKöú€€ä€⁄ŒùùY_JN¬àBàYäòX›[€èOOI”‘ëTó‘“TQ	 ^¬àYäX[›ŸY
-Kúõ€K…–QRSâÀ	”PSêQ—TâÀ	‘P“—TâÀ	‘“TTâ◊JJ]õ›»ô]»\úõ‹ä	—ì‘êíQSâ N¬à]ÿZ]‹[Ÿ[X›€\◊‹⁄\€‹ô\ä	ﬁõ‹ô\ó⁄YK	›KöYJX¬àô]\õàô^ô\‹€úŸKöú€€ä€⁄ŒùùY_JN¬àBàYäòX›[€èOOI–‘ëPUW’T—Tâ ^¬àYäKúõ€HOOI–QRSâ ]õ›»ô]»\úõ‹ä	—ì‘êíQSâ N¬àYä^ô[XZ[^õò[Y_^ú\‹›€‹ô^úõ€J]õ›»ô]»\úõ‹ä	’T—Tó—íQS◊‘ëTURTëQ	 N¬àYä›ö[ô ú\‹›€‹ô
-Kõ[ô›
-]õ›»ô]»\úõ‹ä	‘T‘’”‘ë’”◊‘“‘ï	 N¬àYä]ò[Y[XZ[
-ô[XZ[
-J]õ›»ô]»\úõ‹ä	“SïêSQ—SPRS	 N¬àYäTì”TÀö[ò€Y\ úõ€JJ]õ›»ô]»\úõ‹ä	“SïêSQ‘ì”I N¬à€€ú›OX]ÿZ]‹[[úŸ\ù[ù»\Ÿ\ú [XZ[ò[YK\‹›€‹ô⁄\⁄õ€KX›]ôJHò[Y\ ›Ÿ\ä	ÿ€X[ï^
-ô[XZ[çM
-_Néù^
-K	ÿ€X[ï^
-õò[YKMå
-_Néù^‹û\
-	ﬁú\‹›€‹ôNéù^Ÿ[ó‹ÿ[
-	ÿôâÀL
-JK	ﬁúõ€_Néù^ùYJHô]\õö[ô»Y[XZ[ò[YKõ€KX›]ôX¬àô]\õàô^ô\‹€úŸKöú€€äVÃJN¬àBàYäòX›[€èOOI’——”W’T—Tâ ^¬àYäKúõ€HOOI–QRSâ ]õ›»ô]»\úõ‹ä	—ì‘êíQSâ N¬à]ÿZ]‹[\]H\Ÿ\ú»Ÿ]X›]ôOI»H^òX›]ô_H⁄\ôHYIﬁù\Ÿ\ó⁄YX¬àô]\õàô^ô\‹€úŸKöú€€ä€⁄ŒùùY_JN¬àBàYäòX›[€èOOI‘ëQ“T’Tó—UíP—I ^¬à€€ú›\O^ô]öXŸW›\_	‘”ëIŒ¬àYäQUíP—W’TTÀö[ò€Y\ \JJ]õ›»ô]»\úõ‹ä	“SïêSQ—UíP—W’TI N¬à€€ú›€ŸOX€X[ï^
-ô]öXŸWÿ€ŸKL
-_
-	—UãI —]Kõõ› 
-JN¬à€€ú›OX]ÿZ]‹[[úŸ\ù[ù»]öXŸ\ ]öXŸWÿ€ŸK]öXŸW›\K\Ÿ\ó⁄Y]õ‹õKXô[\Ÿ\óÿYŸ[ùX›]ôK\›‹ŸY[óÿ]Z\ôYÿ]
-Hò[Y\ 	ÿ€Ÿ_K	›\_K	›KöYK	ÿ€X[ï^
-ú]õ‹õKMå
-_ù[K	ÿ€X[ï^
-õXô[Må
-_ù[K	ÿ€X[ï^
-ù\Ÿ\óÿYŸ[ùL
-_ù[KùYKõ› 
-Kõ› 
-JH€à€€ôõX›
-]öXŸWÿ€ŸJH»\]HŸ]\Ÿ\ó⁄YY^€YYù\Ÿ\ó⁄Y]öXŸW›\OY^€YYô]öXŸW›\KXô[Y^€YYõXô[\›‹ŸY[óÿ][õ› 
-KX›]ôO]ùYHô]\õö[ô»Y]öXŸWÿ€ŸX¬àô]\õàô^ô\‹€úŸKöú€€äVÃJN¬àBàô]\õàô^ô\‹€úŸKöú€€äŸ\úõ‹éâ’Sí”ì’”ó–P’S”âﬂK‹›]\ŒçJN¬àXÿ]⁄
-J^¬à€€ú›ò]œT›ö[ô KõY\‹ÿYŸ_JN¬à€€ú›Ÿ^OSÿöôX›öŸ^\ \úõ‹ìY\‹ÿYŸ\ Kôö[ô
-][OOúò]Àö[ò€Y\ ][JJN¬àô]\õàòZ[
-Ÿ^OŸ\úõ‹ìY\‹ÿYŸ\÷⁄Ÿ^WNâÙ'¥/Ù-t`4,4a¥.4c»4/t-H4,¥bÙ/Ù/¥.Ù/t-t/t,	ÀŸ^OOOI—ì‘êíQSâœÕŒç
-N¬àBüB
+import {NextResponse} from 'next/server';
+import {sql} from '../../../lib/db';
+import {getCurrentUser} from '../../../lib/auth';
+import {cleanText,DEVICE_TYPES,ORDER_PRIORITIES,positiveInteger,ROLES,validEmail} from '../../../lib/wms-contract';
+const allowed=(role,list)=>list.includes(role);
+const fail=(message,status=400)=>NextResponse.json({error:message},{status});
+const errorMessages={
+  FORBIDDEN:'–ù–µ–¥–æ—Å—Ç–∞—Ç–æ—á–Ω–æ –ø—Ä–∞–≤ –¥–ª—è —ç—Ç–æ–π –æ–ø–µ—Ä–∞—Ü–∏–∏',
+  SELLER_REQUIRED:'–í—ã–±–µ—Ä–∏—Ç–µ –∫–ª–∏–µ–Ω—Ç–∞',
+  PRODUCT_FIELDS_REQUIRED:'–ó–∞–ø–æ–ª–Ω–∏—Ç–µ –∫–ª–∏–µ–Ω—Ç–∞, SKU –∏ –Ω–∞–∑–≤–∞–Ω–∏–µ',
+  SELLER_NAME_REQUIRED:'–í–≤–µ–¥–∏—Ç–µ –Ω–∞–∑–≤–∞–Ω–∏–µ –∫–ª–∏–µ–Ω—Ç–∞',
+  TARGET_REQUIRED:'–í—ã–±–µ—Ä–∏—Ç–µ –∑–æ–Ω—É –∏–ª–∏ —è—á–µ–π–∫—É',
+  CELL_NOT_FOUND:'–Ø—á–µ–π–∫–∞ –Ω–µ –Ω–∞–π–¥–µ–Ω–∞ –∏–ª–∏ –Ω–µ–¥–æ—Å—Ç—É–ø–Ω–∞',
+  ITEM_FIELDS_REQUIRED:'–í—ã–±–µ—Ä–∏—Ç–µ —Ç–æ–≤–∞—Ä –∏ —É–∫–∞–∂–∏—Ç–µ –∫–æ–ª–∏—á–µ—Å—Ç–≤–æ',
+  ORDER_FIELDS_REQUIRED:'–í—ã–±–µ—Ä–∏—Ç–µ –∫–ª–∏–µ–Ω—Ç–∞ –∏ –¥–æ–±–∞–≤—å—Ç–µ –ø–æ–∑–∏—Ü–∏–∏',
+  PICK_FIELDS_REQUIRED:'–í—ã–±–µ—Ä–∏—Ç–µ –ø–æ–∑–∏—Ü–∏—é, –∫–æ—Ä–æ–± –∏ –∫–æ–ª–∏—á–µ—Å—Ç–≤–æ',
+  USER_FIELDS_REQUIRED:'–ó–∞–ø–æ–ª–Ω–∏—Ç–µ –¥–∞–Ω–Ω—ã–µ —Å–æ—Ç—Ä—É–¥–Ω–∏–∫–∞',
+  PASSWORD_TOO_SHORT:'–ü–∞—Ä–æ–ª—å –¥–æ–ª–∂–µ–Ω —Å–æ–¥–µ—Ä–∂–∞—Ç—å –º–∏–Ω–∏–º—É–º 8 —Å–∏–º–≤–æ–ª–æ–≤',
+  INVALID_EMAIL:'–ü—Ä–æ–≤–µ—Ä—å—Ç–µ email',
+  INVALID_ROLE:'–ù–µ–¥–æ–ø—É—Å—Ç–∏–º–∞—è —Ä–æ–ª—å',
+  INVALID_DEVICE_TYPE:'–ù–µ–¥–æ–ø—É—Å—Ç–∏–º—ã–π —Ç–∏–ø —É—Å—Ç—Ä–æ–π—Å—Ç–≤–∞',
+  INVALID_PRIORITY:'–ù–µ–¥–æ–ø—É—Å—Ç–∏–º—ã–π –ø—Ä–∏–æ—Ä–∏—Ç–µ—Ç'
+};
+export async function POST(r){
+  const u=await getCurrentUser();
+  if(!u)return NextResponse.json({error:'UNAUTHORIZED'},{status:401});
+  const x=await r.json().catch(()=>null);
+  if(!x||typeof x!=='object')return fail('–ù–µ–∫–æ—Ä—Ä–µ–∫—Ç–Ω—ã–π –∑–∞–ø—Ä–æ—Å');
+  try{
+    if(x.action==='CREATE_BOX'){
+      if(!allowed(u.role,['ADMIN','MANAGER','RECEIVER']))throw new Error('FORBIDDEN');
+      if(!x.seller_id)throw new Error('SELLER_REQUIRED');
+      const code=cleanText(x.box_code,80)||('BOX-'+Date.now().toString().slice(-9));
+      const a=await sql`select wms_receive_box(${x.seller_id},${x.receipt_id||null},${code},${cleanText(x.barcode,120)||code},${u.id},${cleanText(x.notes,500)||null}) id`;
+      return NextResponse.json({ok:true,id:a[0].id,box_code:code});
+    }
+    if(x.action==='CREATE_PRODUCT'){
+      if(!allowed(u.role,['ADMIN','MANAGER','RECEIVER']))throw new Error('FORBIDDEN');
+      if(!x.seller_id||!x.sku||!x.name)throw new Error('PRODUCT_FIELDS_REQUIRED');
+      const a=await sql`insert into products(seller_id,sku,name,wb_barcode,vendor_code,active) values(${x.seller_id},${cleanText(x.sku,100)},${cleanText(x.name,240)},${cleanText(x.barcode,120)||null},${cleanText(x.vendor,120)||null},true) returning id`;
+      return NextResponse.json({ok:true,id:a[0].id});
+    }
+    if(x.action==='CREATE_SELLER'){
+      if(!allowed(u.role,['ADMIN','MANAGER']))throw new Error('FORBIDDEN');
+      if(!x.name)throw new Error('SELLER_NAME_REQUIRED');
+      if(x.email&&!validEmail(x.email))throw new Error('INVALID_EMAIL');
+      const a=await sql`insert into sellers(name,contact_name,phone,email) values(${cleanText(x.name,200)},${cleanText(x.contact,160)||null},${cleanText(x.phone,60)||null},${cleanText(x.email,254).toLowerCase()||null}) returning id`;
+      return NextResponse.json({ok:true,id:a[0].id});
+    }
+    if(x.action==='MOVE_BOX'){
+      if(!allowed(u.role,['ADMIN','MANAGER','RECEIVER','PICKER','PACKER']))throw new Error('FORBIDDEN');
+      let zone=null,cell=null;
+      if(x.target_type==='cell'){
+        cell=x.target_id;
+        const c=await sql`select zone_id from cells where id=${cell} and status='ACTIVE' limit 1`;
+        if(!c[0])throw new Error('CELL_NOT_FOUND');
+        zone=c[0].zone_id;
+      }else if(x.target_type==='zone')zone=x.target_id;else throw new Error('TARGET_REQUIRED');
+      await sql`select wms_move_box(${x.box_id},${zone},${cell},${u.id},${x.reason||'–ü–µ—Ä–µ–º–µ—â–µ–Ω–∏–µ'})`;
+      return NextResponse.json({ok:true});
+    }
+    if(x.action==='ADD_BOX_ITEM'){
+      if(!allowed(u.role,['ADMIN','MANAGER','RECEIVER']))throw new Error('FORBIDDEN');
+      const qty=positiveInteger(x.qty);
+      if(!x.box_id||!x.product_id||!qty)throw new Error('ITEM_FIELDS_REQUIRED');
+      await sql`select wms_add_box_item(${x.box_id},${x.product_id},${qty},${u.id})`;
+      return NextResponse.json({ok:true});
+    }
+    if(x.action==='CREATE_ORDER'){
+      if(!allowed(u.role,['ADMIN','MANAGER']))throw new Error('FORBIDDEN');
+      if(!x.seller_id||!Array.isArray(x.items)||!x.items.length)throw new Error('ORDER_FIELDS_REQUIRED');
+      if(!ORDER_PRIORITIES.includes(x.priority||'NORMAL'))throw new Error('INVALID_PRIORITY');
+      const items=x.items.map(item=>({product_id:item.product_id,qty:positiveInteger(item.qty)}));
+      if(items.some(item=>!item.product_id||!item.qty))throw new Error('ORDER_FIELDS_REQUIRED');
+      const no=cleanText(x.order_no,100)||('ORD-'+Date.now().toString().slice(-9));
+      const a=await sql`select wms_create_order(${no},${x.seller_id},${x.priority||'NORMAL'},${x.deadline||null},${JSON.stringify(items)}::jsonb,${u.id}) id`;
+      return NextResponse.json({ok:true,id:a[0].id,order_no:no});
+    }
+    if(x.action==='PICK_ITEM'){
+      if(!allowed(u.role,['ADMIN','MANAGER','PICKER']))throw new Error('FORBIDDEN');
+      const qty=positiveInteger(x.qty);
+      if(!x.order_item_id||!x.box_id||!qty)throw new Error('PICK_FIELDS_REQUIRED');
+      await sql`select wms_pick_order_item(${x.order_item_id},${x.box_id},${qty},${u.id})`;
+      return NextResponse.json({ok:true});
+    }
+    if(x.action==='ORDER_PACKED'){
+      if(!allowed(u.role,['ADMIN','MANAGER','PACKER']))throw new Error('FORBIDDEN');
+      await sql`select wms_pack_order(${x.order_id},${u.id})`;
+      return NextResponse.json({ok:true});
+    }
+    if(x.action==='ORDER_READY'){
+      if(!allowed(u.role,['ADMIN','MANAGER','PACKER']))throw new Error('FORBIDDEN');
+      await sql`select wms_ready_order(${x.order_id},${u.id})`;
+      return NextResponse.json({ok:true});
+    }
+    if(x.action==='ORDER_SHIPPED'){
+      if(!allowed(u.role,['ADMIN','MANAGER','PACKER','SHIPPER']))throw new Error('FORBIDDEN');
+      await sql`select wms_ship_order(${x.order_id},${u.id})`;
+      return NextResponse.json({ok:true});
+    }
+    if(x.action==='CREATE_USER'){
+      if(u.role!=='ADMIN')throw new Error('FORBIDDEN');
+      if(!x.email||!x.name||!x.password||!x.role)throw new Error('USER_FIELDS_REQUIRED');
+      if(String(x.password).length<8)throw new Error('PASSWORD_TOO_SHORT');
+      if(!validEmail(x.email))throw new Error('INVALID_EMAIL');
+      if(!ROLES.includes(x.role))throw new Error('INVALID_ROLE');
+      const a=await sql`insert into users(email,name,password_hash,role,active) values(lower(${cleanText(x.email,254)}::text),${cleanText(x.name,160)}::text,crypt(${x.password}::text,gen_salt('bf',10)),${x.role}::text,true) returning id,email,name,role,active`;
+      return NextResponse.json(a[0]);
+    }
+    if(x.action==='TOGGLE_USER'){
+      if(u.role!=='ADMIN')throw new Error('FORBIDDEN');
+      await sql`update users set active=${!!x.active} where id=${x.user_id}`;
+      return NextResponse.json({ok:true});
+    }
+    if(x.action==='REGISTER_DEVICE'){
+      const type=x.device_type||'PHONE';
+      if(!DEVICE_TYPES.includes(type))throw new Error('INVALID_DEVICE_TYPE');
+      const code=cleanText(x.device_code,100)||('DEV-'+Date.now());
+      const a=await sql`insert into devices(device_code,device_type,user_id,platform,label,user_agent,active,last_seen_at,paired_at) values(${code},${type},${u.id},${cleanText(x.platform,160)||null},${cleanText(x.label,160)||null},${cleanText(x.user_agent,500)||null},true,now(),now()) on conflict(device_code) do update set user_id=excluded.user_id,device_type=excluded.device_type,label=excluded.label,last_seen_at=now(),active=true returning id,device_code`;
+      return NextResponse.json(a[0]);
+    }
+    return NextResponse.json({error:'UNKNOWN_ACTION'},{status:400});
+  }catch(e){
+    const raw=String(e.message||e);
+    const key=Object.keys(errorMessages).find(item=>raw.includes(item));
+    return fail(key?errorMessages[key]:'–û–ø–µ—Ä–∞—Ü–∏—è –Ω–µ –≤—ã–ø–æ–ª–Ω–µ–Ω–∞',key==='FORBIDDEN'?403:400);
+  }
+}

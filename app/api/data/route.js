@@ -1,3 +1,2 @@
-şŠmş&yºŞÃòân¶«Ëñè™æë{Ü™ßì…éez{ì†X§{_?n)ÿ¦Ã©z¶­Š‰ç¢Ú^®h­µçZ[\ÜÓ™^™\ÜÛœÙ_Hœ›ÛH	Û™^ÜÙ\™\‰ÎÂ™^Ü\Ş[˜È[˜İ[ÛˆÑU
-
-^Ü™]\›ˆ™^™\ÜÛœÙKšœÛÛŠÙ\œ›Ü‰ô&4`t/ô/´.ôc4-ô`ô.t`´-HØ\KØ›Ûİİ˜\	ßKÜİ]\ÎLJ_B
+import {NextResponse} from 'next/server';
+export async function GET(){return NextResponse.json({error:'Ğ˜ÑĞ¿Ğ¾Ğ»ÑŒĞ·ÑƒĞ¹Ñ‚Ğµ /api/bootstrap'},{status:410})}

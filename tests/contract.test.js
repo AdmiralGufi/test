@@ -1,40 +1,37 @@
-þŠmþ&yºÞÃòân¶«Ëñè™æë{Ü™ßì…éez{ì†X§{_?n)ÿ¦Ã©z¶­Š‰ç¢Ú^®h­µçZ[\Ü\Ýœ›ÛH	Û›ÙN\Ý	ÎÂš[\Ü\ÜÙ\œ›ÛH	Û›ÙN˜\ÜÙ\ÜÝšXÝ	ÎÂš[\ÜÜ™XYš[_Hœ›ÛH	Û›ÙN™œËÜ›ÛZ\Ù\ÉÎÂš[\ÜÕÓT×ÐPÕSÓ”ËÛX[•^ÜÚ]]™R[YÙ\‹˜[Y[XZ[Hœ›ÛH	Ë‹‹ÛX‹ÝÛ\ËXÛÛ˜XÝšœÉÎÂ‚\Ý
-	Ø[X›XÈÓTÈXÝ[ÛœÈ\™H[\[Y[YžHHØ[›ÛšXØ[TIË\Þ[˜È
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import {readFile} from 'node:fs/promises';
+import {WMS_ACTIONS, cleanText, positiveInteger, validEmail} from '../lib/wms-contract.js';
 
-HOˆÂˆÛÛœÝÛÝ\˜ÙHH]ØZ]™XYš[J™]ÈT“
-	Ë‹‹Ø\Ø\KÛÜËÜ›Ý]KšœÉË[\Ü›Y]K\›
-K	Ý]Ž	ÊNÂˆ›Üˆ
-ÛÛœÝXÝ[ÛˆÙˆÓT×ÐPÕSÓ”ÊHÂˆ\ÜÙ\›X]Ú
-ÛÝ\˜ÙK™]È™YÑ^
-XÝ[ÛOOVÉÈ—IØXÝ[ÛŸVÉÈ—X
-KZ\ÜÚ[™È	ØXÝ[ÛŸX
-NÂˆBŸJNÂ‚\Ý
-	ÜYÙH™[™\œÈHŒÈÜ\˜][Û˜[\XØ][Û‰Ë\Þ[˜È
+test('all public WMS actions are implemented by the canonical API', async () => {
+  const source = await readFile(new URL('../app/api/ops/route.js', import.meta.url), 'utf8');
+  for (const action of WMS_ACTIONS) {
+    assert.match(source, new RegExp(`action===['"]${action}['"]`), `missing ${action}`);
+  }
+});
 
-HOˆÂˆÛÛœÝÛÝ\˜ÙHH]ØZ]™XYš[J™]ÈT“
-	Ë‹‹Ø\ÜYÙKšœÉË[\Ü›Y]K\›
-K	Ý]Ž	ÊNÂˆ\ÜÙ\›X]Ú
-ÛÝ\˜ÙKÕÛ\Ð\ŒËÊNÂŸJNÂ‚\Ý
-	Ú[œ][\œÈ™Z™XÝ[œØY™H]X[]Y\È[™X[›Ü›YY[XZ[	Ë
+test('page renders the V3 operational application', async () => {
+  const source = await readFile(new URL('../app/page.js', import.meta.url), 'utf8');
+  assert.match(source, /WmsAppV3/);
+});
 
-HOˆÂˆ\ÜÙ\™\]X[
-ÜÚ]]™R[YÙ\ŠÊKÊNÂˆ\ÜÙ\™\]X[
-ÜÚ]]™R[YÙ\Š
-K[
-NÂˆ\ÜÙ\™\]X[
-ÜÚ]]™R[YÙ\ŠKŒŠK[
-NÂˆ\ÜÙ\™\]X[
-˜[Y[XZ[
-	ÛÜ\˜]Ü^[\K˜ÛÛIÊKYJNÂˆ\ÜÙ\™\]X[
-˜[Y[XZ[
-	ÛÜ\˜]Ü	ÊK˜[ÙJNÂˆ\ÜÙ\™\]X[
-ÛX[•^
-	È“ÖLH	ÊK	Ð“ÖLIÊNÂŸJNÂ‚\Ý
-	Ù]X˜\ÙHÛÛ›™XÝ[Ûˆ™[XZ[œÈÙ\™\‹[Û›IË\Þ[˜È
+test('input helpers reject unsafe quantities and malformed email', () => {
+  assert.equal(positiveInteger(3), 3);
+  assert.equal(positiveInteger(0), null);
+  assert.equal(positiveInteger(1.2), null);
+  assert.equal(validEmail('operator@example.com'), true);
+  assert.equal(validEmail('operator@'), false);
+  assert.equal(cleanText('  BOX-1  '), 'BOX-1');
+});
 
-HOˆÂˆÛÛœÝš[\ÈHÂˆ	Ë‹‹ØÛÛ\Û™[ËÕÛ\Ð\ŒËšœÉËˆ	Ë‹‹Ø\ÜYÙKšœÉËˆ	Ë‹‹Ø\ÙÛØ˜[Ë˜ÜÜÉÂˆNÂˆ›Üˆ
-ÛÛœÝš[HÙˆš[\ÊHÂˆÛÛœÝÛÝ\˜ÙHH]ØZ]™XYš[J™]ÈT“
-š[K[\Ü›Y]K\›
-K	Ý]Ž	ÊNÂˆ\ÜÙ\™Ù\Ó›ÝX]Ú
-ÛÝ\˜ÙKÑUPTÑWÕT“ÜÝÜ™\ÊÎœ[
-OÎ—×ËÊNÂˆBŸJNÂ
+test('database connection remains server-only', async () => {
+  const files = [
+    '../components/WmsAppV3.js',
+    '../app/page.js',
+    '../app/globals.css'
+  ];
+  for (const file of files) {
+    const source = await readFile(new URL(file, import.meta.url), 'utf8');
+    assert.doesNotMatch(source, /DATABASE_URL|postgres(?:ql)?:\/\//);
+  }
+});
