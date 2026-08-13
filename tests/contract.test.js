@@ -1,34 +1,40 @@
-export const WMS_ACTIONS = Object.freeze([
-  'CREATE_BOX',
-  'CREATE_PRODUCT',
-  'CREATE_SELLER',
-  'MOVE_BOX',
-  'ADD_BOX_ITEM',
-  'CREATE_ORDER',
-  'PICK_ITEM',
-  'ORDER_PACKED',
-  'ORDER_READY',
-  'ORDER_SHIPPED',
-  'CREATE_USER',
-  'REGISTER_DEVICE'
-]);
+şŠmş&yºŞÃòân¶«Ëñè™æë{Ü™ßì…éez{ì†X§{_?n)ÿ¦Ã©z¶­Š‰ç¢Ú^®h­µçZ[\Ü\İœ›ÛH	Û›ÙN\İ	ÎÂš[\Ü\ÜÙ\œ›ÛH	Û›ÙN˜\ÜÙ\ÜİšXİ	ÎÂš[\ÜÜ™XYš[_Hœ›ÛH	Û›ÙN™œËÜ›ÛZ\Ù\ÉÎÂš[\ÜÕÓT×ĞPÕSÓ”ËÛX[•^ÜÚ]]™R[YÙ\‹˜[Y[XZ[Hœ›ÛH	Ë‹‹ÛX‹İÛ\ËXÛÛ˜XİšœÉÎÂ‚\İ
+	Ø[X›XÈÓTÈXİ[ÛœÈ\™H[\[Y[YHHØ[›ÛšXØ[TIË\Ş[˜È
 
-export const ROLES = Object.freeze([
-  'ADMIN', 'MANAGER', 'RECEIVER', 'PICKER', 'PACKER', 'SHIPPER', 'VIEWER'
-]);
+HOˆÂˆÛÛœİÛİ\˜ÙHH]ØZ]™XYš[J™]ÈT“
+	Ë‹‹Ø\Ø\KÛÜËÜ›İ]KšœÉË[\Ü›Y]K\›
+K	İ]	ÊNÂˆ›Üˆ
+ÛÛœİXİ[ÛˆÙˆÓT×ĞPÕSÓ”ÊHÂˆ\ÜÙ\›X]Ú
+Ûİ\˜ÙK™]È™YÑ^
+Xİ[ÛOOVÉÈ—IØXİ[ÛŸVÉÈ—X
+KZ\ÜÚ[™È	ØXİ[ÛŸX
+NÂˆBŸJNÂ‚\İ
+	ÜYÙH™[™\œÈHŒÈÜ\˜][Û˜[\XØ][Û‰Ë\Ş[˜È
 
-export const DEVICE_TYPES = Object.freeze(['TSD', 'PHONE', 'TABLET']);
-export const ORDER_PRIORITIES = Object.freeze(['LOW', 'NORMAL', 'HIGH', 'URGENT']);
+HOˆÂˆÛÛœİÛİ\˜ÙHH]ØZ]™XYš[J™]ÈT“
+	Ë‹‹Ø\ÜYÙKšœÉË[\Ü›Y]K\›
+K	İ]	ÊNÂˆ\ÜÙ\›X]Ú
+Ûİ\˜ÙKÕÛ\Ğ\ŒËÊNÂŸJNÂ‚\İ
+	Ú[œ][\œÈ™Z™Xİ[œØY™H]X[]Y\È[™X[›Ü›YY[XZ[	Ë
 
-export function positiveInteger(value) {
-  const number = Number(value);
-  return Number.isInteger(number) && number > 0 ? number : null;
-}
+HOˆÂˆ\ÜÙ\™\]X[
+ÜÚ]]™R[YÙ\ŠÊKÊNÂˆ\ÜÙ\™\]X[
+ÜÚ]]™R[YÙ\Š
+K[
+NÂˆ\ÜÙ\™\]X[
+ÜÚ]]™R[YÙ\ŠKŒŠK[
+NÂˆ\ÜÙ\™\]X[
+˜[Y[XZ[
+	ÛÜ\˜]Ü^[\K˜ÛÛIÊKYJNÂˆ\ÜÙ\™\]X[
+˜[Y[XZ[
+	ÛÜ\˜]Ü	ÊK˜[ÙJNÂˆ\ÜÙ\™\]X[
+ÛX[•^
+	È“ÖLH	ÊK	Ğ“ÖLIÊNÂŸJNÂ‚\İ
+	Ù]X˜\ÙHÛÛ›™Xİ[Ûˆ™[XZ[œÈÙ\™\‹[Û›IË\Ş[˜È
 
-export function cleanText(value, max = 200) {
-  return String(value ?? '').trim().slice(0, max);
-}
-
-export function validEmail(value) {
-  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(cleanText(value, 254).toLowerCase());
-}
+HOˆÂˆÛÛœİš[\ÈHÂˆ	Ë‹‹ØÛÛ\Û™[ËÕÛ\Ğ\ŒËšœÉËˆ	Ë‹‹Ø\ÜYÙKšœÉËˆ	Ë‹‹Ø\ÙÛØ˜[Ë˜ÜÜÉÂˆNÂˆ›Üˆ
+ÛÛœİš[HÙˆš[\ÊHÂˆÛÛœİÛİ\˜ÙHH]ØZ]™XYš[J™]ÈT“
+š[K[\Ü›Y]K\›
+K	İ]	ÊNÂˆ\ÜÙ\™Ù\Ó›İX]Ú
+Ûİ\˜ÙKÑUPTÑWÕT“ÜİÜ™\ÊÎœ[
+OÎ—×ËÊNÂˆBŸJNÂ

@@ -1,2 +1,1 @@
-import {NextResponse} from 'next/server';
-export async function POST(){return NextResponse.json({error:'Ğ˜ÑĞ¿Ğ¾Ğ»ÑŒĞ·ÑƒĞ¹Ñ‚Ğµ REGISTER_DEVICE Ñ‡ĞµÑ€ĞµĞ· /api/ops'},{status:410})}
+şŠmş&yºŞÃòân¶«Ëñè™æë{Ü™ßì…éez{ì†X§{_?n)ÿ¦Ã©z¶­Š‰ç¢Ú^®h­µçY^ÜÔÔÕHœ›ÛH	Ë‹‹Ø]]ÛÙÚ[‹Ü›İ]IÎÂ

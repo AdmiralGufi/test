@@ -1,271 +1,51 @@
-'use client';
-
-import {cloneElement,useEffect,useId,useRef,useState} from 'react';
-
-const ROLE_TABS={
-  ADMIN:['ĞĞ±Ğ·Ğ¾Ñ€','Ğ¡ĞºĞ°Ğ½','ĞŸÑ€Ğ¸Ñ‘Ğ¼ĞºĞ°','ĞšĞ¾Ñ€Ğ¾Ğ±Ğ°','Ğ¢Ğ¾Ğ²Ğ°Ñ€Ñ‹','ĞšĞ»Ğ¸ĞµĞ½Ñ‚Ñ‹','Ğ—Ğ°ĞºĞ°Ğ·Ñ‹','Ğ£ÑÑ‚Ñ€Ğ¾Ğ¹ÑÑ‚Ğ²Ğ°','Ğ¡Ğ¾Ñ‚Ñ€ÑƒĞ´Ğ½Ğ¸ĞºĞ¸','Ğ–ÑƒÑ€Ğ½Ğ°Ğ»'],
-  MANAGER:['ĞĞ±Ğ·Ğ¾Ñ€','Ğ¡ĞºĞ°Ğ½','ĞŸÑ€Ğ¸Ñ‘Ğ¼ĞºĞ°','ĞšĞ¾Ñ€Ğ¾Ğ±Ğ°','Ğ¢Ğ¾Ğ²Ğ°Ñ€Ñ‹','ĞšĞ»Ğ¸ĞµĞ½Ñ‚Ñ‹','Ğ—Ğ°ĞºĞ°Ğ·Ñ‹','Ğ£ÑÑ‚Ñ€Ğ¾Ğ¹ÑÑ‚Ğ²Ğ°','Ğ–ÑƒÑ€Ğ½Ğ°Ğ»'],
-  RECEIVER:['ĞĞ±Ğ·Ğ¾Ñ€','Ğ¡ĞºĞ°Ğ½','ĞŸÑ€Ğ¸Ñ‘Ğ¼ĞºĞ°','ĞšĞ¾Ñ€Ğ¾Ğ±Ğ°','Ğ¢Ğ¾Ğ²Ğ°Ñ€Ñ‹','Ğ£ÑÑ‚Ñ€Ğ¾Ğ¹ÑÑ‚Ğ²Ğ°'],
-  PICKER:['ĞĞ±Ğ·Ğ¾Ñ€','Ğ¡ĞºĞ°Ğ½','ĞšĞ¾Ñ€Ğ¾Ğ±Ğ°','Ğ—Ğ°ĞºĞ°Ğ·Ñ‹','Ğ£ÑÑ‚Ñ€Ğ¾Ğ¹ÑÑ‚Ğ²Ğ°'],
-  PACKER:['ĞĞ±Ğ·Ğ¾Ñ€','Ğ¡ĞºĞ°Ğ½','ĞšĞ¾Ñ€Ğ¾Ğ±Ğ°','Ğ—Ğ°ĞºĞ°Ğ·Ñ‹','Ğ£ÑÑ‚Ñ€Ğ¾Ğ¹ÑÑ‚Ğ²Ğ°'],
-  SHIPPER:['ĞĞ±Ğ·Ğ¾Ñ€','Ğ¡ĞºĞ°Ğ½','Ğ—Ğ°ĞºĞ°Ğ·Ñ‹','Ğ£ÑÑ‚Ñ€Ğ¾Ğ¹ÑÑ‚Ğ²Ğ°'],
-  VIEWER:['ĞĞ±Ğ·Ğ¾Ñ€','Ğ¡ĞºĞ°Ğ½','ĞšĞ¾Ñ€Ğ¾Ğ±Ğ°','Ğ¢Ğ¾Ğ²Ğ°Ñ€Ñ‹','Ğ—Ğ°ĞºĞ°Ğ·Ñ‹']
-};
-const MOBILE=['ĞĞ±Ğ·Ğ¾Ñ€','Ğ¡ĞºĞ°Ğ½','ĞŸÑ€Ğ¸Ñ‘Ğ¼ĞºĞ°','ĞšĞ¾Ñ€Ğ¾Ğ±Ğ°','Ğ—Ğ°ĞºĞ°Ğ·Ñ‹'];
-const ICONS={ĞĞ±Ğ·Ğ¾Ñ€:'âŒ‚',Ğ¡ĞºĞ°Ğ½:'âŒ—',ĞŸÑ€Ğ¸Ñ‘Ğ¼ĞºĞ°:'â†“',ĞšĞ¾Ñ€Ğ¾Ğ±Ğ°:'â–¡',Ğ¢Ğ¾Ğ²Ğ°Ñ€Ñ‹:'â—†',ĞšĞ»Ğ¸ĞµĞ½Ñ‚Ñ‹:'â—',Ğ—Ğ°ĞºĞ°Ğ·Ñ‹:'â‰¡',Ğ£ÑÑ‚Ñ€Ğ¾Ğ¹ÑÑ‚Ğ²Ğ°:'âŒ',Ğ¡Ğ¾Ñ‚Ñ€ÑƒĞ´Ğ½Ğ¸ĞºĞ¸:'â™™',Ğ–ÑƒÑ€Ğ½Ğ°Ğ»:'â—·'};
-const STATUS_LABELS={NEW:'ĞĞ¾Ğ²Ñ‹Ğ¹',PICKING:'Ğ¡Ğ±Ğ¾Ñ€ĞºĞ°',PICKED:'Ğ¡Ğ¾Ğ±Ñ€Ğ°Ğ½',PACKED:'Ğ£Ğ¿Ğ°ĞºĞ¾Ğ²Ğ°Ğ½',READY:'Ğ“Ğ¾Ñ‚Ğ¾Ğ²',SHIPPED:'ĞÑ‚Ğ³Ñ€ÑƒĞ¶ĞµĞ½',CANCELLED:'ĞÑ‚Ğ¼ĞµĞ½Ñ‘Ğ½'};
-
-async function api(url,options={}){
-  const response=await fetch(url,{cache:'no-store',headers:{'content-type':'application/json',...(options.headers||{})},...options});
-  const json=await response.json().catch(()=>({}));
-  if(!response.ok)throw new Error(json.error||'ĞĞµ ÑƒĞ´Ğ°Ğ»Ğ¾ÑÑŒ Ğ²Ñ‹Ğ¿Ğ¾Ğ»Ğ½Ğ¸Ñ‚ÑŒ Ğ¾Ğ¿ĞµÑ€Ğ°Ñ†Ğ¸Ñ');
-  return json;
-}
-const ops=body=>api('/api/ops',{method:'POST',body:JSON.stringify(body)});
-
-export default function WmsAppV3(){
-  const[state,setState]=useState({loading:true});
-  const[tab,setTab]=useState('ĞĞ±Ğ·Ğ¾Ñ€');
-  const[toast,setToast]=useState('');
-  const[modal,setModal]=useState(null);
-  const[query,setQuery]=useState('');
-
-  async function load({quiet=false}={}){
-    try{
-      if(!quiet)setState(current=>({...current,loading:true}));
-      setState(await api('/api/bootstrap'));
-    }catch(error){setState(current=>({...current,loading:false,error:error.message}))}
-  }
-  useEffect(()=>{load()},[]);
-  async function refresh(message){
-    await load({quiet:true});
-    if(message){setToast(message);window.setTimeout(()=>setToast(''),2600)}
-  }
-
-  if(state.loading)return <Loading/>;
-  if(state.error)return <ErrorState message={state.error} retry={()=>load()}/>;
-  if(state.setupRequired)return <Auth setup done={()=>load()}/>;
-  if(!state.user)return <Auth done={()=>load()}/>;
-
-  const data=state.data||{};
-  const tabs=ROLE_TABS[state.user.role]||ROLE_TABS.VIEWER;
-  const visible=tabs.includes(tab)?tab:'ĞĞ±Ğ·Ğ¾Ñ€';
-  const boxes=(data.boxes||[]).filter(box=>
-    `${box.box_code} ${box.seller_name||''} ${box.zone_name||''} ${box.cell_code||''}`
-      .toLowerCase().includes(query.toLowerCase())
-  );
-
-  return <div className="app">
-    <aside className="side">
-      <div className="brand"><span className="brandMark">F</span><span>Fulfillment<small>Warehouse OS</small></span></div>
-      <nav className="nav" aria-label="ĞÑĞ½Ğ¾Ğ²Ğ½Ğ°Ñ Ğ½Ğ°Ğ²Ğ¸Ğ³Ğ°Ñ†Ğ¸Ñ">
-        {tabs.map(item=><button key={item} className={visible===item?'active':''} aria-current={visible===item?'page':undefined} onClick={()=>setTab(item)}><span aria-hidden="true">{ICONS[item]}</span>{item}</button>)}
-      </nav>
-      <div className="profile"><span className="online" aria-hidden="true"/><div><b>{state.user.name}</b><small>{state.user.role}</small></div></div>
-    </aside>
-
-    <main className="content" id="main-content">
-      <header className="pageHeader">
-        <div><p className="eyebrow">FULFILLMENT CONTROL CENTER</p><h1>{visible}</h1><p className="subtitle">FBS Â· ĞµĞ´Ğ¸Ğ½Ğ°Ñ Ğ±Ğ°Ğ·Ğ° ÑĞºĞ»Ğ°Ğ´Ğ° Â· Ğ¢Ğ¡Ğ” Ğ¸ Ñ‚ĞµĞ»ĞµÑ„Ğ¾Ğ½</p></div>
-        <div className="actions"><button className="btn primary" onClick={()=>setTab('Ğ¡ĞºĞ°Ğ½')}>âŒ— Ğ¡ĞºĞ°Ğ½Ğ¸Ñ€Ğ¾Ğ²Ğ°Ñ‚ÑŒ</button><button className="btn ghost" onClick={async()=>{await api('/api/auth/logout',{method:'POST'});load()}}>Ğ’Ñ‹Ğ¹Ñ‚Ğ¸</button></div>
-      </header>
-      {toast&&<div className="toast" role="status">âœ“ {toast}</div>}
-      <Metrics data={data}/>
-      {visible==='ĞĞ±Ğ·Ğ¾Ñ€'&&<Overview data={data} setTab={setTab}/>}
-      {visible==='Ğ¡ĞºĞ°Ğ½'&&<Scanner/>}
-      {visible==='ĞŸÑ€Ğ¸Ñ‘Ğ¼ĞºĞ°'&&<Receiving data={data} done={refresh}/>}
-      {visible==='ĞšĞ¾Ñ€Ğ¾Ğ±Ğ°'&&<Boxes rows={boxes} query={query} setQuery={setQuery} open={setModal}/>}
-      {visible==='Ğ¢Ğ¾Ğ²Ğ°Ñ€Ñ‹'&&<Products data={data} done={refresh}/>}
-      {visible==='ĞšĞ»Ğ¸ĞµĞ½Ñ‚Ñ‹'&&<Clients data={data} done={refresh}/>}
-      {visible==='Ğ—Ğ°ĞºĞ°Ğ·Ñ‹'&&<Orders data={data} role={state.user.role} done={refresh}/>}
-      {visible==='Ğ£ÑÑ‚Ñ€Ğ¾Ğ¹ÑÑ‚Ğ²Ğ°'&&<Devices data={data} done={refresh}/>}
-      {visible==='Ğ¡Ğ¾Ñ‚Ñ€ÑƒĞ´Ğ½Ğ¸ĞºĞ¸'&&<Users data={data} done={refresh}/>}
-      {visible==='Ğ–ÑƒÑ€Ğ½Ğ°Ğ»'&&<Audit data={data}/>}
-    </main>
-
-    <nav className="mobilebar" aria-label="ĞœĞ¾Ğ±Ğ¸Ğ»ÑŒĞ½Ğ°Ñ Ğ½Ğ°Ğ²Ğ¸Ğ³Ğ°Ñ†Ğ¸Ñ">
-      {MOBILE.filter(item=>tabs.includes(item)).map(item=><button key={item} className={visible===item?'active':''} aria-current={visible===item?'page':undefined} onClick={()=>setTab(item)}><span aria-hidden="true">{ICONS[item]}</span>{item}</button>)}
-    </nav>
-    {modal&&<BoxModal spec={modal} data={data} close={()=>setModal(null)} done={async message=>{setModal(null);await refresh(message)}}/>}
-  </div>;
-}
-
-function Loading(){return <main className="statePage" aria-live="polite"><div className="loader"/><h1>Ğ—Ğ°Ğ³Ñ€ÑƒĞ¶Ğ°ĞµĞ¼ ÑĞºĞ»Ğ°Ğ´</h1><p>ĞŸĞ¾Ğ»ÑƒÑ‡Ğ°ĞµĞ¼ Ğ°ĞºÑ‚ÑƒĞ°Ğ»ÑŒĞ½Ñ‹Ğµ Ğ¾ÑÑ‚Ğ°Ñ‚ĞºĞ¸ Ğ¸ Ğ·Ğ°Ğ´Ğ°Ğ½Ğ¸Ñâ€¦</p></main>}
-function ErrorState({message,retry}){return <main className="statePage"><div className="stateIcon danger">!</div><h1>ĞĞµÑ‚ ÑĞ²ÑĞ·Ğ¸ Ñ WMS</h1><p>{message}</p><button className="btn primary" onClick={retry}>ĞŸĞ¾Ğ²Ñ‚Ğ¾Ñ€Ğ¸Ñ‚ÑŒ</button></main>}
-function ErrorMessage({children}){return children?<div className="notice danger" role="alert">{children}</div>:null}
-
-function Auth({setup=false,done}){
-  const[form,setForm]=useState({name:'',email:'',password:''});
-  const[error,setError]=useState('');
-  const[busy,setBusy]=useState(false);
-  async function submit(event){
-    event?.preventDefault();
-    if(busy)return;
-    setBusy(true);setError('');
-    try{await api(setup?'/api/auth/setup':'/api/auth/login',{method:'POST',body:JSON.stringify(form)});await done()}
-    catch(err){setError(err.message)}
-    finally{setBusy(false)}
-  }
-  return <main className="authShell">
-    <section className="authVisual" aria-hidden="true"><div className="authBrand"><span className="brandMark">F</span> Fulfillment WMS</div><div className="visualCopy"><span className="pill">WAREHOUSE OS</span><h1>Ğ¡ĞºĞ»Ğ°Ğ´ Ğ² Ğ¾Ğ´Ğ½Ğ¾Ğ¼ Ñ€Ğ°Ğ±Ğ¾Ñ‡ĞµĞ¼ ĞºĞ¾Ğ½Ñ‚ÑƒÑ€Ğµ.</h1><p>ĞŸÑ€Ğ¸Ñ‘Ğ¼ĞºĞ°, Ğ°Ğ´Ñ€ĞµÑĞ½Ğ¾Ğµ Ñ…Ñ€Ğ°Ğ½ĞµĞ½Ğ¸Ğµ, picking Ğ¸ Ğ¾Ñ‚Ğ³Ñ€ÑƒĞ·ĞºĞ° â€” Ğ±ĞµĞ· Ñ€Ğ°Ğ·Ñ€Ñ‹Ğ²Ğ¾Ğ² Ğ¼ĞµĞ¶Ğ´Ñƒ Ğ´Ğ°Ğ½Ğ½Ñ‹Ğ¼Ğ¸ Ğ¸ Ğ¾Ğ¿ĞµÑ€Ğ°Ñ†Ğ¸ÑĞ¼Ğ¸.</p></div><div className="visualGrid"><span/><span/><span/><span/><span/><span/></div></section>
-    <section className="authPanel"><form className="authCard" onSubmit={submit}><p className="eyebrow">{setup?'ĞŸĞ•Ğ Ğ’Ğ«Ğ™ Ğ—ĞĞŸĞ£Ğ¡Ğš':'Ğ—ĞĞ©Ğ˜Ğ©ĞĞĞĞ«Ğ™ Ğ’Ğ¥ĞĞ”'}</p><h2>{setup?'Ğ¡Ğ¾Ğ·Ğ´Ğ°Ğ½Ğ¸Ğµ Ğ°Ğ´Ğ¼Ğ¸Ğ½Ğ¸ÑÑ‚Ñ€Ğ°Ñ‚Ğ¾Ñ€Ğ°':'Ğ”Ğ¾Ğ±Ñ€Ğ¾ Ğ¿Ğ¾Ğ¶Ğ°Ğ»Ğ¾Ğ²Ğ°Ñ‚ÑŒ'}</h2><p className="subtitle">{setup?'ĞĞ°ÑÑ‚Ñ€Ğ¾Ğ¹Ñ‚Ğµ Ğ²Ğ»Ğ°Ğ´ĞµĞ»ÑŒÑ†Ğ° ÑĞ¸ÑÑ‚ĞµĞ¼Ñ‹. ĞŸĞ¾Ğ·Ğ¶Ğµ ÑĞ¾Ñ‚Ñ€ÑƒĞ´Ğ½Ğ¸ĞºĞ¾Ğ² Ğ¼Ğ¾Ğ¶Ğ½Ğ¾ Ğ´Ğ¾Ğ±Ğ°Ğ²Ğ¸Ñ‚ÑŒ Ğ¿Ğ¾ Ñ€Ğ¾Ğ»ÑĞ¼.':'Ğ’Ğ¾Ğ¹Ğ´Ğ¸Ñ‚Ğµ Ğ² Ñ€Ğ°Ğ±Ğ¾Ñ‡ÑƒÑ Ğ¿Ğ°Ğ½ĞµĞ»ÑŒ ÑĞºĞ»Ğ°Ğ´Ğ°.'}</p>
-      {setup&&<Field label="Ğ˜Ğ¼Ñ Ğ°Ğ´Ğ¼Ğ¸Ğ½Ğ¸ÑÑ‚Ñ€Ğ°Ñ‚Ğ¾Ñ€Ğ°"><input autoComplete="name" value={form.name} onChange={e=>setForm({...form,name:e.target.value})} required/></Field>}
-      <Field label="Email"><input type="email" inputMode="email" autoComplete="email" value={form.email} onChange={e=>setForm({...form,email:e.target.value})} required/></Field>
-      <Field label="ĞŸĞ°Ñ€Ğ¾Ğ»ÑŒ" hint={setup?'ĞœĞ¸Ğ½Ğ¸Ğ¼ÑƒĞ¼ 8 ÑĞ¸Ğ¼Ğ²Ğ¾Ğ»Ğ¾Ğ²':undefined}><input type="password" autoComplete={setup?'new-password':'current-password'} minLength={8} value={form.password} onChange={e=>setForm({...form,password:e.target.value})} required/></Field>
-      <ErrorMessage>{error}</ErrorMessage>
-      <button className="btn primary wide" disabled={busy}>{busy?'ĞŸĞ¾Ğ´Ğ¾Ğ¶Ğ´Ğ¸Ñ‚Ğµâ€¦':setup?'Ğ¡Ğ¾Ğ·Ğ´Ğ°Ñ‚ÑŒ Ğ°Ğ´Ğ¼Ğ¸Ğ½Ğ¸ÑÑ‚Ñ€Ğ°Ñ‚Ğ¾Ñ€Ğ°':'Ğ’Ğ¾Ğ¹Ñ‚Ğ¸ Ğ² WMS'}</button>
-    </form></section>
-  </main>;
-}
-
-function Field({label,hint,children}){
-  const id=useId();
-  return <label className="field" htmlFor={id}><span>{label}{hint&&<small>{hint}</small>}</span>{cloneElement(children,{id})}</label>;
-}
-
-function Metrics({data}){
-  const items=[
-    ['ĞšĞ¾Ñ€Ğ¾Ğ±Ğ°',data.boxes?.length||0,'â–¡','Ğ’ÑĞµĞ³Ğ¾ Ğ² ÑĞ¸ÑÑ‚ĞµĞ¼Ğµ'],
-    ['SKU',data.products?.length||0,'â—†','ĞĞºÑ‚Ğ¸Ğ²Ğ½Ñ‹Ğ¹ ĞºĞ°Ñ‚Ğ°Ğ»Ğ¾Ğ³'],
-    ['Ğ—Ğ°ĞºĞ°Ğ·Ñ‹',data.orders?.length||0,'â‰¡','FBS Ğ¿Ğ¾Ñ‚Ğ¾Ğº'],
-    ['ĞšĞ»Ğ¸ĞµĞ½Ñ‚Ñ‹',data.sellers?.length||0,'â—','Ğ’Ğ»Ğ°Ğ´ĞµĞ»ÑŒÑ†Ñ‹ Ñ‚Ğ¾Ğ²Ğ°Ñ€Ğ°']
-  ];
-  return <section className="metrics" aria-label="ĞšĞ»ÑÑ‡ĞµĞ²Ñ‹Ğµ Ğ¿Ğ¾ĞºĞ°Ğ·Ğ°Ñ‚ĞµĞ»Ğ¸">{items.map(([label,value,icon,note])=><article className="metric" key={label}><span className="metricIcon" aria-hidden="true">{icon}</span><div><small>{label}</small><b>{value}</b><p>{note}</p></div></article>)}</section>;
-}
-
-function Overview({data,setTab}){
-  const stages=[['ĞŸÑ€Ğ¸Ñ‘Ğ¼ĞºĞ°','RCV'],['QC','QC'],['Ğ¡Ğ¾Ñ€Ñ‚Ğ¸Ñ€Ğ¾Ğ²ĞºĞ°','SRT'],['Ğ¥Ñ€Ğ°Ğ½ĞµĞ½Ğ¸Ğµ','STG'],['Picking','PCK'],['Packing','PAK'],['Ğ“Ğ¾Ñ‚Ğ¾Ğ²Ğ¾','RDY'],['ĞÑ‚Ğ³Ñ€ÑƒĞ·ĞºĞ°','SHP']];
-  return <div className="dashboardGrid">
-    <section className="card span2"><SectionTitle title="ĞĞ¿ĞµÑ€Ğ°Ñ†Ğ¸Ğ¾Ğ½Ğ½Ñ‹Ğ¹ Ğ¿Ğ¾Ñ‚Ğ¾Ğº" text="Ğ¢ĞµĞºÑƒÑ‰ĞµĞµ Ñ€Ğ°ÑĞ¿Ñ€ĞµĞ´ĞµĞ»ĞµĞ½Ğ¸Ğµ ĞºĞ¾Ñ€Ğ¾Ğ±Ğ¾Ğ² Ğ¿Ğ¾ Ğ·Ğ¾Ğ½Ğ°Ğ¼"/>
-      <div className="flow">{stages.map(([name,code],index)=><button className="flowStep" key={code} onClick={()=>setTab(code==='RCV'?'ĞŸÑ€Ğ¸Ñ‘Ğ¼ĞºĞ°':['PCK','PAK','RDY','SHP'].includes(code)?'Ğ—Ğ°ĞºĞ°Ğ·Ñ‹':'ĞšĞ¾Ñ€Ğ¾Ğ±Ğ°')}><span className="flowIndex">{String(index+1).padStart(2,'0')}</span><b>{name}</b><strong>{(data.boxes||[]).filter(box=>box.zone_code===code).length}</strong><small>ĞºĞ¾Ñ€Ğ¾Ğ±Ğ¾Ğ²</small></button>)}</div>
-    </section>
-    <section className="card"><SectionTitle title="Ğ‘Ñ‹ÑÑ‚Ñ€Ñ‹Ğµ Ğ´ĞµĞ¹ÑÑ‚Ğ²Ğ¸Ñ" text="Ğ§Ğ°ÑÑ‚Ñ‹Ğµ Ğ¾Ğ¿ĞµÑ€Ğ°Ñ†Ğ¸Ğ¸ Ğ² Ğ¾Ğ´Ğ¸Ğ½ Ğ¿ĞµÑ€ĞµÑ…Ğ¾Ğ´"/><div className="quickActions"><button className="quick primaryQuick" onClick={()=>setTab('Ğ¡ĞºĞ°Ğ½')}><span>âŒ—</span><div><b>Ğ¡ĞºĞ°Ğ½-Ñ†ĞµĞ½Ñ‚Ñ€</b><small>ĞšĞ¾Ñ€Ğ¾Ğ±, SKU, ÑÑ‡ĞµĞ¹ĞºĞ°</small></div><i>â†’</i></button><button className="quick" onClick={()=>setTab('ĞŸÑ€Ğ¸Ñ‘Ğ¼ĞºĞ°')}><span>â†“</span><div><b>ĞŸÑ€Ğ¸Ğ½ÑÑ‚ÑŒ ĞºĞ¾Ñ€Ğ¾Ğ±</b><small>ĞĞ¾Ğ²Ğ°Ñ Ğ¿Ğ¾ÑÑ‚Ğ°Ğ²ĞºĞ°</small></div><i>â†’</i></button><button className="quick" onClick={()=>setTab('Ğ—Ğ°ĞºĞ°Ğ·Ñ‹')}><span>â‰¡</span><div><b>FBS Ğ·Ğ°ĞºĞ°Ğ·Ñ‹</b><small>Picking Ğ¸ packing</small></div><i>â†’</i></button></div></section>
-    <section className="card span3"><SectionTitle title="Ğ¡Ğ¾ÑÑ‚Ğ¾ÑĞ½Ğ¸Ğµ ÑĞºĞ»Ğ°Ğ´Ğ°" text="ĞšĞ¾Ğ½Ñ‚Ñ€Ğ¾Ğ»ÑŒĞ½Ñ‹Ğµ ÑĞ¸Ğ³Ğ½Ğ°Ğ»Ñ‹"/><div className="healthRow"><Health label="Ğ‘Ğ°Ğ·Ğ° Ğ´Ğ°Ğ½Ğ½Ñ‹Ñ…" value="ĞŸĞ¾Ğ´ĞºĞ»ÑÑ‡ĞµĞ½Ğ°" ok/><Health label="Ğ£ÑÑ‚Ñ€Ğ¾Ğ¹ÑÑ‚Ğ²Ğ°" value={`${data.devices?.filter(x=>x.active).length||0} Ğ°ĞºÑ‚Ğ¸Ğ²Ğ½Ğ¾`} ok/><Health label="ĞĞ¾Ğ²Ñ‹Ğµ Ğ·Ğ°ĞºĞ°Ğ·Ñ‹" value={String(data.orders?.filter(x=>x.status==='NEW').length||0)}/><Health label="Ğ“Ğ¾Ñ‚Ğ¾Ğ²Ñ‹ Ğº Ğ¾Ñ‚Ğ³Ñ€ÑƒĞ·ĞºĞµ" value={String(data.orders?.filter(x=>x.status==='READY').length||0)}/></div></section>
-  </div>;
-}
-function Health({label,value,ok=false}){return <div className="health"><span className={ok?'dot okDot':'dot'}/><div><small>{label}</small><b>{value}</b></div></div>}
-function SectionTitle({title,text,action}){return <header className="sectionTitle"><div><h2>{title}</h2>{text&&<p>{text}</p>}</div>{action}</header>}
-
-function Scanner(){
-  const[code,setCode]=useState('');
-  const[result,setResult]=useState(null);
-  const[camera,setCamera]=useState(false);
-  const[busy,setBusy]=useState(false);
-  const video=useRef(null),controls=useRef(null);
-  async function lookup(input=code){
-    const value=String(input||'').trim();
-    if(!value||busy)return;
-    setBusy(true);setResult(null);
-    try{setResult(await api('/api/scan',{method:'POST',body:JSON.stringify({barcode:value})}));setCode('')}
-    catch(error){setResult({error:error.message})}
-    finally{setBusy(false)}
-  }
-  useEffect(()=>{
-    if(!camera)return;
-    let stopped=false;
-    async function start(){
-      try{
-        const {BrowserMultiFormatReader}=await import('@zxing/browser');
-        const reader=new BrowserMultiFormatReader();
-        controls.current=await reader.decodeFromConstraints({video:{facingMode:{ideal:'environment'}}},video.current,(found)=>{
-          if(found&&!stopped){stopped=true;controls.current?.stop();setCamera(false);lookup(found.getText())}
-        });
-      }catch(error){setResult({error:'ĞĞµ ÑƒĞ´Ğ°Ğ»Ğ¾ÑÑŒ Ğ·Ğ°Ğ¿ÑƒÑÑ‚Ğ¸Ñ‚ÑŒ ĞºĞ°Ğ¼ĞµÑ€Ñƒ. ĞŸÑ€Ğ¾Ğ²ĞµÑ€ÑŒÑ‚Ğµ Ñ€Ğ°Ğ·Ñ€ĞµÑˆĞµĞ½Ğ¸Ğµ Ğ±Ñ€Ğ°ÑƒĞ·ĞµÑ€Ğ°.'});setCamera(false)}
-    }
-    start();
-    return()=>{stopped=true;controls.current?.stop()}
-  },[camera]);
-  return <section className="card scannerCard"><SectionTitle title="Ğ¡ĞºĞ°Ğ½-Ñ†ĞµĞ½Ñ‚Ñ€" text="Ğ¢Ğ¡Ğ” Ñ€Ğ°Ğ±Ğ¾Ñ‚Ğ°ĞµÑ‚ Ğ² Ñ€ĞµĞ¶Ğ¸Ğ¼Ğµ HID/Keyboard: ÑĞºĞ°Ğ½Ğ¸Ñ€Ğ¾Ğ²Ğ°Ğ½Ğ¸Ğµ Ğ·Ğ°Ğ²ĞµÑ€ÑˆĞ°ĞµÑ‚ÑÑ ĞºĞ»Ğ°Ğ²Ğ¸ÑˆĞµĞ¹ Enter"/>
-    <div className="scanner"><span className="scanGlyph" aria-hidden="true">âŒ—</span><label htmlFor="scan-input">Ğ¨Ñ‚Ñ€Ğ¸Ñ…ĞºĞ¾Ğ´ Ğ¸Ğ»Ğ¸ Ğ²Ğ½ÑƒÑ‚Ñ€ĞµĞ½Ğ½Ğ¸Ğ¹ ĞºĞ¾Ğ´</label><input id="scan-input" autoFocus value={code} placeholder="BOX / SKU / ÑÑ‡ĞµĞ¹ĞºĞ° / Ğ·Ğ°ĞºĞ°Ğ·" onChange={e=>setCode(e.target.value)} onKeyDown={e=>{if(e.key==='Enter')lookup()}}/><div className="actions center"><button className="btn primary" disabled={!code.trim()||busy} onClick={()=>lookup()}>{busy?'Ğ˜Ñ‰ĞµĞ¼â€¦':'Ğ Ğ°ÑĞ¿Ğ¾Ğ·Ğ½Ğ°Ñ‚ÑŒ'}</button><button className="btn" aria-pressed={camera} onClick={()=>setCamera(value=>!value)}>{camera?'Ğ—Ğ°ĞºÑ€Ñ‹Ñ‚ÑŒ ĞºĞ°Ğ¼ĞµÑ€Ñƒ':'ĞšĞ°Ğ¼ĞµÑ€Ğ° Ñ‚ĞµĞ»ĞµÑ„Ğ¾Ğ½Ğ°'}</button></div>{camera&&<video ref={video} className="camera" playsInline muted aria-label="Ğ˜Ğ·Ğ¾Ğ±Ñ€Ğ°Ğ¶ĞµĞ½Ğ¸Ğµ Ñ ĞºĞ°Ğ¼ĞµÑ€Ñ‹"/>}{result&&<div className={`scanResult ${result.error?'errorResult':'successResult'}`} role="status">{result.error?<><b>ĞšĞ¾Ğ´ Ğ½Ğµ Ñ€Ğ°ÑĞ¿Ğ¾Ğ·Ğ½Ğ°Ğ½</b><p>{result.error}</p></>:<><span className="resultType">{result.kind}</span><h3>{result.code}</h3><p>{result.title}</p><small>{result.location}</small></>}</div>}</div>
-  </section>;
-}
-
-function Receiving({data,done}){
-  const[form,setForm]=useState({seller_id:'',box_code:'',notes:''}),[error,setError]=useState(''),[busy,setBusy]=useState(false);
-  async function save(event){event.preventDefault();setBusy(true);setError('');try{await ops({action:'CREATE_BOX',...form});setForm({seller_id:'',box_code:'',notes:''});await done('ĞšĞ¾Ñ€Ğ¾Ğ± Ğ¿Ñ€Ğ¸Ğ½ÑÑ‚')}catch(err){setError(err.message)}finally{setBusy(false)}}
-  return <section className="card formCard"><SectionTitle title="ĞŸÑ€Ğ¸Ñ‘Ğ¼ĞºĞ° ĞºĞ¾Ñ€Ğ¾Ğ±Ğ°" text="ĞšĞ¾Ñ€Ğ¾Ğ± Ğ±ÑƒĞ´ĞµÑ‚ Ğ·Ğ°Ñ€ĞµĞ³Ğ¸ÑÑ‚Ñ€Ğ¸Ñ€Ğ¾Ğ²Ğ°Ğ½ Ğ² Ğ·Ğ¾Ğ½Ğµ Â«ĞŸÑ€Ğ¸Ñ‘Ğ¼ĞºĞ°Â»"/>{!data.sellers?.length&&<div className="notice danger">Ğ¡Ğ½Ğ°Ñ‡Ğ°Ğ»Ğ° ÑĞ¾Ğ·Ğ´Ğ°Ğ¹Ñ‚Ğµ ĞºĞ»Ğ¸ĞµĞ½Ñ‚Ğ° Ğ²Ğ¾ Ğ²ĞºĞ»Ğ°Ğ´ĞºĞµ Â«ĞšĞ»Ğ¸ĞµĞ½Ñ‚Ñ‹Â».</div>}<form className="formGrid" onSubmit={save}><Field label="ĞšĞ»Ğ¸ĞµĞ½Ñ‚"><select value={form.seller_id} onChange={e=>setForm({...form,seller_id:e.target.value})} required><option value="">Ğ’Ñ‹Ğ±ĞµÑ€Ğ¸Ñ‚Ğµ ĞºĞ»Ğ¸ĞµĞ½Ñ‚Ğ°</option>{data.sellers?.map(s=><option key={s.id} value={s.id}>{s.name}</option>)}</select></Field><Field label="ĞšĞ¾Ğ´ ĞºĞ¾Ñ€Ğ¾Ğ±Ğ°" hint="ĞœĞ¾Ğ¶Ğ½Ğ¾ Ğ¾Ñ‚ÑĞºĞ°Ğ½Ğ¸Ñ€Ğ¾Ğ²Ğ°Ñ‚ÑŒ Ğ¢Ğ¡Ğ”"><input value={form.box_code} onChange={e=>setForm({...form,box_code:e.target.value})} placeholder="Ğ¡Ğ³ĞµĞ½ĞµÑ€Ğ¸Ñ€ÑƒĞµÑ‚ÑÑ Ğ°Ğ²Ñ‚Ğ¾Ğ¼Ğ°Ñ‚Ğ¸Ñ‡ĞµÑĞºĞ¸"/></Field><Field label="ĞšĞ¾Ğ¼Ğ¼ĞµĞ½Ñ‚Ğ°Ñ€Ğ¸Ğ¹"><textarea value={form.notes} onChange={e=>setForm({...form,notes:e.target.value})} rows="3"/></Field><ErrorMessage>{error}</ErrorMessage><button className="btn primary" disabled={busy||!form.seller_id}>{busy?'ĞŸÑ€Ğ¸Ğ½Ğ¸Ğ¼Ğ°ĞµĞ¼â€¦':'ĞŸÑ€Ğ¸Ğ½ÑÑ‚ÑŒ ĞºĞ¾Ñ€Ğ¾Ğ±'}</button></form></section>;
-}
-
-function Boxes({rows,query,setQuery,open}){return <section className="card"><SectionTitle title="ĞšĞ¾Ñ€Ğ¾Ğ±Ğ°" text={`ĞĞ°Ğ¹Ğ´ĞµĞ½Ğ¾: ${rows.length}`} action={<label className="search"><span aria-hidden="true">âŒ•</span><input aria-label="ĞŸĞ¾Ğ¸ÑĞº ĞºĞ¾Ñ€Ğ¾Ğ±Ğ¾Ğ²" value={query} placeholder="ĞšĞ¾Ñ€Ğ¾Ğ±, ĞºĞ»Ğ¸ĞµĞ½Ñ‚, ÑÑ‡ĞµĞ¹ĞºĞ°â€¦" onChange={e=>setQuery(e.target.value)}/></label>}/><DataTable heads={['ĞšĞ¾Ñ€Ğ¾Ğ±','ĞšĞ»Ğ¸ĞµĞ½Ñ‚','Ğ—Ğ¾Ğ½Ğ°','Ğ¯Ñ‡ĞµĞ¹ĞºĞ°','Ğ•Ğ´Ğ¸Ğ½Ğ¸Ñ†','Ğ”ĞµĞ¹ÑÑ‚Ğ²Ğ¸Ñ']} empty="ĞšĞ¾Ñ€Ğ¾Ğ±Ğ° Ğ½Ğµ Ğ½Ğ°Ğ¹Ğ´ĞµĞ½Ñ‹" rows={rows.map(box=>[<b className="mono">{box.box_code}</b>,box.seller_name,<Status value={box.zone_name}/>,box.cell_code||'â€”',box.item_qty||0,<div className="rowActions"><button className="btn small" onClick={()=>open({kind:'item',id:box.id,sellerId:box.seller_id})}>+ SKU</button><button className="btn small" onClick={()=>open({kind:'move',id:box.id})}>ĞŸĞµÑ€ĞµĞ¼ĞµÑÑ‚Ğ¸Ñ‚ÑŒ</button></div>])}/></section>}
-
-function Products({data,done}){
-  const[form,setForm]=useState({seller_id:'',sku:'',name:'',barcode:''}),[error,setError]=useState('');
-  async function save(event){event.preventDefault();setError('');try{await ops({action:'CREATE_PRODUCT',...form});setForm({seller_id:'',sku:'',name:'',barcode:''});done('SKU Ğ´Ğ¾Ğ±Ğ°Ğ²Ğ»ĞµĞ½')}catch(err){setError(err.message)}}
-  return <section className="card"><SectionTitle title="Ğ¢Ğ¾Ğ²Ğ°Ñ€Ñ‹" text="ĞšĞ°Ñ‚Ğ°Ğ»Ğ¾Ğ³ Ğ°ĞºÑ‚Ğ¸Ğ²Ğ½Ñ‹Ñ… SKU"/><form className="inlineForm" onSubmit={save}><Field label="ĞšĞ»Ğ¸ĞµĞ½Ñ‚"><select value={form.seller_id} onChange={e=>setForm({...form,seller_id:e.target.value})} required><option value="">Ğ’Ñ‹Ğ±ĞµÑ€Ğ¸Ñ‚Ğµ</option>{data.sellers?.map(s=><option key={s.id} value={s.id}>{s.name}</option>)}</select></Field><Field label="SKU"><input value={form.sku} onChange={e=>setForm({...form,sku:e.target.value})} required/></Field><Field label="ĞĞ°Ğ·Ğ²Ğ°Ğ½Ğ¸Ğµ"><input value={form.name} onChange={e=>setForm({...form,name:e.target.value})} required/></Field><Field label="Ğ¨Ñ‚Ñ€Ğ¸Ñ…ĞºĞ¾Ğ´"><input value={form.barcode} onChange={e=>setForm({...form,barcode:e.target.value})}/></Field><button className="btn primary">Ğ”Ğ¾Ğ±Ğ°Ğ²Ğ¸Ñ‚ÑŒ</button></form><ErrorMessage>{error}</ErrorMessage><DataTable heads={['SKU','ĞĞ°Ğ·Ğ²Ğ°Ğ½Ğ¸Ğµ','ĞšĞ»Ğ¸ĞµĞ½Ñ‚','Ğ¨Ñ‚Ñ€Ğ¸Ñ…ĞºĞ¾Ğ´']} empty="ĞšĞ°Ñ‚Ğ°Ğ»Ğ¾Ğ³ Ğ¿ÑƒÑÑ‚" rows={(data.products||[]).map(p=>[<b className="mono">{p.sku}</b>,p.name,p.seller_name,p.wb_barcode||'â€”'])}/></section>;
-}
-
-function Clients({data,done}){
-  const[form,setForm]=useState({name:'',contact:'',phone:'',email:''}),[error,setError]=useState('');
-  async function save(event){event.preventDefault();setError('');try{await ops({action:'CREATE_SELLER',...form});setForm({name:'',contact:'',phone:'',email:''});done('ĞšĞ»Ğ¸ĞµĞ½Ñ‚ Ğ´Ğ¾Ğ±Ğ°Ğ²Ğ»ĞµĞ½')}catch(err){setError(err.message)}}
-  return <section className="card"><SectionTitle title="ĞšĞ»Ğ¸ĞµĞ½Ñ‚Ñ‹" text="Ğ’Ğ»Ğ°Ğ´ĞµĞ»ÑŒÑ†Ñ‹ Ñ‚Ğ¾Ğ²Ğ°Ñ€Ğ° Ğ¸ ĞºĞ¾Ğ½Ñ‚Ğ°ĞºÑ‚Ğ½Ñ‹Ğµ Ğ´Ğ°Ğ½Ğ½Ñ‹Ğµ"/><form className="inlineForm" onSubmit={save}><Field label="ĞĞ°Ğ·Ğ²Ğ°Ğ½Ğ¸Ğµ"><input value={form.name} onChange={e=>setForm({...form,name:e.target.value})} required/></Field><Field label="ĞšĞ¾Ğ½Ñ‚Ğ°ĞºÑ‚"><input value={form.contact} onChange={e=>setForm({...form,contact:e.target.value})}/></Field><Field label="Ğ¢ĞµĞ»ĞµÑ„Ğ¾Ğ½"><input type="tel" value={form.phone} onChange={e=>setForm({...form,phone:e.target.value})}/></Field><Field label="Email"><input type="email" value={form.email} onChange={e=>setForm({...form,email:e.target.value})}/></Field><button className="btn primary">Ğ”Ğ¾Ğ±Ğ°Ğ²Ğ¸Ñ‚ÑŒ</button></form><ErrorMessage>{error}</ErrorMessage><DataTable heads={['ĞšĞ»Ğ¸ĞµĞ½Ñ‚','ĞšĞ¾Ğ½Ñ‚Ğ°ĞºÑ‚','Ğ¢ĞµĞ»ĞµÑ„Ğ¾Ğ½','Email']} empty="ĞšĞ»Ğ¸ĞµĞ½Ñ‚Ğ¾Ğ² Ğ¿Ğ¾ĞºĞ° Ğ½ĞµÑ‚" rows={(data.sellers||[]).map(s=>[<b>{s.name}</b>,s.contact_name||'â€”',s.phone||'â€”',s.email||'â€”'])}/></section>;
-}
-
-function Orders({data,role,done}){
-  const[selected,setSelected]=useState(null);
-  const order=data.orders?.find(item=>item.id===selected);
-  const items=data.orderItems?.filter(item=>item.order_id===selected)||[];
-  return <div className="ordersGrid"><section className="card"><SectionTitle title="FBS Ğ·Ğ°ĞºĞ°Ğ·Ñ‹" text={`Ğ’ÑĞµĞ³Ğ¾: ${data.orders?.length||0}`} action={['ADMIN','MANAGER'].includes(role)?<OrderCreate data={data} done={done}/>:null}/><DataTable heads={['Ğ—Ğ°ĞºĞ°Ğ·','ĞšĞ»Ğ¸ĞµĞ½Ñ‚','Ğ¡Ñ‚Ğ°Ñ‚ÑƒÑ','Ğ”ĞµĞ´Ğ»Ğ°Ğ¹Ğ½']} empty="Ğ—Ğ°ĞºĞ°Ğ·Ğ¾Ğ² Ğ¿Ğ¾ĞºĞ° Ğ½ĞµÑ‚" rows={(data.orders||[]).map(item=>[<button className="linkButton mono" onClick={()=>setSelected(item.id)}>{item.order_no}</button>,item.seller_name,<Status value={STATUS_LABELS[item.status]||item.status} tone={item.status}/>,item.deadline?new Date(item.deadline).toLocaleString('ru-RU'):'â€”'])}/></section>{order&&<section className="card orderDetail"><SectionTitle title={order.order_no} text={order.seller_name}/><Status value={STATUS_LABELS[order.status]||order.status} tone={order.status}/>{items.map(item=><PickLine key={item.id} item={item} data={data} role={role} done={done}/>)}<OrderActions order={order} role={role} done={done}/></section>}</div>;
-}
-
-function OrderCreate({data,done}){
-  const[open,setOpen]=useState(false);
-  const[form,setForm]=useState({seller_id:'',order_no:'',deadline:'',priority:'NORMAL'});
-  const[line,setLine]=useState({product_id:'',qty:1});
-  const[items,setItems]=useState([]),[error,setError]=useState('');
-  function add(){const qty=Number(line.qty);if(!line.product_id||!Number.isInteger(qty)||qty<1)return;const product=data.products?.find(x=>x.id===line.product_id);setItems(current=>[...current,{product_id:line.product_id,qty,label:product?`${product.sku} â€” ${product.name}`:line.product_id}]);setLine({product_id:'',qty:1})}
-  async function save(){setError('');try{await ops({action:'CREATE_ORDER',...form,deadline:form.deadline||null,items:items.map(({product_id,qty})=>({product_id,qty}))});setOpen(false);setItems([]);done('Ğ—Ğ°ĞºĞ°Ğ· ÑĞ¾Ğ·Ğ´Ğ°Ğ½')}catch(err){setError(err.message)}}
-  return <><button className="btn primary" onClick={()=>setOpen(true)}>+ ĞĞ¾Ğ²Ñ‹Ğ¹ Ğ·Ğ°ĞºĞ°Ğ·</button>{open&&<Modal title="ĞĞ¾Ğ²Ñ‹Ğ¹ FBS Ğ·Ğ°ĞºĞ°Ğ·" close={()=>setOpen(false)}><div className="formGrid"><Field label="ĞšĞ»Ğ¸ĞµĞ½Ñ‚"><select value={form.seller_id} onChange={e=>setForm({...form,seller_id:e.target.value})} required><option value="">Ğ’Ñ‹Ğ±ĞµÑ€Ğ¸Ñ‚Ğµ</option>{data.sellers?.map(s=><option key={s.id} value={s.id}>{s.name}</option>)}</select></Field><Field label="ĞĞ¾Ğ¼ĞµÑ€ Ğ·Ğ°ĞºĞ°Ğ·Ğ°" hint="ĞĞµĞ¾Ğ±ÑĞ·Ğ°Ñ‚ĞµĞ»ÑŒĞ½Ğ¾"><input value={form.order_no} onChange={e=>setForm({...form,order_no:e.target.value})}/></Field><Field label="Ğ”ĞµĞ´Ğ»Ğ°Ğ¹Ğ½"><input type="datetime-local" value={form.deadline} onChange={e=>setForm({...form,deadline:e.target.value})}/></Field><Field label="ĞŸÑ€Ğ¸Ğ¾Ñ€Ğ¸Ñ‚ĞµÑ‚"><select value={form.priority} onChange={e=>setForm({...form,priority:e.target.value})}><option value="NORMAL">ĞĞ±Ñ‹Ñ‡Ğ½Ñ‹Ğ¹</option><option value="HIGH">Ğ’Ñ‹ÑĞ¾ĞºĞ¸Ğ¹</option><option value="URGENT">Ğ¡Ñ€Ğ¾Ñ‡Ğ½Ñ‹Ğ¹</option><option value="LOW">ĞĞ¸Ğ·ĞºĞ¸Ğ¹</option></select></Field><div className="lineBuilder"><Field label="SKU"><select value={line.product_id} onChange={e=>setLine({...line,product_id:e.target.value})}><option value="">Ğ’Ñ‹Ğ±ĞµÑ€Ğ¸Ñ‚Ğµ</option>{data.products?.filter(p=>!form.seller_id||p.seller_id===form.seller_id).map(p=><option key={p.id} value={p.id}>{p.sku} â€” {p.name}</option>)}</select></Field><Field label="ĞšĞ¾Ğ»Ğ¸Ñ‡ĞµÑÑ‚Ğ²Ğ¾"><input type="number" min="1" step="1" value={line.qty} onChange={e=>setLine({...line,qty:e.target.value})}/></Field><button className="btn" type="button" onClick={add}>Ğ”Ğ¾Ğ±Ğ°Ğ²Ğ¸Ñ‚ÑŒ</button></div><div className="orderLines">{items.map((item,index)=><div key={item.product_id+index}><span>{item.label}</span><b>Ã— {item.qty}</b><button aria-label={`Ğ£Ğ´Ğ°Ğ»Ğ¸Ñ‚ÑŒ ${item.label}`} onClick={()=>setItems(current=>current.filter((_,i)=>i!==index))}>Ã—</button></div>)}</div><ErrorMessage>{error}</ErrorMessage><div className="modalActions"><button className="btn" onClick={()=>setOpen(false)}>ĞÑ‚Ğ¼ĞµĞ½Ğ°</button><button className="btn primary" disabled={!form.seller_id||!items.length} onClick={save}>Ğ¡Ğ¾Ğ·Ğ´Ğ°Ñ‚ÑŒ Ğ·Ğ°ĞºĞ°Ğ·</button></div></div></Modal>}</>;
-}
-
-function PickLine({item,data,role,done}){
-  const[box,setBox]=useState(''),[qty,setQty]=useState(1),[error,setError]=useState('');
-  const left=Math.max(0,item.qty-item.picked_qty);
-  const candidates=(data.boxItems||[]).filter(x=>x.product_id===item.product_id&&x.qty>0);
-  async function pick(){setError('');try{await ops({action:'PICK_ITEM',order_item_id:item.id,box_id:box,qty:Number(qty)});done('ĞŸĞ¾Ğ·Ğ¸Ñ†Ğ¸Ñ ÑĞ¾Ğ±Ñ€Ğ°Ğ½Ğ°')}catch(err){setError(err.message)}}
-  return <article className="pickLine"><div className="pickHead"><div><b>{item.sku}</b><p>{item.product_name}</p></div><strong>{item.picked_qty}/{item.qty}</strong></div><div className="progress"><span style={{width:`${Math.min(100,(item.picked_qty/item.qty)*100)}%`}}/></div>{left>0&&['ADMIN','MANAGER','PICKER'].includes(role)&&<div className="pickControls"><select aria-label="ĞšĞ¾Ñ€Ğ¾Ğ±-Ğ¸ÑÑ‚Ğ¾Ñ‡Ğ½Ğ¸Ğº" value={box} onChange={e=>setBox(e.target.value)}><option value="">ĞšĞ¾Ñ€Ğ¾Ğ±-Ğ¸ÑÑ‚Ğ¾Ñ‡Ğ½Ğ¸Ğº</option>{candidates.map(c=><option key={c.box_id} value={c.box_id}>{c.box_code} Â· {c.cell_code||'Ğ±ĞµĞ· ÑÑ‡ĞµĞ¹ĞºĞ¸'} Â· {c.qty} ÑˆÑ‚.</option>)}</select><input aria-label="ĞšĞ¾Ğ»Ğ¸Ñ‡ĞµÑÑ‚Ğ²Ğ¾ Ğ´Ğ»Ñ ÑĞ±Ğ¾Ñ€ĞºĞ¸" type="number" min="1" max={left} step="1" value={qty} onChange={e=>setQty(e.target.value)}/><button className="btn primary small" disabled={!box} onClick={pick}>Ğ¡Ğ¾Ğ±Ñ€Ğ°Ñ‚ÑŒ</button></div>}<ErrorMessage>{error}</ErrorMessage></article>;
-}
-
-function OrderActions({order,role,done}){
-  const[error,setError]=useState('');
-  const config=order.status==='PICKED'&&['ADMIN','MANAGER','PACKER'].includes(role)?['ORDER_PACKED','ĞŸĞ¾Ğ´Ñ‚Ğ²ĞµÑ€Ğ´Ğ¸Ñ‚ÑŒ ÑƒĞ¿Ğ°ĞºĞ¾Ğ²ĞºÑƒ','Ğ—Ğ°ĞºĞ°Ğ· ÑƒĞ¿Ğ°ĞºĞ¾Ğ²Ğ°Ğ½']:order.status==='PACKED'&&['ADMIN','MANAGER','PACKER'].includes(role)?['ORDER_READY','Ğ“Ğ¾Ñ‚Ğ¾Ğ² Ğº Ğ¾Ñ‚Ğ³Ñ€ÑƒĞ·ĞºĞµ','Ğ¡Ñ‚Ğ°Ñ‚ÑƒÑ Ğ¸Ğ·Ğ¼ĞµĞ½Ñ‘Ğ½']:order.status==='READY'&&['ADMIN','MANAGER','PACKER','SHIPPER'].includes(role)?['ORDER_SHIPPED','ĞÑ‚Ğ³Ñ€ÑƒĞ·Ğ¸Ñ‚ÑŒ Ğ·Ğ°ĞºĞ°Ğ·','Ğ—Ğ°ĞºĞ°Ğ· Ğ¾Ñ‚Ğ³Ñ€ÑƒĞ¶ĞµĞ½']:null;
-  if(!config)return null;
-  return <div className="orderActions"><ErrorMessage>{error}</ErrorMessage><button className="btn primary wide" onClick={async()=>{setError('');try{await ops({action:config[0],order_id:order.id});done(config[2])}catch(err){setError(err.message)}}}>{config[1]}</button></div>;
-}
-
-function Devices({data,done}){
-  const[form,setForm]=useState({device_type:'TSD',label:'',device_code:''}),[error,setError]=useState('');
-  async function register(event){event.preventDefault();setError('');try{const result=await ops({action:'REGISTER_DEVICE',...form,platform:navigator.platform,user_agent:navigator.userAgent});done('Ğ£ÑÑ‚Ñ€Ğ¾Ğ¹ÑÑ‚Ğ²Ğ¾ Ğ¿Ğ¾Ğ´ĞºĞ»ÑÑ‡ĞµĞ½Ğ¾: '+result.device_code)}catch(err){setError(err.message)}}
-  return <section className="card"><SectionTitle title="Ğ£ÑÑ‚Ñ€Ğ¾Ğ¹ÑÑ‚Ğ²Ğ°" text="ĞŸÑ€Ğ¸Ğ²ÑĞ·ĞºĞ° Ğ¢Ğ¡Ğ”, Ñ‚ĞµĞ»ĞµÑ„Ğ¾Ğ½Ğ¾Ğ² Ğ¸ Ğ¿Ğ»Ğ°Ğ½ÑˆĞµÑ‚Ğ¾Ğ² Ğº Ñ€Ğ°Ğ±Ğ¾Ñ‡ĞµĞ¼Ñƒ Ğ¼ĞµÑÑ‚Ñƒ"/><div className="infoBanner"><b>Ğ¢Ğ¡Ğ”:</b> Ğ²ĞºĞ»ÑÑ‡Ğ¸Ñ‚Ğµ HID/Keyboard Ğ¸ ÑÑƒÑ„Ñ„Ğ¸ĞºÑ Enter. <b>Ğ¢ĞµĞ»ĞµÑ„Ğ¾Ğ½:</b> Ñ€Ğ°Ğ·Ñ€ĞµÑˆĞ¸Ñ‚Ğµ Ğ´Ğ¾ÑÑ‚ÑƒĞ¿ Ğº ĞºĞ°Ğ¼ĞµÑ€Ğµ.</div><form className="inlineForm" onSubmit={register}><Field label="Ğ¢Ğ¸Ğ¿"><select value={form.device_type} onChange={e=>setForm({...form,device_type:e.target.value})}><option>TSD</option><option>PHONE</option><option>TABLET</option></select></Field><Field label="ĞĞ°Ğ·Ğ²Ğ°Ğ½Ğ¸Ğµ"><input value={form.label} onChange={e=>setForm({...form,label:e.target.value})}/></Field><Field label="ĞšĞ¾Ğ´" hint="ĞĞµĞ¾Ğ±ÑĞ·Ğ°Ñ‚ĞµĞ»ÑŒĞ½Ğ¾"><input value={form.device_code} onChange={e=>setForm({...form,device_code:e.target.value})}/></Field><button className="btn primary">ĞŸĞ¾Ğ´ĞºĞ»ÑÑ‡Ğ¸Ñ‚ÑŒ</button></form><ErrorMessage>{error}</ErrorMessage><DataTable heads={['ĞšĞ¾Ğ´','Ğ¢Ğ¸Ğ¿','ĞĞ°Ğ·Ğ²Ğ°Ğ½Ğ¸Ğµ','Ğ¡Ñ‚Ğ°Ñ‚ÑƒÑ']} empty="ĞĞµÑ‚ Ğ¿Ğ¾Ğ´ĞºĞ»ÑÑ‡Ñ‘Ğ½Ğ½Ñ‹Ñ… ÑƒÑÑ‚Ñ€Ğ¾Ğ¹ÑÑ‚Ğ²" rows={(data.devices||[]).map(item=>[<b className="mono">{item.device_code}</b>,item.device_type,item.label||'â€”',<Status value={item.active?'ĞĞºÑ‚Ğ¸Ğ²Ğ½Ğ¾':'ĞÑ‚ĞºĞ»ÑÑ‡ĞµĞ½Ğ¾'} tone={item.active?'READY':'CANCELLED'}/>])}/></section>;
-}
-
-function Users({data,done}){
-  const[form,setForm]=useState({name:'',email:'',password:'',role:'RECEIVER'}),[error,setError]=useState('');
-  async function save(event){event.preventDefault();setError('');try{await ops({action:'CREATE_USER',...form});setForm({name:'',email:'',password:'',role:'RECEIVER'});done('Ğ¡Ğ¾Ñ‚Ñ€ÑƒĞ´Ğ½Ğ¸Ğº ÑĞ¾Ğ·Ğ´Ğ°Ğ½')}catch(err){setError(err.message)}}
-  return <section className="card"><SectionTitle title="Ğ¡Ğ¾Ñ‚Ñ€ÑƒĞ´Ğ½Ğ¸ĞºĞ¸ Ğ¸ Ñ€Ğ¾Ğ»Ğ¸" text="Ğ”Ğ¾ÑÑ‚ÑƒĞ¿ Ğº Ğ¾Ğ¿ĞµÑ€Ğ°Ñ†Ğ¸ÑĞ¼ Ğ¾Ğ³Ñ€Ğ°Ğ½Ğ¸Ñ‡Ğ¸Ğ²Ğ°ĞµÑ‚ÑÑ Ñ€Ğ¾Ğ»ÑŒÑ"/><form className="inlineForm" onSubmit={save}><Field label="Ğ˜Ğ¼Ñ"><input value={form.name} onChange={e=>setForm({...form,name:e.target.value})} required/></Field><Field label="Email"><input type="email" value={form.email} onChange={e=>setForm({...form,email:e.target.value})} required/></Field><Field label="ĞŸĞ°Ñ€Ğ¾Ğ»ÑŒ" hint="ĞœĞ¸Ğ½Ğ¸Ğ¼ÑƒĞ¼ 8 ÑĞ¸Ğ¼Ğ²Ğ¾Ğ»Ğ¾Ğ²"><input type="password" minLength="8" value={form.password} onChange={e=>setForm({...form,password:e.target.value})} required/></Field><Field label="Ğ Ğ¾Ğ»ÑŒ"><select value={form.role} onChange={e=>setForm({...form,role:e.target.value})}>{Object.keys(ROLE_TABS).map(role=><option key={role}>{role}</option>)}</select></Field><button className="btn primary">Ğ¡Ğ¾Ğ·Ğ´Ğ°Ñ‚ÑŒ</button></form><ErrorMessage>{error}</ErrorMessage><DataTable heads={['Ğ˜Ğ¼Ñ','Email','Ğ Ğ¾Ğ»ÑŒ','Ğ¡Ñ‚Ğ°Ñ‚ÑƒÑ']} empty="ĞĞµÑ‚ ÑĞ¾Ñ‚Ñ€ÑƒĞ´Ğ½Ğ¸ĞºĞ¾Ğ²" rows={(data.users||[]).map(user=>[<b>{user.name}</b>,user.email,<Status value={user.role}/>,<Status value={user.active?'ĞĞºÑ‚Ğ¸Ğ²ĞµĞ½':'ĞÑ‚ĞºĞ»ÑÑ‡Ñ‘Ğ½'} tone={user.active?'READY':'CANCELLED'}/>])}/></section>;
-}
-
-function Audit({data}){return <section className="card"><SectionTitle title="Ğ–ÑƒÑ€Ğ½Ğ°Ğ» Ğ¾Ğ¿ĞµÑ€Ğ°Ñ†Ğ¸Ğ¹" text="ĞŸĞ¾ÑĞ»ĞµĞ´Ğ½Ğ¸Ğµ 500 Ğ´ĞµĞ¹ÑÑ‚Ğ²Ğ¸Ğ¹ Ğ² ÑĞ¸ÑÑ‚ĞµĞ¼Ğµ"/><DataTable heads={['Ğ”Ğ°Ñ‚Ğ°','ĞŸĞ¾Ğ»ÑŒĞ·Ğ¾Ğ²Ğ°Ñ‚ĞµĞ»ÑŒ','Ğ”ĞµĞ¹ÑÑ‚Ğ²Ğ¸Ğµ','ĞĞ±ÑŠĞµĞºÑ‚']} empty="Ğ–ÑƒÑ€Ğ½Ğ°Ğ» Ğ¿ÑƒÑÑ‚" rows={(data.audit||[]).map(item=>[new Date(item.created_at).toLocaleString('ru-RU'),item.user_name||'system',<span className="mono">{item.action}</span>,item.entity_type||'â€”'])}/></section>}
-
-function Status({value,tone=''}){return <span className={`status status-${String(tone).toLowerCase()}`}>{value}</span>}
-function DataTable({heads,rows,empty}){
-  return <div className="tableWrap"><table><thead><tr>{heads.map(head=><th key={head} scope="col">{head}</th>)}</tr></thead><tbody>{rows.length?rows.map((row,index)=><tr key={index}>{row.map((cell,i)=><td key={i} data-label={heads[i]}>{cell}</td>)}</tr>):<tr><td colSpan={heads.length}><div className="emptyState"><span>â–¡</span><b>{empty}</b><small>Ğ”Ğ°Ğ½Ğ½Ñ‹Ğµ Ğ¿Ğ¾ÑĞ²ÑÑ‚ÑÑ Ğ¿Ğ¾ÑĞ»Ğµ Ğ¿ĞµÑ€Ğ²Ğ¾Ğ¹ Ğ¾Ğ¿ĞµÑ€Ğ°Ñ†Ğ¸Ğ¸</small></div></td></tr>}</tbody></table></div>;
-}
-
-function Modal({title,close,children}){
-  const ref=useRef(null);
-  useEffect(()=>{const previous=document.activeElement;ref.current?.focus();const handler=event=>{if(event.key==='Escape')close()};document.addEventListener('keydown',handler);return()=>{document.removeEventListener('keydown',handler);previous?.focus?.()}},[close]);
-  return <div className="modalBackdrop" onMouseDown={event=>{if(event.target===event.currentTarget)close()}}><section className="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title" tabIndex="-1" ref={ref}><header><h2 id="modal-title">{title}</h2><button className="iconButton" aria-label="Ğ—Ğ°ĞºÑ€Ñ‹Ñ‚ÑŒ" onClick={close}>Ã—</button></header>{children}</section></div>;
-}
-
-function BoxModal({spec,data,close,done}){
-  const[form,setForm]=useState({target:'',reason:'',product_id:'',qty:1}),[error,setError]=useState('');
-  const products=(data.products||[]).filter(product=>!spec.sellerId||product.seller_id===spec.sellerId);
-  async function save(){
-    setError('');
-    try{
-      if(spec.kind==='move'){const[target_type,target_id]=form.target.split(':');await ops({action:'MOVE_BOX',box_id:spec.id,target_type,target_id,reason:form.reason||'ĞŸĞµÑ€ĞµĞ¼ĞµÑ‰ĞµĞ½Ğ¸Ğµ'});done('ĞšĞ¾Ñ€Ğ¾Ğ± Ğ¿ĞµÑ€ĞµĞ¼ĞµÑ‰Ñ‘Ğ½')}
-      else{await ops({action:'ADD_BOX_ITEM',box_id:spec.id,product_id:form.product_id,qty:Number(form.qty)});done('SKU Ğ´Ğ¾Ğ±Ğ°Ğ²Ğ»ĞµĞ½ Ğ² ĞºĞ¾Ñ€Ğ¾Ğ±')}
-    }catch(err){setError(err.message)}
-  }
-  return <Modal title={spec.kind==='move'?'ĞŸĞµÑ€ĞµĞ¼ĞµÑ‰ĞµĞ½Ğ¸Ğµ ĞºĞ¾Ñ€Ğ¾Ğ±Ğ°':'Ğ”Ğ¾Ğ±Ğ°Ğ²Ğ»ĞµĞ½Ğ¸Ğµ SKU'} close={close}><div className="formGrid">{spec.kind==='move'?<><Field label="Ğ—Ğ¾Ğ½Ğ° Ğ¸Ğ»Ğ¸ ÑÑ‡ĞµĞ¹ĞºĞ°"><select value={form.target} onChange={e=>setForm({...form,target:e.target.value})} required><option value="">Ğ’Ñ‹Ğ±ĞµÑ€Ğ¸Ñ‚Ğµ Ğ¼ĞµÑÑ‚Ğ¾</option><optgroup label="Ğ—Ğ¾Ğ½Ñ‹">{data.zones?.map(z=><option key={z.id} value={`zone:${z.id}`}>{z.name}</option>)}</optgroup><optgroup label="Ğ¯Ñ‡ĞµĞ¹ĞºĞ¸">{data.cells?.map(c=><option key={c.id} value={`cell:${c.id}`}>{c.code}</option>)}</optgroup></select></Field><Field label="ĞŸÑ€Ğ¸Ñ‡Ğ¸Ğ½Ğ°"><input value={form.reason} onChange={e=>setForm({...form,reason:e.target.value})}/></Field></>:<><Field label="Ğ¢Ğ¾Ğ²Ğ°Ñ€"><select value={form.product_id} onChange={e=>setForm({...form,product_id:e.target.value})} required><option value="">Ğ’Ñ‹Ğ±ĞµÑ€Ğ¸Ñ‚Ğµ SKU</option>{products.map(p=><option key={p.id} value={p.id}>{p.sku} â€” {p.name}</option>)}</select></Field><Field label="ĞšĞ¾Ğ»Ğ¸Ñ‡ĞµÑÑ‚Ğ²Ğ¾"><input type="number" min="1" step="1" value={form.qty} onChange={e=>setForm({...form,qty:e.target.value})}/></Field></>}<ErrorMessage>{error}</ErrorMessage><div className="modalActions"><button className="btn" onClick={close}>ĞÑ‚Ğ¼ĞµĞ½Ğ°</button><button className="btn primary" disabled={spec.kind==='move'?!form.target:!form.product_id} onClick={save}>ĞŸĞ¾Ğ´Ñ‚Ğ²ĞµÑ€Ğ´Ğ¸Ñ‚ÑŒ</button></div></div></Modal>;
-}
+şŠmş&yºŞÃòân¶«Ëñè™æë{Ü™ßì…éez{ì†X§{_?n)ÿ¦Ã©z¶­Š‰ç¢Ú^®h­µçNœ›ÛİÂˆKZ[šÎˆÌMÌŒLXËK[]]YˆÍÌÍ™ËK[[™NˆÙ™M™LNËK\İ\™˜XÙNˆÙ™™ËKXØ[˜\ÎˆÙ™ŒÎÂˆKXœ˜[™ˆÙ™ŒÙNËKXœ˜[™Y\šÎˆÌMÌŒLXËK\İXØÙ\ÜÎˆÌNÎMNËKY[™Ù\ˆØŒÌNÂˆK\˜Y]\ÎŒMœËK\ÚYİÎŒLœÍ™Ø˜JŒËÌËËŒ
+NÂŸBŠØ›Ş\Ú^š[™Î˜›Ü™\‹X›ŞBš[Ø˜XÚÙÜ›İ[™˜\ŠKXØ[˜\ÊNØÛÛÜ˜\ŠKZ[šÊNÙ›ÛY˜[Z[N’[\‹ZK\Ø[œË\Ù\šY‹Ş\İ[K]ZKX\K\Ş\İ[K›[šÓXXÔŞ\İ[Q›Û”ÙYÛÙHRH‹Ø[œË\Ù\šYŸB˜›Ù^ÛX\™Ú[ŒÛZ[‹]ÚYŒÌŒB˜]Û‹[œ]Ù[Xİ^\™X^Ù›Ûš[š\š]B˜]ÛØÛÛÜš[š\š]B˜]Û™›Øİ\Ë]š\ÚX›K[œ]™›Øİ\Ë]š\ÚX›KÙ[Xİ™›Øİ\Ë]š\ÚX›K^\™XN™›Øİ\Ë]š\ÚX›^Ûİ][™NŒÜÛÛY™Ø˜JŒËLŒKÎŒ
+NÛİ][™K[Ù™œÙ]ŒœB˜]Û™\ØX›YØİ\œÛÜ››İX[İÙYÛÜXÚ]N‹_B‹˜\ÛZ[‹ZZYÚŒLšB‹œÚY^Ø˜XÚÙÜ›İ[™ˆÌLLNLÎØÛÛÜˆÙM™XÙMÎÙ\Ü^N™›^Ù›^Y\™Xİ[Û˜ÛÛ[[Ú[œÙ]Œ]]ÈÜY[™ÎŒMÜÜÚ][Û™š^YİÚYŒŞ‹Z[™^ŒLB‹˜œ˜[™Ø[YÛ‹Z][\Î˜Ù[\Ù\Ü^N™›^Ù›Û\Ú^™NŒM\Ù›Û]ÙZYÚÙØ\ŒL\Û]\‹\ÜXÚ[™Î‹KŒY[NÜY[™ÎŒB‹˜œ˜[™ÛX[ØÛÛÜˆÎLÙ\Ü^N˜›ØÚÎÙ›Û\Ú^™NŒLÙ›Û]ÙZYÚŒÛ]\‹\ÜXÚ[™Î‹ŒL™[NÛX\™Ú[‹]ÜŒœİ^]˜[œÙ›Ü›N\\˜Ø\Ù_B‹˜œ˜[™X\šŞØ[YÛ‹Z][\Î˜Ù[\Ø˜XÚÙÜ›İ[™˜\ŠKXœ˜[™
+NØ›Ü™\‹\˜Y]\ÎŒLØÛÛÜˆÌLLNLÎÙ\Ü^Nš[›[™KY›^Ù›Û\Ú^™NŒŒÚZYÚŒÎÚ\İYKXÛÛ[˜Ù[\İÚYŒÎB‹›˜]Ù\Ü^N™ÜšYÙØ\Ûİ™\™›İÎ˜]]ßB‹›˜]ˆ]ÛØ[YÛ‹Z][\Î˜Ù[\Ø˜XÚÙÜ›İ[™˜[œÜ\™[Ø›Ü™\ŒØ›Ü™\‹\˜Y]\ÎŒLØÛÛÜˆÎX˜MYØİ\œÛÜœÚ[\Ù\Ü^N™›^Ù›Û\Ú^™NŒMÙ›Û]ÙZYÚŒÙØ\ŒLœÛZ[‹ZZYÚÜY[™ÎŒLœİ^X[YÛ›YİÚYŒL	_B‹›˜]ˆ]ÛˆÜ[ØÛÛÜˆÍÌÎÎÙ›Û\Ú^™NŒMÜİ^X[YÛ˜Ù[\İÚYŒŒB‹›˜]ˆ]Ûšİ™\Ø˜XÚÙÜ›İ[™ˆÌXŒLYNØÛÛÜˆÙ™™ŸB‹›˜]ˆ]Û‹˜Xİ]™^Ø˜XÚÙÜ›İ[™˜\ŠKXœ˜[™
+NØÛÛÜˆÌLMŒL_B‹›˜]ˆ]Û‹˜Xİ]™HÜ[ØÛÛÜˆÌLMŒL_B‹œ›Ùš[^Ø[YÛ‹Z][\Î˜Ù[\Ø›Ü™\‹]ÜŒ\ÛÛYÌ˜LÍ™Ù\Ü^N™›^ÙØ\ŒLÛX\™Ú[‹]Ü˜]]ÎÜY[™ÎŒŒB‹œ›Ùš[H‹œ›Ùš[HÛX[Ù\Ü^N˜›ØÚÎÙ›Û\Ú^™NŒLœB‹œ›Ùš[HÛX[ØÛÛÜˆÎMÎÙ›Û\Ú^™NŒLÛX\™Ú[‹]ÜŒœB‹›Û›[™K™İØ˜XÚÙÜ›İ[™ˆØNXŒ˜XÎØ›Ü™\‹\˜Y]\ÎL	NÙ\Ü^Nš[›[™KX›ØÚÎÚZYÚİÚYB‹›Û›[™^Ø˜XÚÙÜ›İ[™˜\ŠKXœ˜[™
+NØ›Ş\ÚYİÎŒ™Ø˜JŒM‹MKŒ‹ŒLŠ_B‹˜ÛÛ[ÛX\™Ú[‹[YŒÜY[™ÎŒÌÍŒB‹œYÙRXY\Ø[YÛ‹Z][\Î™›^\İ\Ù\Ü^N™›^Ú\İYKXÛÛ[œÜXÙKX™]ÙY[ÛX\™Ú[Œ]]ÎÛX^]ÚYŒMB‹™^YXœ›İŞØÛÛÜˆÍÍÎNÙ›Û\Ú^™NŒLÙ›Û]ÙZYÚÛ]\‹\ÜXÚ[™Î‹ŒM[NÛX\™Ú[Œœİ^]˜[œÙ›Ü›N\\˜Ø\Ù_BšK‹ËÛX\™Ú[‹]ÜŒB‹œYÙRXY\ˆ^Ù›Û\Ú^™NŒÍÛ]\‹\ÜXÚ[™Î‹KŒY[NÛ[™KZZYÚŒKŒNÛX\™Ú[ŒB‹œİX]KœÙXİ[Û•]HØÛÛÜ˜\ŠK[]]Y
+NÙ›Û\Ú^™NŒLÜÛX\™Ú[ÜB‹˜Xİ[ÛœŞÙ\Ü^N™›^Ù›^]Ü˜\Ü˜\ÙØ\B‹˜Xİ[ÛœË˜Ù[\Ú\İYKXÛÛ[˜Ù[\ŸB‹˜Ø[YÛ‹Z][\Î˜Ù[\Ø˜XÚÙÜ›İ[™ˆÙ™™Ø›Ü™\Œ\ÛÛYÙÙYNØ›Ü™\‹\˜Y]\ÎŒLØİ\œÛÜœÚ[\Ù\Ü^Nš[›[™KY›^Ù›Û]ÙZYÚÌÚ\İYKXÛÛ[˜Ù[\ÛZ[‹ZZYÚÜY[™ÎŒM\İ˜[œÚ][Û˜[œÙ›Ü›HŒM\Ë›Ş\ÚYİÈŒM\Ë˜XÚÙÜ›İ[™ŒM\ßB‹˜šİ™\››İ
+™\ØX›Y
+^Ø›Ş\ÚYİÎŒ\M™Ø˜JŒËÌËËŒJNİ˜[œÙ›Ü›N˜[œÛ]VJL\
+_B‹˜‹œš[X\^Ø˜XÚÙÜ›İ[™˜\ŠKXœ˜[™Y\šÊNØ›Ü™\‹XÛÛÜ˜\ŠKXœ˜[™Y\šÊNØÛÛÜˆÙ™™ŸB‹˜‹™ÚÜİØ˜XÚÙÜ›İ[™˜[œÜ\™[B‹˜‹œÛX[Ù›Û\Ú^™NŒLœÛZ[‹ZZYÚŒÍœÜY[™ÎŒLB‹˜‹ÚY^İÚYŒL	_B‹Ø\İØ˜XÚÙÜ›İ[™ˆÙXYYØ›Ü™\Œ\ÛÛYØ™™MXØÎØ›Ü™\‹\˜Y]\ÎŒL\ØÛÛÜ˜\ŠK\İXØÙ\ÜÊNÙ›Û\Ú^™NŒLÜÙ›Û]ÙZYÚÌÛX\™Ú[ŒN]]ÈÛX^]ÚYŒMÜY[™ÎŒLœMB‹›Y]šXÜŞÙ\Ü^N™ÜšYÙØ\ŒLœÙÜšY][\]KXÛÛ[[œÎœ™\X]
+YœŠNÛX\™Ú[ŒŒœ]]ÈMÛX^]ÚYŒMB‹›Y]šXŞØ[YÛ‹Z][\Î˜Ù[\Ø˜XÚÙÜ›İ[™˜\ŠK\İ\™˜XÙJNØ›Ü™\Œ\ÛÛY˜\ŠK[[™JNØ›Ü™\‹\˜Y]\Î˜\ŠK\˜Y]\ÊNÙ\Ü^N™›^ÙØ\ŒMÜY[™ÎŒMÜB‹›Y]šXÒXÛÛØ[YÛ‹Z][\Î˜Ù[\Ø˜XÚÙÜ›İ[™ˆÙŒŒÙYØ›Ü™\‹\˜Y]\ÎŒLœÙ\Ü^N™›^Ù›Û\Ú^™NŒŒÚZYÚœÚ\İYKXÛÛ[˜Ù[\İÚYœB‹›Y]šXÈÛX[ØÛÛÜ˜\ŠK[]]Y
+NÙ›Û\Ú^™NŒL\Ù›Û]ÙZYÚÌİ^]˜[œÙ›Ü›N\\˜Ø\Ù_B‹›Y]šXÈÙ\Ü^N˜›ØÚÎÙ›Û\Ú^™NŒ\Û]\‹\ÜXÚ[™Î‹KŒ[NÛ[™KZZYÚŒNÛX\™Ú[‹]ÜŒÜB‹›Y]šXÈØÛÛÜˆÎLXÎMÙ›Û\Ú^™NŒLÛX\™Ú[B‹˜Ø\™Ø˜XÚÙÜ›İ[™˜\ŠK\İ\™˜XÙJNØ›Ü™\Œ\ÛÛY˜\ŠK[[™JNØ›Ü™\‹\˜Y]\Î˜\ŠK\˜Y]\ÊNØ›Ş\ÚYİÎŒ\™Ø˜JŒËÌËËŒŠNÛX\™Ú[Œ]]ÈMÛX^]ÚYŒMÜY[™ÎŒŒB‹™\Ú›Ø\™ÜšYÙ\Ü^N™ÜšYÙØ\ŒMÙÜšY][\]KXÛÛ[[œÎŒ™œˆYœÛX\™Ú[˜]]ÎÛX^]ÚYŒMB‹™\Ú›Ø\™ÜšY˜Ø\™ÛX\™Ú[ŒÛX^]ÚY››Û™_B‹œÜ[ŒÙÜšYXÛÛ[[˜]]ßKœÜ[ŒŞÙÜšYXÛÛ[[ŒKËL_B‹œÙXİ[Û•]^Ø[YÛ‹Z][\Î™›^\İ\Ù\Ü^N™›^ÙØ\ŒMÚ\İYKXÛÛ[œÜXÙKX™]ÙY[ÛX\™Ú[‹X›İÛNŒNB‹œÙXİ[Û•]HÙ›Û\Ú^™NŒMÜÛ]\‹\ÜXÚ[™Î‹KŒY[NÛX\™Ú[ŒB‹™›İŞÙ\Ü^N™ÜšYÙØ\ÙÜšY][\]KXÛÛ[[œÎœ™\X]
+YœŠ_B‹™›İÔİ\Ø˜XÚÙÜ›İ[™ˆÙ˜YÎØ›Ü™\Œ\ÛÛYÙMYX™MØ›Ü™\‹\˜Y]\ÎŒLÜØİ\œÛÜœÚ[\Ù\Ü^N™ÜšYÙÜšY][\]KXÛÛ[[œÎŒYœˆ]]ÎÜY[™ÎŒLœİ^X[YÛ›YB‹™›İÔİ\šİ™\Ø˜XÚÙÜ›İ[™ˆÙŒYYYØ›Ü™\‹XÛÛÜˆØØÙ˜ÙŸB‹™›İÔİ\™›İÒ[™^ØÛÛÜˆÎXXMYNÙ›Û\Ú^™NŒLÙÜšYXÛÛ[[Œ_B‹™›İÔİ\Ù›Û\Ú^™NŒLÜÙÜšYXÛÛ[[ŒNÛX\™Ú[‹]ÜŒLœB‹™›İÔİ\İ›Û™ŞÙ›Û\Ú^™NŒŒÜÙÜšYXÛÛ[[ŒÙÜšY\›İÎŒKÌßB‹™›İÔİ\ÛX[ØÛÛÜ˜\ŠK[]]Y
+NÙ›Û\Ú^™NŒLÙÜšYXÛÛ[[Œİ^X[YÛœšYÚB‹œ]ZXÚĞXİ[ÛœŞÙ\Ü^N™ÜšYÙØ\B‹œ]ZXÚŞØ[YÛ‹Z][\Î˜Ù[\Ø˜XÚÙÜ›İ[™ˆÙ˜YÎØ›Ü™\Œ\ÛÛYÙMXYMNØ›Ü™\‹\˜Y]\ÎŒLÜØİ\œÛÜœÚ[\Ù\Ü^N™ÜšYÙØ\ŒL\ÙÜšY][\]KXÛÛ[[œÎŒÎYœˆ]]ÎÛZ[‹ZZYÚŒœÜY[™Î\Lœİ^X[YÛ›YB‹œ]ZXÚÏœÜ[Ø[YÛ‹Z][\Î˜Ù[\Ø˜XÚÙÜ›İ[™ˆÙNYYYXNØ›Ü™\‹\˜Y]\Î\Ù\Ü^N™›^Ù›Û\Ú^™NŒMÜÚZYÚŒÎÚ\İYKXÛÛ[˜Ù[\ŸB‹œ]ZXÚÈ‹œ]ZXÚÈÛX[Ù\Ü^N˜›ØÚßKœ]ZXÚÈÙ›Û\Ú^™NŒLÜKœ]ZXÚÈÛX[ØÛÛÜ˜\ŠK[]]Y
+NÙ›Û\Ú^™NŒLÛX\™Ú[‹]ÜŒœKœ]ZXÚÈ^Ù›Û\İ[N››Ü›X[B‹œš[X\T]ZXÚŞØ˜XÚÙÜ›İ[™˜\ŠKXœ˜[™
+NØ›Ü™\‹XÛÛÜ˜\ŠKXœ˜[™
+_B‹œš[X\T]ZXÚÏœÜ[Ø˜XÚÙÜ›İ[™œ™Ø˜JMËNKŒJ_B‹šX[›İŞÙ\Ü^N™ÜšYÙØ\ÙÜšY][\]KXÛÛ[[œÎœ™\X]
+YœŠ_B‹šX[Ø[YÛ‹Z][\Î˜Ù[\Ø˜XÚÙÜ›İ[™ˆÙ˜YÎØ›Ü™\‹\˜Y]\ÎŒL\Ù\Ü^N™›^ÙØ\ŒLÜY[™ÎŒLœB‹šX[ÛX[šX[Ù\Ü^N˜›ØÚßKšX[ÛX[ØÛÛÜ˜\ŠK[]]Y
+NÙ›Û\Ú^™NŒLKšX[Ù›Û\Ú^™NŒLÜÛX\™Ú[‹]ÜŒœB‹›ÚÑİØ˜XÚÙÜ›İ[™ˆÌØLÍB‹œØØ[›™\Ø\™ÛZ[‹ZZYÚLŒB‹œØØ[›™\ÛX\™Ú[M\]]ÈŒÛX^]ÚYLİ^X[YÛ˜Ù[\ŸB‹œØØ[‘Û\Ø[YÛ‹Z][\Î˜Ù[\Ø˜XÚÙÜ›İ[™˜\ŠKXœ˜[™
+NØ›Ü™\‹\˜Y]\ÎŒNÙ\Ü^N™›^Ù›Û\Ú^™NŒÌÜÚZYÚÌÚ\İYKXÛÛ[˜Ù[\ÛX\™Ú[Œ]]ÈNİÚYÌB‹œØØ[›™\›X™[Ù\Ü^N˜›ØÚÎÙ›Û\Ú^™NŒLÜÙ›Û]ÙZYÚÌÛX\™Ú[‹X›İÛN\B‹œØØ[›™\š[œ]Ø›Ü™\Œ\ÛÛYØÙ™NØ›Ü™\‹\˜Y]\ÎŒLÜÙ›Û\Ú^™NŒŒÙ›Û]ÙZYÚÌÛ]\‹\ÜXÚ[™Î‹Œ[NÜY[™ÎŒMœİ^X[YÛ˜Ù[\İÚYŒL	_B‹œØØ[›™\ˆ˜Xİ[ÛœŞÛX\™Ú[‹]ÜŒLœB‹˜Ø[Y\˜^Ø˜XÚÙÜ›İ[™ˆÌLLNØ›Ü™\‹\˜Y]\ÎŒMÛX\™Ú[‹]ÜŒMœÛX^ZZYÚLšİÚYŒL	_B‹œØØ[”™\İ[Ø›Ü™\‹\˜Y]\ÎŒMÛX\™Ú[‹]ÜŒNÜY[™ÎŒŒİ^X[YÛ›YKœİXØÙ\ÜÔ™\İ[Ø˜XÚÙÜ›İ[™ˆÙYYYŒØ›Ü™\Œ\ÛÛYØÍ™MÙ_K™\œ›Ü”™\İ[Ø˜XÚÙÜ›İ[™ˆÙ™™Œ™ŒØ›Ü™\Œ\ÛÛYÙŒ˜ÍØÌ_KœØØ[”™\İ[ŞÛX\™Ú[œKœØØ[”™\İ[ÛX\™Ú[‹X›İÛN\Kœ™\İ[\^Ù›Û\Ú^™NŒLÙ›Û]ÙZYÚÛ]\‹\ÜXÚ[™Î‹ŒY[_B‹™›Ü›PØ\™ÛX^]ÚYÍŒK™›Ü›QÜšYÙ\Ü^N™ÜšYÙØ\ŒLÜKš[›[™Q›Ü›^Ø[YÛ‹Z][\Î™[™Ø˜XÚÙÜ›İ[™ˆÙ˜YÎØ›Ü™\‹\˜Y]\ÎŒLÜÙ\Ü^N™ÜšYÙØ\ŒLÙÜšY][\]KXÛÛ[[œÎœ™\X]
+Z[›X^
+LÌYœŠJH]]ÎÛX\™Ú[‹X›İÛNŒMœÜY[™ÎŒMB‹™šY[Ù\Ü^N™ÜšYÙØ\œK™šY[œÜ[Ù›Û\Ú^™NŒL\Ù›Û]ÙZYÚÍLK™šY[œÜ[ˆÛX[ØÛÛÜ˜\ŠK[]]Y
+NÙ\Ü^N˜›ØÚÎÙ›Û\Ú^™N\Ù›Û]ÙZYÚLÛX\™Ú[‹]ÜŒœB‹™šY[[œ]™šY[Ù[Xİ™šY[^\™XKœXÚĞÛÛ›ÛÈ[œ]œXÚĞÛÛ›ÛÈÙ[XİœÙX\˜Ú[œ]Ø˜XÚÙÜ›İ[™ˆÙ™™Ø›Ü™\Œ\ÛÛYØØÙ˜ÙØ›Ü™\‹\˜Y]\ÎŒLØÛÛÜ˜\ŠKZ[šÊNÛZ[‹ZZYÚÜY[™ÎŒLL\İÚYŒL	_B‹™šY[^\™X^Ü™\Ú^™N™\XØ[B‹››İXÙKš[™›Ğ˜[›™\Ø›Ü™\‹\˜Y]\ÎŒL\Ù›Û\Ú^™NŒLœÛX\™Ú[ŒLÜY[™ÎŒLœMK››İXÙK™[™Ù\Ø˜XÚÙÜ›İ[™ˆÙ™™ŒYYØ›Ü™\Œ\ÛÛYÙŒÍ™NØÛÛÜ˜\ŠKY[™Ù\Š_Kš[™›Ğ˜[›™\Ø˜XÚÙÜ›İ[™ˆÙŒYYYØÛÛÜˆÍXÍMB‹œÙX\˜ÚØ[YÛ‹Z][\Î˜Ù[\Ø›Ü™\Œ\ÛÛYÙØ›Ü™\‹\˜Y]\ÎŒLÙ\Ü^N™›^ÛZ[‹]ÚYŒŒÜY[™Ë[YŒL\KœÙX\˜Ú[œ]Ø›Ü™\ŒÛZ[‹ZZYÚÛİ][™NŒB‹X›UÜ˜\Ûİ™\™›İÎ˜]]ÎİÚYŒL	_BX›^Ø›Ü™\‹XÛÛ\ÙN˜ÛÛ\ÙNİÚYŒL	_]Ø›Ü™\‹X›İÛNŒ\ÛÛY˜\ŠK[[™JNØÛÛÜˆÍØÎÙ›Û\Ú^™NŒLÛ]\‹\ÜXÚ[™Î‹Œ[NÜY[™ÎŒLİ^X[YÛ›Yİ^]˜[œÙ›Ü›N\\˜Ø\Ù_]Ø›Ü™\‹X›İÛNŒ\ÛÛYÙYŒYYNÙ›Û\Ú^™NŒLœÜY[™ÎŒLœLİ™\XØ[X[YÛ›ZY_]›ÙHšİ™\Ø˜XÚÙÜ›İ[™ˆÙ˜™˜Ù˜ŸB‹›[Û›ŞÙ›ÛY˜[Z[NZK[[Û›ÜÜXÙKÑ“[Û›ËT™Yİ[\‹Y[›Ë[Û›ÜÜXÙNÙ›Û\Ú^™N‹MY[_B‹œİ]\ŞØ˜XÚÙÜ›İ[™ˆÙYYŒ™YØ›Ü™\‹\˜Y]\ÎNN\Ù\Ü^Nš[›[™KY›^Ù›Û\Ú^™NŒLÙ›Û]ÙZYÚÜY[™Î\İÚ]K\ÜXÙN››İÜ˜\Kœİ]\Ë\™XYKœİ]\Ë\Ú\YØ˜XÚÙÜ›İ[™ˆÙM™ÙYØÛÛÜˆÌNÎM_Kœİ]\Ë[™]Ëœİ]\Ë\XÚÚ[™ŞØ˜XÚÙÜ›İ[™ˆÙ™™YØÛÛÜˆÎMŒŒKœİ]\ËXØ[˜Ù[YØ˜XÚÙÜ›İ[™ˆÙ™YXÙXØÛÛÜˆØŒÌNB‹œ›İĞXİ[ÛœŞÙ\Ü^N™›^ÙØ\œK›[šĞ]ÛØ˜XÚÙÜ›İ[™˜[œÜ\™[Ø›Ü™\ŒØÛÛÜˆÌMYØİ\œÛÜœÚ[\Ù›Û]ÙZYÚÜY[™ÎŒİ^YXÛÜ˜][Û[™\›[™Nİ^][™\›[™K[Ù™œÙ]ŒÜB‹™[\Tİ]^Ø[YÛ‹Z][\Î˜Ù[\ØÛÛÜ˜\ŠK[]]Y
+NÙ\Ü^N™›^Ù›^Y\™Xİ[Û˜ÛÛ[[ÙØ\Ú\İYKXÛÛ[˜Ù[\ÛZ[‹ZZYÚŒNK™[\Tİ]HÜ[Ù›Û\Ú^™NŒK™[\Tİ]HÛX[Ù›Û\Ú^™NŒLB‹›Ü™\œÑÜšYÙ\Ü^N™ÜšYÙØ\ŒMÙÜšY][\]KXÛÛ[[œÎ›Z[›X^
+K™œŠHZ[›X^
+ÌŒÙœŠNÛX\™Ú[˜]]ÎÛX^]ÚYŒMK›Ü™\œÑÜšY˜Ø\™ÛX\™Ú[ŒÛX^]ÚY››Û™_K›Ü™\‘]Z[Ø[YÛ‹\Ù[œİ\ÜÜÚ][ÛœİXÚŞNİÜŒŒB‹œXÚÓ[™^Ø˜XÚÙÜ›İ[™ˆÙ˜YÎØ›Ü™\Œ\ÛÛYÙMYX™MØ›Ü™\‹\˜Y]\ÎŒLœÛX\™Ú[‹]ÜŒLÜY[™ÎŒLœKœXÚÒXYÙ\Ü^N™›^Ú\İYKXÛÛ[œÜXÙKX™]ÙY[ŸKœXÚÒXYØÛÛÜ˜\ŠK[]]Y
+NÙ›Û\Ú^™NŒL\ÛX\™Ú[ŒÜKœ›ÙÜ™\ÜŞØ˜XÚÙÜ›İ[™ˆÙ™MÙLNØ›Ü™\‹\˜Y]\ÎÚZYÚ\Ûİ™\™›İÎšY[ŸKœ›ÙÜ™\ÜÈÜ[Ø˜XÚÙÜ›İ[™ˆÌØÙ\Ü^N˜›ØÚÎÚZYÚŒL	_KœXÚĞÛÛ›ÛŞÙ\Ü^N™ÜšYÙØ\ÜÙÜšY][\]KXÛÛ[[œÎŒYœˆÍ\]]ÎÛX\™Ú[‹]ÜŒLKœXÚĞÛÛ›ÛÈ[œ]œXÚĞÛÛ›ÛÈÙ[XİÛZ[‹ZZYÚŒÎÜY[™ÎÜK›Ü™\Xİ[ÛœŞÛX\™Ú[‹]ÜŒLœB‹›[™PZ[\Ø[YÛ‹Z][\Î™[™Ù\Ü^N™ÜšYÙØ\ÙÜšY][\]KXÛÛ[[œÎŒYœˆLL]]ßK›Ü™\“[™\ŞÙ\Ü^N™ÜšYÙØ\œK›Ü™\“[™\Ï™]Ø[YÛ‹Z][\Î˜Ù[\Ø˜XÚÙÜ›İ[™ˆÙŒÙ™ŒÎØ›Ü™\‹\˜Y]\Î\Ù\Ü^N™ÜšYÙ›Û\Ú^™NŒLœÙØ\ÙÜšY][\]KXÛÛ[[œÎŒYœˆ]]È]]ÎÜY[™Î\L\K›Ü™\“[™\È]ÛØ˜XÚÙÜ›İ[™˜[œÜ\™[Ø›Ü™\ŒØİ\œÛÜœÚ[\Ù›Û\Ú^™NŒNB‹›[Ù[˜XÚÙ›ÜØ[YÛ‹Z][\Î˜Ù[\Ø˜XÚÙÜ›İ[™œ™Ø˜JLM‹L‹ŒŠNÙ\Ü^N™›^Ú[œÙ]ŒÚ\İYKXÛÛ[˜Ù[\ÜY[™ÎŒMœÜÜÚ][Û™š^YŞ‹Z[™^K›[Ù[Ø˜XÚÙÜ›İ[™ˆÙ™™Ø›Ü™\‹\˜Y]\ÎŒNØ›Ş\ÚYİÎ˜\ŠK\ÚYİÊNÛX^ZZYÚLšÛX^]ÚYŒŒÛİ™\™›İÎ˜]]ÎÜY[™ÎŒŒİÚYŒL	_K›[Ù[šXY\Ø[YÛ‹Z][\Î˜Ù[\Ø›Ü™\‹X›İÛNŒ\ÛÛY˜\ŠK[[™JNÙ\Ü^N™›^Ú\İYKXÛÛ[œÜXÙKX™]ÙY[ÛX\™Ú[‹X›İÛNŒMœÜY[™ËX›İÛNŒLÜK›[Ù[Ù›Û\Ú^™NŒN\ÛX\™Ú[ŒKšXÛÛ]ÛØ[YÛ‹Z][\Î˜Ù[\Ø˜XÚÙÜ›İ[™ˆÙŒŒÙYØ›Ü™\ŒØ›Ü™\‹\˜Y]\ÎL	NØİ\œÛÜœÚ[\Ù\Ü^N™›^Ù›Û\Ú^™NŒŒœÚZYÚŒÎÚ\İYKXÛÛ[˜Ù[\İÚYŒÎK›[Ù[Xİ[ÛœŞÙ\Ü^N™›^ÙØ\Ú\İYKXÛÛ[™›^Y[™ÛX\™Ú[‹]Ü\B‹œİ]TYÙ^Ø[YÛ‹Z][\Î˜Ù[\Ù\Ü^N™›^Ù›^Y\™Xİ[Û˜ÛÛ[[Ú\İYKXÛÛ[˜Ù[\ÛZ[‹ZZYÚŒLšÜY[™ÎŒŒİ^X[YÛ˜Ù[\ŸKœİ]TYÙH^Ù›Û\Ú^™NŒŒœÛX\™Ú[ŒLœ\Kœİ]TYÙHØÛÛÜ˜\ŠK[]]Y
+NÙ›Û\Ú^™NŒLÜKœİ]RXÛÛØ[YÛ‹Z][\Î˜Ù[\Ø˜XÚÙÜ›İ[™ˆÙ™YXÙXØ›Ü™\‹\˜Y]\ÎL	NÙ\Ü^N™›^Ù›Û\Ú^™NŒŒœÚZYÚMÚ\İYKXÛÛ[˜Ù[\İÚYMK›ØY\Ø[š[X][ÛœÜ[ˆÈ[™X\ˆ[™š[š]NØ›Ü™\ŒÜÛÛYÙ™M™LNØ›Ü™\‹\˜Y]\ÎL	NØ›Ü™\‹]ÜXÛÛÜˆÌX™MÚZYÚŒÍœİÚYŒÍœPÙ^Yœ˜[Y\ÈÜ[İŞİ˜[œÙ›Ü›Nœ›İ]JÍŒYÊ__B‹˜]]Ú[Ù\Ü^N™ÜšYÙÜšY][\]KXÛÛ[[œÎŒKŒYœˆMYœÛZ[‹ZZYÚŒLšK˜]]š\İX[Ø˜XÚÙÜ›İ[™ˆÌLLNLÎØÛÛÜˆÙ™™Ù\Ü^N™›^Ù›^Y\™Xİ[Û˜ÛÛ[[Ûİ™\™›İÎšY[ÜY[™ÎŒÌœÜÜÚ][Ûœ™[]]™_K˜]]œ˜[™Ø[YÛ‹Z][\Î˜Ù[\Ù\Ü^N™›^Ù›Û\Ú^™NŒMÙ›Û]ÙZYÚÙØ\ŒLKš\İX[ÛÜ^ÛX\™Ú[˜]]ÎÛX^]ÚYŒŒÜÜÚ][Ûœ™[]]™NŞ‹Z[™^ŒŸKš\İX[ÛÜH^Ù›Û\Ú^™N˜Û[\
+Î]ËÌ
+NÛ]\‹\ÜXÚ[™Î‹KŒY[NÛ[™KZZYÚ‹MÛX\™Ú[ŒŒKš\İX[ÛÜHØÛÛÜˆØXØØŒÙ›Û\Ú^™NŒMœÛ[™KZZYÚŒKÛX^]ÚYMKœ[Ø˜XÚÙÜ›İ[™˜\ŠKXœ˜[™
+NØ›Ü™\‹\˜Y]\ÎNN\ØÛÛÜˆÌLLNLÎÙ›Û\Ú^™NŒLÙ›Û]ÙZYÚLÛ]\‹\ÜXÚ[™Î‹ŒM[NÜY[™ÎÜLKš\İX[ÜšYÙ\Ü^N™ÜšYÙØ\\ÙÜšY][\]KXÛÛ[[œÎœ™\X]
+ËYœŠNÚ[œÙ]˜]]ÈMLNINÜÜÚ][Û˜XœÛÛ]Nİ˜[œÙ›Ü›Nœ›İ]JLLYÊNİÚYÌ	_Kš\İX[ÜšYÜ[Ø\ÜXİ\˜][ÎŒKØ˜XÚÙÜ›İ[™ˆÌYLLŒØ›Ü™\Œ\ÛÛYÌ™ÎLÌNØ›Ü™\‹\˜Y]\ÎŒMKš\İX[ÜšYÜ[›XÚ[
+ŠKš\İX[ÜšYÜ[›XÚ[
+J^Ø˜XÚÙÜ›İ[™˜\ŠKXœ˜[™
+_K˜]][™[Ø[YÛ‹Z][\Î˜Ù[\Ø˜XÚÙÜ›İ[™ˆÙ™NÙ\Ü^N™›^Ú\İYKXÛÛ[˜Ù[\ÜY[™ÎŒÌœK˜]]Ø\™Ø˜XÚÙÜ›İ[™ˆÙ™™Ø›Ü™\Œ\ÛÛY˜\ŠK[[™JNØ›Ü™\‹\˜Y]\ÎŒŒØ›Ş\ÚYİÎ˜\ŠK\ÚYİÊNÙ\Ü^N™ÜšYÙØ\ŒMÛX^]ÚYÌÜY[™ÎŒÌİÚYŒL	_K˜]]Ø\™Ù›Û\Ú^™NŒÜÛ]\‹\ÜXÚ[™Î‹KŒY[NÛX\™Ú[ŒK˜]]Ø\™œİX]^ÛX\™Ú[ŒÜB‹›[Øš[X˜\Ù\Ü^N››Û™_BYYXJX^]ÚYŒLL
+^Ë›Y]šXÜŞÙÜšY][\]KXÛÛ[[œÎœ™\X]
+‹YœŠ_Kš[›[™Q›Ü›^ÙÜšY][\]KXÛÛ[[œÎœ™\X]
+‹YœŠ_Kš[›[™Q›Ü›O‹˜Ø[YÛ‹\Ù[™[™K™›İŞÙÜšY][\]KXÛÛ[[œÎœ™\X]
+‹YœŠ_KšX[›İŞÙÜšY][\]KXÛÛ[[œÎœ™\X]
+‹YœŠ__BYYXJX^]ÚYŒ
+^ÂˆœÚY^Ù\Ü^N››Û™_K˜ÛÛ[ÛX\™Ú[ŒÜY[™ÎŒŒMKœYÙRXY\Ø[YÛ‹Z][\Î™›^\İ\KœYÙRXY\ˆ^Ù›Û\Ú^™NŒKœYÙRXY\ˆœİX]^Ù\Ü^N››Û™_KœYÙRXY\ˆ˜Xİ[ÛœÈ™ÚÜİÙ\Ü^N››Û™_Bˆ›Y]šXÜŞÙØ\ÛX\™Ú[‹]ÜŒNK›Y]šXŞÜY[™ÎŒLÜK›Y]šXÒXÛÛÚZYÚŒÎİÚYŒÎK›Y]šXÈÙ›Û\Ú^™NŒŒœK›Y]šXÈÙ\Ü^N››Û™_Bˆ™\Ú›Ø\™ÜšY›Ü™\œÑÜšYÙÜšY][\]KXÛÛ[[œÎŒYœŸK›Ü™\‘]Z[ÜÜÚ][Ûœİ]XßKœÜ[Œ‹œÜ[ŒŞÙÜšYXÛÛ[[˜]]ßKœÙXİ[Û•]^Ø[YÛ‹Z][\Î™›^\İ\Ù›^Y\™Xİ[Û˜ÛÛ[[ŸKœÙXİ[Û•]HœÙX\˜ÚİÚYŒL	_Bˆ›[Øš[X˜\Ø˜XÚÙÜ›İ[™ˆÌLLNLÎØ›İÛNŒÙ\Ü^N™ÜšYÙÜšY][\]KXÛÛ[[œÎœ™\X]
+KYœŠNÚ[œÙ]˜]]ÈÜÜÚ][Û™š^YŞ‹Z[™^ŒÌK›[Øš[X˜\ˆ]ÛØ[YÛ‹Z][\Î˜Ù[\Ø˜XÚÙÜ›İ[™˜[œÜ\™[Ø›Ü™\ŒØÛÛÜˆÎÎLÎÙ\Ü^N™›^Ù›^Y\™Xİ[Û˜ÛÛ[[Ù›Û\Ú^™N\ÙØ\ŒÜÛZ[‹ZZYÚœÜY[™ÎœK›[Øš[X˜\ˆ]ÛˆÜ[Ù›Û\Ú^™NŒNK›[Øš[X˜\ˆ]Û‹˜Xİ]™^ØÛÛÜ˜\ŠKXœ˜[™
+_Bˆš[›[™Q›Ü›^ÙÜšY][\]KXÛÛ[[œÎŒYœŸKœ›İĞXİ[ÛœŞÙ›^]Ü˜\Ü˜\K˜]]Ú[ÙÜšY][\]KXÛÛ[[œÎŒYœŸK˜]]š\İX[Ù\Ü^N››Û™_K˜]][™[ÜY[™ÎŒMœK˜]]Ø\™ÜY[™ÎŒŒÜBŸBYYXJX^]ÚYŒŒ
+^Âˆ›Y]šXÜŞÙÜšY][\]KXÛÛ[[œÎœ™\X]
+‹YœŠ_K›Y]šXÈÛX[Ù›Û\Ú^™N\K™›İŞÙÜšY][\]KXÛÛ[[œÎŒYœˆYœŸKšX[›İŞÙÜšY][\]KXÛÛ[[œÎŒYœˆYœŸBˆ˜Ø\™ÜY[™ÎŒM\Kš[›[™Q›Ü›^ÛX\™Ú[‹Z[›[™N‹MÜY[™ÎŒLœK›[™PZ[\‹œXÚĞÛÛ›ÛŞÙÜšY][\]KXÛÛ[[œÎŒYœŸK›[Ù[ÜY[™ÎŒMœBˆX›UÜ˜\Ûİ™\™›İÎš\ÚX›_KX›UÜ˜\X›KX›UÜ˜\XYX›UÜ˜\›ÙKX›UÜ˜\‹X›UÜ˜\Ù\Ü^N˜›ØÚßKX›UÜ˜\XYØÛ\œ™Xİ
+
+NÚZYÚŒ\Ûİ™\™›İÎšY[ÜÜÚ][Û˜XœÛÛ]NİÚYŒ\KX›UÜ˜\Ø›Ü™\Œ\ÛÛY˜\ŠK[[™JNØ›Ü™\‹\˜Y]\ÎŒLœÛX\™Ú[‹X›İÛN\ÜY[™ÎKX›UÜ˜\Ø[YÛ‹Z][\Î˜Ù[\Ø›Ü™\ŒÙ\Ü^N™›^Ú\İYKXÛÛ[œÜXÙKX™]ÙY[ÜY[™Îœ\İ^X[YÛœšYÚKX›UÜ˜\˜™Y›Ü™^ØÛÛÜ˜\ŠK[]]Y
+NØÛÛ[˜]Š]K[X™[
+NÙ›Û\Ú^™N\Ù›Û]ÙZYÚÛ]\‹\ÜXÚ[™Î‹Œ™[Nİ^X[YÛ›Yİ^]˜[œÙ›Ü›N\\˜Ø\Ù_KX›UÜ˜\ØÛÛÜ[—^Ù\Ü^N˜›ØÚßKX›UÜ˜\ØÛÛÜ[—N˜™Y›Ü™^Ù\Ü^N››Û™_Kœ›İĞXİ[ÛœŞÚ\İYKXÛÛ[™›^Y[™BŸBYYXJ™Y™\œË\™YXÙY[[İ[Ûœ™YXÙJ^Ê‹
+˜™Y›Ü™K
+˜Y\ÜØÜ›ÛX™Z]š[Ü˜]]ÈZ[\Ü[İ˜[œÚ][Û››Û™HZ[\Ü[_B

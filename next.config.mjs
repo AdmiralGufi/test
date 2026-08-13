@@ -1,37 +1,8 @@
-import test from 'node:test';
-import assert from 'node:assert/strict';
-import {readFile} from 'node:fs/promises';
-import {WMS_ACTIONS, cleanText, positiveInteger, validEmail} from '../lib/wms-contract.js';
+şŠmş&yºŞÃòân¶«Ëñè™æë{Ü™ßì…éez{ì†X§{_?n)ÿ¦Ã©z¶­Š‰ç¢Ú^®h­µçKÊŠˆ\HÚ[\Ü
+	Û™^	ÊK“™^ÛÛ™šYßH
+‹Â˜ÛÛœİ™^ÛÛ™šYÈHÂˆİ]]š[U˜XÚ[™Ô›Ûİˆ›ØÙ\ÜË˜İÙ
 
-test('all public WMS actions are implemented by the canonical API', async () => {
-  const source = await readFile(new URL('../app/api/ops/route.js', import.meta.url), 'utf8');
-  for (const action of WMS_ACTIONS) {
-    assert.match(source, new RegExp(`action===['"]${action}['"]`), `missing ${action}`);
-  }
-});
-
-test('page renders the V3 operational application', async () => {
-  const source = await readFile(new URL('../app/page.js', import.meta.url), 'utf8');
-  assert.match(source, /WmsAppV3/);
-});
-
-test('input helpers reject unsafe quantities and malformed email', () => {
-  assert.equal(positiveInteger(3), 3);
-  assert.equal(positiveInteger(0), null);
-  assert.equal(positiveInteger(1.2), null);
-  assert.equal(validEmail('operator@example.com'), true);
-  assert.equal(validEmail('operator@'), false);
-  assert.equal(cleanText('  BOX-1  '), 'BOX-1');
-});
-
-test('database connection remains server-only', async () => {
-  const files = [
-    '../components/WmsAppV3.js',
-    '../app/page.js',
-    '../app/globals.css'
-  ];
-  for (const file of files) {
-    const source = await readFile(new URL(file, import.meta.url), 'utf8');
-    assert.doesNotMatch(source, /DATABASE_URL|postgres(?:ql)?:\/\//);
-  }
-});
+KˆİÙ\™YRXY\ˆ˜[ÙKˆ\Ş[˜ÈXY\œÊ
+HÂˆ™]\›ˆŞÂˆÛİ\˜ÙNˆ	ËÊŠŠIËˆXY\œÎˆÂˆÚÙ^Nˆ	ÖPÛÛ[U\KSÜ[ÛœÉË˜[YNˆ	Û›ÜÛšY™‰ßKˆÚÙ^Nˆ	Ô™Y™\œ™\‹TÛXŞIË˜[YNˆ	ÜİšXİ[ÜšYÚ[‹]Ú[‹XÜ›ÜÜË[ÜšYÚ[‰ßKˆÚÙ^Nˆ	Ô\›Z\ÜÚ[ÛœËTÛXŞIË˜[YNˆ	ØØ[Y\˜OJÙ[ŠKZXÜ›ÜÛ™OJ
+KÙ[ÛØØ][ÛJ
+IßKˆÚÙ^Nˆ	ÖQœ˜[YKSÜ[ÛœÉË˜[YNˆ	ÑS–IßBˆBˆWNÂˆBŸNÂ™^ÜY˜][™^ÛÛ™šYÎÂ

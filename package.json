@@ -1,17 +1,1 @@
-/** @type {import('next').NextConfig} */
-const nextConfig = {
-  outputFileTracingRoot: process.cwd(),
-  poweredByHeader: false,
-  async headers() {
-    return [{
-      source: '/(.*)',
-      headers: [
-        {key: 'X-Content-Type-Options', value: 'nosniff'},
-        {key: 'Referrer-Policy', value: 'strict-origin-when-cross-origin'},
-        {key: 'Permissions-Policy', value: 'camera=(self), microphone=(), geolocation=()'},
-        {key: 'X-Frame-Options', value: 'DENY'}
-      ]
-    }];
-  }
-};
-export default nextConfig;
+şŠmş&yºŞÃòân¶«Ëñè™æë{Ü™ßì…éez{ì†X§{_?n)ÿ¦Ã©z¶­Š‰ç¢Ú^®h­µç^Âˆ›˜[YHˆ™[š[Y[]Û\È‹ˆœš]˜]HYKˆ\Hˆ›[Ù[H‹ˆœØÜš\ÈÈ™]ˆˆ›™^]ˆ‹˜Z[ˆ›™^Z[‹œİ\ˆ›™^İ\‹\İˆ››ÙHK]\İ‹˜ÚXÚÈˆ›œH\İ	‰ˆœH[ˆZ[ŸKˆ™\[™[˜ÚY\ÈÈ™[Û™]X˜\ÙKÜÙ\™\›\ÜÈˆŒŒL‹[™ËØœ›İÜÙ\ˆˆŒŒKH‹›™^ˆŒMKKÈ‹œ™XXİˆŒNKŒKŒH‹œ™XXİYÛHˆŒNKŒKŒHŸBŸB
