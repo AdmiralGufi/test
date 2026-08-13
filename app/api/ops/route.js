@@ -46,7 +46,9 @@ export async function POST(r){
       if(!allowed(u.role,['ADMIN','MANAGER']))throw new Error('FORBIDDEN');
       if(!x.name)throw new Error('SELLER_NAME_REQUIRED');
       if(x.email&&!validEmail(x.email))throw new Error('INVALID_EMAIL');
-      const a=await sql`insert into sellers(name,contact_name,phone,email) values(${cleanText(x.name,200)},${cleanText(x.contact,160)||null},${cleanText(x.phone,60)||null},${cleanText(x.email,254).toLowerCase()||null}) returning id`;
+      const a=u.organization_id
+        ?await sql`insert into sellers(organization_id,name,contact_name,phone,email) values(${u.organization_id},${cleanText(x.name,200)},${cleanText(x.contact,160)||null},${cleanText(x.phone,60)||null},${cleanText(x.email,254).toLowerCase()||null}) returning id`
+        :await sql`insert into sellers(name,contact_name,phone,email) values(${cleanText(x.name,200)},${cleanText(x.contact,160)||null},${cleanText(x.phone,60)||null},${cleanText(x.email,254).toLowerCase()||null}) returning id`;
       return NextResponse.json({ok:true,id:a[0].id});
     }
     if(x.action==='MOVE_BOX'){
@@ -107,6 +109,7 @@ export async function POST(r){
       if(!validEmail(x.email))throw new Error('INVALID_EMAIL');
       if(!ROLES.includes(x.role))throw new Error('INVALID_ROLE');
       const a=await sql`insert into users(email,name,password_hash,role,active) values(lower(${cleanText(x.email,254)}::text),${cleanText(x.name,160)}::text,crypt(${x.password}::text,gen_salt('bf',10)),${x.role}::text,true) returning id,email,name,role,active`;
+      if(u.organization_id)await sql`insert into organization_members(organization_id,user_id,role,active) values(${u.organization_id},${a[0].id},${x.role},true)`;
       return NextResponse.json(a[0]);
     }
     if(x.action==='TOGGLE_USER'){

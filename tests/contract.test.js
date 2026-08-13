@@ -65,3 +65,17 @@ test('commercial foundation exposes health checks and architecture documentation
   assert.match(architecture, /Multi-tenant target/);
   assert.match(roadmap, /commercial pilot/i);
 });
+
+test('authentication supports staged organization migration', async () => {
+  const auth = await readFile(new URL('../lib/auth.js', import.meta.url), 'utf8');
+  const opsRoute = await readFile(new URL('../app/api/ops/route.js', import.meta.url), 'utf8');
+  const bootstrap = await readFile(new URL('../app/api/bootstrap/route.js', import.meta.url), 'utf8');
+  const scan = await readFile(new URL('../app/api/scan/route.js', import.meta.url), 'utf8');
+  assert.match(auth, /tenancyEnabled/);
+  assert.match(auth, /organization_members/);
+  assert.match(auth, /sessions\(token_hash,user_id,organization_id,expires_at\)/);
+  assert.match(opsRoute, /sellers\(organization_id,name/);
+  assert.match(opsRoute, /insert into organization_members/);
+  assert.match(bootstrap, /where s\.organization_id=\$\{organizationId\}/);
+  assert.match(scan, /w\.organization_id=\$\{u\.organization_id\}/);
+});

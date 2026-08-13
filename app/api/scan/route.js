@@ -16,7 +16,14 @@ export async function POST(r) {
   let location = '';
   let entityId = null;
 
-  let a = await sql`
+  let a = u.organization_id ? await sql`
+    select b.id,b.box_code,b.status,s.name seller_name,z.name zone_name,c.code cell_code
+    from boxes b
+    join sellers s on s.id=b.seller_id
+    join zones z on z.id=b.zone_id
+    left join cells c on c.id=b.cell_id
+    where (b.box_code=${v} or b.barcode=${v}) and s.organization_id=${u.organization_id}
+    limit 1` : await sql`
     select b.id,b.box_code,b.status,s.name seller_name,z.name zone_name,c.code cell_code
     from boxes b
     join sellers s on s.id=b.seller_id
@@ -32,7 +39,12 @@ export async function POST(r) {
     title = `${a[0].seller_name} · ${a[0].status}`;
     location = a[0].cell_code ? `Ячейка ${a[0].cell_code}` : a[0].zone_name;
   } else {
-    a = await sql`
+    a = u.organization_id ? await sql`
+      select p.id,p.sku,p.name,p.wb_barcode,s.name seller_name
+      from products p
+      join sellers s on s.id=p.seller_id
+      where (p.sku=${v} or p.wb_barcode=${v} or p.vendor_code=${v}) and s.organization_id=${u.organization_id}
+      limit 1` : await sql`
       select p.id,p.sku,p.name,p.wb_barcode,s.name seller_name
       from products p
       join sellers s on s.id=p.seller_id
@@ -46,7 +58,13 @@ export async function POST(r) {
       title = `${a[0].name} · ${a[0].seller_name}`;
       location = 'Товар';
     } else {
-      a = await sql`
+      a = u.organization_id ? await sql`
+        select c.id,c.code,z.name zone_name
+        from cells c
+        join zones z on z.id=c.zone_id
+        join warehouses w on w.id=z.warehouse_id
+        where c.code=${v} and w.organization_id=${u.organization_id}
+        limit 1` : await sql`
         select c.id,c.code,z.name zone_name
         from cells c
         join zones z on z.id=c.zone_id
@@ -60,7 +78,12 @@ export async function POST(r) {
         title = a[0].zone_name;
         location = 'Ячейка хранения';
       } else {
-        a = await sql`
+        a = u.organization_id ? await sql`
+          select o.id,o.order_no,o.status,s.name seller_name
+          from orders o
+          join sellers s on s.id=o.seller_id
+          where (o.order_no=${v} or o.wb_order_id=${v}) and s.organization_id=${u.organization_id}
+          limit 1` : await sql`
           select o.id,o.order_no,o.status,s.name seller_name
           from orders o
           join sellers s on s.id=o.seller_id
