@@ -20,8 +20,9 @@ export async function GET(request){
     where id in (
       select i.id from wb_integrations i join organizations o on o.id=i.organization_id
       where i.active=true and o.status in ('ACTIVE','TRIAL') and o.archived_at is null
-        and (i.last_sync_at is null or i.last_sync_at<now()-interval '45 seconds')
-      order by i.last_sync_at nulls first limit 50 for update of i skip locked
+        and (i.last_sync_at is null or (i.last_error is null and i.last_sync_at<now()-interval '45 seconds') or
+          (i.last_error is not null and i.last_sync_at<now()-case when i.last_error like '%WB_API_401%' or i.last_error like '%WB_API_403%' then interval '6 hours' when i.last_error like '%WB_API_429%' then interval '5 minutes' else interval '15 minutes' end))
+      order by i.last_sync_at nulls first limit 10 for update of i skip locked
     ) returning *`;
   let imported=0,failed=0;
   for(const integration of integrations){

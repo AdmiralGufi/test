@@ -34,7 +34,7 @@
 - [x] Automatic, idempotent Wildberries FBS order synchronization
 - [x] WB product matching by chrtId, barcode and internal fallback SKU
 - [ ] Idempotent webhook/event inbox
-- [ ] Retry queue and integration monitoring
+- [x] Adaptive retry backoff and integration health monitoring
 - [ ] Public API keys and webhooks
 - [ ] Returns, replenishment and wave picking
 

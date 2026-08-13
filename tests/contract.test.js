@@ -204,6 +204,8 @@ test('Wildberries FBS integration is secure, idempotent and visible in the mobil
   assert.match(route,/encryptSecret/);
   assert.match(importer,/\/api\/v3\/orders\/new/);
   assert.match(importer,/on conflict\(seller_id,wb_order_id\)/);
+  assert.match(importer,/insert into order_allocations/);
+  assert.match(importer,/stock_reserved/);
   assert.doesNotMatch(bootstrap,/token_encrypted/);
   assert.match(ui,/type="password"/);
   assert.match(ui,/platformShortcut/);
@@ -211,6 +213,8 @@ test('Wildberries FBS integration is secure, idempotent and visible in the mobil
   assert.match(migration,/token_encrypted text not null/);
   assert.match(migration,/products_seller_wb_chrt_key/);
   assert.match(cron,/CRON_SECRET/);
+  assert.match(cron,/interval '6 hours'/);
+  assert.match(cron,/interval '5 minutes'/);
   assert.match(cron,/cache-control.*private, no-store/);
   assert.doesNotMatch(cron,/x-vercel-cron-schedule/);
   assert.match(workflow,/cron: '\*\/5 \* \* \* \*'/);
@@ -259,6 +263,15 @@ test('warehouse locations are editable only inside the active organization', asy
   assert.match(bootstrap,/select id,code,name,city,address,timezone/);
   assert.match(ui,/Сохранить данные склада/);
   assert.match(ui,/Эти данные отображаются в клиентском кабинете/);
+});
+
+test('picking cannot consume a box from another warehouse', async () => {
+  const tenant=await readFile(new URL('../lib/tenant.js',import.meta.url),'utf8');
+  const bootstrap=await readFile(new URL('../app/api/bootstrap/route.js',import.meta.url),'utf8');
+  const ui=await readFile(new URL('../components/WmsAppV3.js',import.meta.url),'utf8');
+  assert.match(tenant,/o\.warehouse_id=bz\.warehouse_id/);
+  assert.match(bootstrap,/z\.warehouse_id from box_items/);
+  assert.match(ui,/x\.warehouse_id===order\?\.warehouse_id/);
 });
 
 test('platform owner can safely manage, suspend and archive sold fulfillment access', async () => {

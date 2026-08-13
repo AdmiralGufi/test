@@ -32,7 +32,8 @@ async function ownedIntegrations(user,{onlyDue=false,id=null}={}){
       select id from wb_integrations
       where organization_id=${user.organization_id} and active=true
         and (${sellerId}::uuid is null or seller_id=${sellerId})
-        and (last_sync_at is null or last_sync_at<now()-interval '45 seconds')
+        and (last_sync_at is null or (last_error is null and last_sync_at<now()-interval '45 seconds') or
+          (last_error is not null and last_sync_at<now()-case when last_error like '%WB_API_401%' or last_error like '%WB_API_403%' then interval '6 hours' when last_error like '%WB_API_429%' then interval '5 minutes' else interval '15 minutes' end))
       order by last_sync_at nulls first limit 10 for update skip locked
     ) returning *`;
   return sellerId
