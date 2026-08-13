@@ -44,6 +44,12 @@ Current API writes also perform explicit ownership checks before invoking transa
 
 Seller records remain customers of a fulfillment organization rather than top-level tenants. `seller_members` narrows an authenticated client session to one seller. A seller owner may manage that seller's encrypted marketplace credential; a seller viewer has read-only access.
 
+## Organization lifecycle
+
+The platform owner can update a fulfillment profile, commercial plan and primary administrator. Suspending or archiving an organization immediately revokes its sessions and excludes it from marketplace background synchronization. Archiving is reversible and preserves inventory, orders, audit history and encrypted integration settings. Physical tenant deletion is intentionally not exposed in the application UI.
+
+The organization containing the active platform-owner session cannot be suspended or archived. This prevents the owner from accidentally locking themselves out of platform administration.
+
 ## Extension rules
 
 - New writes use explicit actions in `lib/wms-contract.js` and `POST /api/ops` until a module warrants its own route.

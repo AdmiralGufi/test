@@ -91,7 +91,7 @@ export default function WmsAppV3(){
       {toast&&<div className="toast" role="status">✓ {toast}</div>}
       <Metrics data={data}/>
       {visible==='Обзор'&&<Overview data={data} setTab={setTab}/>}
-      {visible==='Фулфилменты'&&<Organizations data={data} done={refresh}/>}
+      {visible==='Фулфилменты'&&<Organizations data={data} currentOrganizationId={state.user.organization_id} done={refresh}/>}
       {visible==='Скан'&&<Scanner setTab={setTab}/>} 
       {visible==='Приёмка'&&<Receiving data={data} done={refresh}/>}
       {visible==='Короба'&&<Boxes rows={boxes} query={query} setQuery={setQuery} open={setModal}/>}
@@ -167,12 +167,16 @@ function Overview({data,setTab}){
 function Health({label,value,ok=false}){return <div className="health"><span className={ok?'dot okDot':'dot'}/><div><small>{label}</small><b>{value}</b></div></div>}
 function SectionTitle({title,text,action}){return <header className="sectionTitle"><div><h2>{title}</h2>{text&&<p>{text}</p>}</div>{action}</header>}
 
-function Organizations({data,done}){
+function Organizations({data,currentOrganizationId,done}){
   const initial={name:'',slug:'',warehouse_name:'Основной склад',warehouse_code:'MAIN',warehouse_city:'',warehouse_address:'',timezone:'Asia/Bishkek',admin_name:'',admin_email:'',admin_password:''};
   const[form,setForm]=useState(initial);
   const[error,setError]=useState('');
   const[busy,setBusy]=useState(false);
+  const[selected,setSelected]=useState(null);
+  const[showArchived,setShowArchived]=useState(false);
   const organizations=data.organizations||[];
+  const visibleOrganizations=organizations.filter(item=>showArchived||!item.archived_at);
+  const activeCount=organizations.filter(item=>!item.archived_at&&['ACTIVE','TRIAL'].includes(item.status)).length;
   async function save(event){
     event.preventDefault();
     if(busy)return;
@@ -186,9 +190,9 @@ function Organizations({data,done}){
   return <div className="platformGrid">
     <section className="card platformIntro">
       <p className="eyebrow">УПРАВЛЕНИЕ ПЛАТФОРМОЙ</p>
-      <h2>Подключайте новый склад за один шаг</h2>
-      <p>Компания, основной склад, девять рабочих зон и администратор создаются вместе. Если что-то не получится, система не сохранит незавершённую настройку.</p>
-      <div className="platformFacts"><div><b>{organizations.length}</b><span>фулфилментов</span></div><div><b>{organizations.reduce((sum,item)=>sum+(item.user_count||0),0)}</b><span>пользователей</span></div><div><b>{organizations.reduce((sum,item)=>sum+(item.seller_count||0),0)}</b><span>клиентов</span></div></div>
+      <h2>Управляйте проданными доступами.</h2>
+      <p>Подключайте компании, меняйте тариф, администратора и статус. Приостановка и архив мгновенно закрывают вход, но сохраняют складские данные.</p>
+      <div className="platformFacts"><div><b>{activeCount}</b><span>работают</span></div><div><b>{organizations.reduce((sum,item)=>sum+(item.user_count||0),0)}</b><span>пользователей</span></div><div><b>{organizations.filter(item=>item.archived_at).length}</b><span>в архиве</span></div></div>
     </section>
     <section className="card onboardingCard">
       <SectionTitle title="Новый фулфилмент" text="Стартовый тариф: Pilot · статус: пробный"/>
@@ -205,10 +209,41 @@ function Organizations({data,done}){
       </form>
     </section>
     <section className="card platformList">
-      <SectionTitle title="Все фулфилменты" text="Компании, доступы и состояние запуска"/>
-      <div className="organizationCards">{organizations.map(item=><article key={item.id} className="organizationCard"><div className="organizationMark">{item.name.slice(0,1).toUpperCase()}</div><div className="organizationMain"><div><h3>{item.name}</h3><span className="mono">{item.slug}</span></div><p>{item.admin_name||'Администратор не назначен'} · {item.admin_email||'email не указан'}</p><div className="organizationStats"><span><b>{item.warehouse_count}</b> склад</span><span><b>{item.user_count}</b> сотрудников</span><span><b>{item.seller_count}</b> клиентов</span></div></div><Status value={item.status==='TRIAL'?'Пробный':'Активен'} tone={item.status==='TRIAL'?'NEW':'READY'}/></article>)}</div>
+      <SectionTitle title="Все фулфилменты" text="Компании, тарифы и состояние доступа" action={<button className="btn small" aria-pressed={showArchived} onClick={()=>setShowArchived(value=>!value)}>{showArchived?'Скрыть архив':'Показать архив'}</button>}/>
+      <div className="organizationCards">{visibleOrganizations.map(item=><article key={item.id} className={`organizationCard ${item.archived_at?'archived':''}`}><div className="organizationMark">{item.name.slice(0,1).toUpperCase()}</div><div className="organizationMain"><div><h3>{item.name}</h3><span className="mono">{item.slug}</span></div><p>{item.admin_name||'Администратор не назначен'} · {item.admin_email||'email не указан'}</p><div className="organizationStats"><span><b>{item.warehouse_count}</b> склад</span><span><b>{item.user_count}</b> сотрудников</span><span><b>{item.seller_count}</b> клиентов</span><span><b>{item.order_count}</b> заказов</span></div></div><div className="organizationControl"><OrganizationStatus item={item}/><small>{item.plan}</small><button className="btn small" onClick={()=>setSelected(item)}>Управлять</button></div></article>)}</div>
     </section>
+    {selected&&<OrganizationManage item={selected} currentOrganizationId={currentOrganizationId} close={()=>setSelected(null)} done={async message=>{setSelected(null);await done(message)}}/>}
   </div>;
+}
+
+function OrganizationStatus({item}){
+  if(item.archived_at)return <Status value="Архив" tone="CANCELLED"/>;
+  if(item.status==='SUSPENDED')return <Status value="Приостановлен" tone="CANCELLED"/>;
+  if(item.status==='TRIAL')return <Status value="Пробный" tone="NEW"/>;
+  return <Status value="Активен" tone="READY"/>;
+}
+
+function OrganizationManage({item,currentOrganizationId,close,done}){
+  const[profile,setProfile]=useState({name:item.name,slug:item.slug,plan:item.plan||'PILOT'});
+  const[admin,setAdmin]=useState({admin_name:item.admin_name||'',admin_email:item.admin_email||'',admin_password:''});
+  const[confirmName,setConfirmName]=useState('');
+  const[busy,setBusy]=useState('');
+  const[error,setError]=useState('');
+  const isOwn=item.id===currentOrganizationId;
+  async function run(method,body,message){
+    if(busy)return;
+    setBusy(body.action||method);setError('');
+    try{await api('/api/platform/organizations',{method,body:JSON.stringify({organization_id:item.id,...body})});await done(message)}catch(err){setError(err.message);setBusy('')}
+  }
+  return <Modal title={`Управление · ${item.name}`} close={close}><div className="organizationManage">
+    <div className="manageSummary"><div className="organizationMark">{item.name.slice(0,1).toUpperCase()}</div><div><OrganizationStatus item={item}/><h3>{item.name}</h3><p>{item.warehouse_name||'Основной склад'}{item.warehouse_city?` · ${item.warehouse_city}`:''}</p></div></div>
+    {isOwn&&<div className="infoBanner"><b>Ваш рабочий фулфилмент.</b> Его нельзя приостановить или архивировать, чтобы не потерять доступ к панели владельца платформы.</div>}
+    <section className="manageSection"><div><h3>Компания и тариф</h3><p>Название, короткий адрес и коммерческий план</p></div><form className="formGrid" onSubmit={event=>{event.preventDefault();run('PATCH',{action:'UPDATE_PROFILE',...profile},'Данные фулфилмента обновлены')}}><Field label="Название"><input value={profile.name} onChange={event=>setProfile({...profile,name:event.target.value})} required/></Field><div className="formRow"><Field label="Короткий адрес"><input value={profile.slug} onChange={event=>setProfile({...profile,slug:event.target.value.toLowerCase()})} pattern="[a-z0-9]+(?:-[a-z0-9]+)*" required/></Field><Field label="Тариф"><select value={profile.plan} onChange={event=>setProfile({...profile,plan:event.target.value})}><option value="PILOT">Pilot</option><option value="START">Start</option><option value="GROWTH">Growth</option><option value="BUSINESS">Business</option><option value="ENTERPRISE">Enterprise</option></select></Field></div><button className="btn primary" disabled={Boolean(busy)}>Сохранить компанию</button></form></section>
+    <section className="manageSection"><div><h3>Главный администратор</h3><p>Данные для входа владельца фулфилмента</p></div><form className="formGrid" onSubmit={event=>{event.preventDefault();run('PATCH',{action:'UPDATE_ADMIN',admin_id:item.admin_id,...admin},'Администратор обновлён')}}><div className="formRow"><Field label="Имя"><input value={admin.admin_name} onChange={event=>setAdmin({...admin,admin_name:event.target.value})} required/></Field><Field label="Email"><input type="email" value={admin.admin_email} onChange={event=>setAdmin({...admin,admin_email:event.target.value})} required/></Field></div><Field label="Новый временный пароль" hint="Оставьте пустым, если менять не нужно"><input type="password" minLength="8" autoComplete="new-password" value={admin.admin_password} onChange={event=>setAdmin({...admin,admin_password:event.target.value})}/></Field><button className="btn" disabled={Boolean(busy)||!item.admin_id}>Обновить администратора</button></form></section>
+    <section className="manageSection"><div><h3>Доступ к приложению</h3><p>При приостановке все сотрудники и клиенты выйдут из системы</p></div>{!item.archived_at&&<div className="accessActions">{item.status==='SUSPENDED'?<button className="btn primary" disabled={Boolean(busy)} onClick={()=>run('PATCH',{action:'SET_STATUS',status:'ACTIVE'},'Доступ фулфилмента возобновлён')}>Возобновить доступ</button>:<button className="btn" disabled={Boolean(busy)||isOwn} onClick={()=>{if(window.confirm(`Приостановить доступ для «${item.name}»?`))run('PATCH',{action:'SET_STATUS',status:'SUSPENDED'},'Доступ фулфилмента приостановлен')}}>Приостановить доступ</button>}{item.status==='ACTIVE'&&<button className="btn" disabled={Boolean(busy)} onClick={()=>run('PATCH',{action:'SET_STATUS',status:'TRIAL'},'Включён пробный статус')}>Перевести в пробный</button>}{item.status==='TRIAL'&&<button className="btn primary" disabled={Boolean(busy)} onClick={()=>run('PATCH',{action:'SET_STATUS',status:'ACTIVE'},'Фулфилмент активирован')}>Активировать</button>}</div>}{item.archived_at&&<button className="btn primary" disabled={Boolean(busy)} onClick={()=>run('PATCH',{action:'RESTORE'},'Фулфилмент восстановлен из архива')}>Восстановить из архива</button>}</section>
+    {!item.archived_at&&<section className="manageSection dangerZone"><div><h3>Архивировать фулфилмент</h3><p>Вход и WB-синхронизация остановятся. Данные, остатки, заказы и аудит сохранятся.</p></div><Field label={`Введите точное название: ${item.name}`}><input value={confirmName} onChange={event=>setConfirmName(event.target.value)} autoComplete="off"/></Field><button className="btn dangerButton" disabled={Boolean(busy)||isOwn||confirmName!==item.name} onClick={()=>run('DELETE',{confirm_name:confirmName},'Фулфилмент перемещён в архив')}>Архивировать</button></section>}
+    <ErrorMessage>{error}</ErrorMessage>
+  </div></Modal>;
 }
 
 function Scanner({setTab}){

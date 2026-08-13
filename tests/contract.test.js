@@ -223,3 +223,28 @@ test('warehouse locations are editable only inside the active organization', asy
   assert.match(ui,/Сохранить данные склада/);
   assert.match(ui,/Эти данные отображаются в клиентском кабинете/);
 });
+
+test('platform owner can safely manage, suspend and archive sold fulfillment access', async () => {
+  const route=await readFile(new URL('../app/api/platform/organizations/route.js',import.meta.url),'utf8');
+  const auth=await readFile(new URL('../lib/auth.js',import.meta.url),'utf8');
+  const cron=await readFile(new URL('../app/api/cron/wildberries/route.js',import.meta.url),'utf8');
+  const bootstrap=await readFile(new URL('../app/api/bootstrap/route.js',import.meta.url),'utf8');
+  const ui=await readFile(new URL('../components/WmsAppV3.js',import.meta.url),'utf8');
+  const migration=await readFile(new URL('../migrations/006_organization_archive.sql',import.meta.url),'utf8');
+  assert.match(route,/export async function PATCH/);
+  assert.match(route,/export async function DELETE/);
+  assert.match(route,/UPDATE_PROFILE/);
+  assert.match(route,/UPDATE_ADMIN/);
+  assert.match(route,/SET_STATUS/);
+  assert.match(route,/RESTORE/);
+  assert.match(route,/ARCHIVE_ORGANIZATION/);
+  assert.match(route,/target\.id===actor\.organization_id/);
+  assert.doesNotMatch(route,/delete from organizations/);
+  assert.match(auth,/o\.archived_at is null/);
+  assert.match(cron,/o\.status in \('ACTIVE','TRIAL'\) and o\.archived_at is null/);
+  assert.match(bootstrap,/o\.archived_at/);
+  assert.match(ui,/Управление ·/);
+  assert.match(ui,/Архивировать фулфилмент/);
+  assert.match(ui,/Восстановить из архива/);
+  assert.match(migration,/ADD COLUMN IF NOT EXISTS archived_at/i);
+});

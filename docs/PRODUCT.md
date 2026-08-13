@@ -10,7 +10,8 @@ Deliver a configurable WMS that a fulfillment company can start using without cu
 
 ## Users
 
-- Fulfillment owner: configures the company, warehouses, employees and commercial plan.
+- Platform owner: sells and manages fulfillment access, plans, administrators, suspension and archive lifecycle.
+- Fulfillment owner: configures the company, warehouses, employees and clients.
 - Warehouse manager: controls throughput, stock and exceptions.
 - Receiver: accepts boxes and contents.
 - Picker: picks reserved stock using a handheld terminal or phone.

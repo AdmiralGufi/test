@@ -6,6 +6,9 @@ export async function POST(req){
   if(!email||!password)return NextResponse.json({error:'Введите email и пароль'},{status:400});
   const rows=await sql`select id from users where lower(email)=lower(${email}::text) and active=true and password_hash=crypt(${password}::text,password_hash) limit 1`;
   if(!rows[0])return NextResponse.json({error:'Неверный email или пароль'},{status:401});
-  await createSession(rows[0].id);
+  try{await createSession(rows[0].id)}catch(error){
+    if(String(error?.message||error).includes('NO_ACTIVE_ORGANIZATION'))return NextResponse.json({error:'Доступ к фулфилменту приостановлен. Обратитесь к владельцу платформы.'},{status:403});
+    throw error;
+  }
   return NextResponse.json({ok:true});
 }

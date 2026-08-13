@@ -79,16 +79,24 @@ export async function GET(){
     organizationId?sql`select d.* from devices d join organization_members m on m.user_id=d.user_id where m.organization_id=${organizationId} order by d.created_at desc limit 200`:sql`select * from devices order by created_at desc limit 200`,
     organizationId?sql`select a.*,u.name user_name from audit_logs a join users u on u.id=a.actor_id join organization_members m on m.user_id=u.id where m.organization_id=${organizationId} order by a.created_at desc limit 500`:sql`select a.*,u.name user_name from audit_logs a left join users u on u.id=a.actor_id order by a.created_at desc limit 500`,
     user.role==='ADMIN'?(organizationId?sql`select u.id,u.email,u.name,m.role,m.active,u.created_at,sm.seller_id,sm.access_role seller_access_role,s.name seller_name from users u join organization_members m on m.user_id=u.id left join seller_members sm on sm.organization_id=m.organization_id and sm.user_id=u.id left join sellers s on s.id=sm.seller_id where m.organization_id=${organizationId} order by u.created_at`:sql`select id,email,name,role,active,created_at from users order by created_at`):Promise.resolve([]),
-    user.is_platform_admin?sql`select o.id,o.name,o.slug,o.status,o.plan,o.created_at,
+    user.is_platform_admin?sql`select o.id,o.name,o.slug,o.status,o.plan,o.created_at,o.updated_at,o.archived_at,
       count(distinct w.id)::int warehouse_count,
       count(distinct m.user_id) filter(where m.active=true)::int user_count,
       count(distinct s.id)::int seller_count,
+      count(distinct ord.id)::int order_count,
+      count(distinct wi.id) filter(where wi.active=true)::int integration_count,
+      (select pw.name from warehouses pw where pw.organization_id=o.id and pw.active=true order by pw.created_at limit 1) warehouse_name,
+      (select pw.city from warehouses pw where pw.organization_id=o.id and pw.active=true order by pw.created_at limit 1) warehouse_city,
+      (select pw.address from warehouses pw where pw.organization_id=o.id and pw.active=true order by pw.created_at limit 1) warehouse_address,
+      (select u.id from organization_members am join users u on u.id=am.user_id where am.organization_id=o.id and am.role='ADMIN' and am.active=true order by am.created_at limit 1) admin_id,
       (select u.name from organization_members am join users u on u.id=am.user_id where am.organization_id=o.id and am.role='ADMIN' and am.active=true order by am.created_at limit 1) admin_name,
       (select u.email from organization_members am join users u on u.id=am.user_id where am.organization_id=o.id and am.role='ADMIN' and am.active=true order by am.created_at limit 1) admin_email
       from organizations o
       left join warehouses w on w.organization_id=o.id
       left join organization_members m on m.organization_id=o.id
       left join sellers s on s.organization_id=o.id
+      left join orders ord on ord.seller_id=s.id
+      left join wb_integrations wi on wi.organization_id=o.id
       group by o.id order by o.created_at desc`:Promise.resolve([]),
     sql`select i.id,i.seller_id,i.name,i.token_hint,i.active,i.last_sync_at,i.last_success_at,i.last_error,i.imported_orders,i.created_at,s.name seller_name
       from wb_integrations i join sellers s on s.id=i.seller_id
