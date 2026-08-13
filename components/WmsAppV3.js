@@ -73,7 +73,7 @@ export default function WmsAppV3(){
       {toast&&<div className="toast" role="status">✓ {toast}</div>}
       <Metrics data={data}/>
       {visible==='Обзор'&&<Overview data={data} setTab={setTab}/>}
-      {visible==='Скан'&&<Scanner/>}
+      {visible==='Скан'&&<Scanner setTab={setTab}/>} 
       {visible==='Приёмка'&&<Receiving data={data} done={refresh}/>}
       {visible==='Короба'&&<Boxes rows={boxes} query={query} setQuery={setQuery} open={setModal}/>}
       {visible==='Товары'&&<Products data={data} done={refresh}/>}
@@ -147,19 +147,24 @@ function Overview({data,setTab}){
 function Health({label,value,ok=false}){return <div className="health"><span className={ok?'dot okDot':'dot'}/><div><small>{label}</small><b>{value}</b></div></div>}
 function SectionTitle({title,text,action}){return <header className="sectionTitle"><div><h2>{title}</h2>{text&&<p>{text}</p>}</div>{action}</header>}
 
-function Scanner(){
+function Scanner({setTab}){
   const[code,setCode]=useState('');
   const[result,setResult]=useState(null);
+  const[history,setHistory]=useState([]);
   const[camera,setCamera]=useState(false);
   const[busy,setBusy]=useState(false);
-  const video=useRef(null),controls=useRef(null);
+  const video=useRef(null),controls=useRef(null),input=useRef(null);
   async function lookup(input=code){
     const value=String(input||'').trim();
     if(!value||busy)return;
     setBusy(true);setResult(null);
-    try{setResult(await api('/api/scan',{method:'POST',body:JSON.stringify({barcode:value})}));setCode('')}
-    catch(error){setResult({error:error.message})}
-    finally{setBusy(false)}
+    try{
+      const found=await api('/api/scan',{method:'POST',body:JSON.stringify({barcode:value})});
+      setResult(found);setHistory(current=>[{...found,scannedAt:new Date().toISOString()},...current].slice(0,5));setCode('');
+      navigator.vibrate?.(70);
+    }
+    catch(error){setResult({error:error.message,code:value});navigator.vibrate?.([60,50,60])}
+    finally{setBusy(false);window.setTimeout(()=>input.current?.focus(),80)}
   }
   useEffect(()=>{
     if(!camera)return;
@@ -176,8 +181,10 @@ function Scanner(){
     start();
     return()=>{stopped=true;controls.current?.stop()}
   },[camera]);
+  const next={BOX:['Короба','Открыть короб'],SKU:['Товары','Открыть товары'],CELL:['Короба','Посмотреть короба'],ORDER:['Заказы','Открыть заказ']}[result?.kind];
   return <section className="card scannerCard"><SectionTitle title="Скан-центр" text="ТСД работает в режиме HID/Keyboard: сканирование завершается клавишей Enter"/>
-    <div className="scanner"><span className="scanGlyph" aria-hidden="true">⌗</span><label htmlFor="scan-input">Штрихкод или внутренний код</label><input id="scan-input" autoFocus value={code} placeholder="BOX / SKU / ячейка / заказ" onChange={e=>setCode(e.target.value)} onKeyDown={e=>{if(e.key==='Enter')lookup()}}/><div className="actions center"><button className="btn primary" disabled={!code.trim()||busy} onClick={()=>lookup()}>{busy?'Ищем…':'Распознать'}</button><button className="btn" aria-pressed={camera} onClick={()=>setCamera(value=>!value)}>{camera?'Закрыть камеру':'Камера телефона'}</button></div>{camera&&<video ref={video} className="camera" playsInline muted aria-label="Изображение с камеры"/>}{result&&<div className={`scanResult ${result.error?'errorResult':'successResult'}`} role="status">{result.error?<><b>Код не распознан</b><p>{result.error}</p></>:<><span className="resultType">{result.kind}</span><h3>{result.code}</h3><p>{result.title}</p><small>{result.location}</small></>}</div>}</div>
+    <div className="scannerLayout"><div className="scanner"><span className="scanGlyph" aria-hidden="true">⌗</span><label htmlFor="scan-input">Штрихкод или внутренний код</label><input ref={input} id="scan-input" autoFocus autoComplete="off" enterKeyHint="done" value={code} placeholder="BOX / SKU / ячейка / заказ" onChange={e=>setCode(e.target.value)} onKeyDown={e=>{if(e.key==='Enter'){e.preventDefault();lookup()}}}/><p className="scanHint">Фокус сохраняется автоматически — можно сканировать подряд</p><div className="actions center"><button className="btn primary" disabled={!code.trim()||busy} onClick={()=>lookup()}>{busy?'Ищем…':'Распознать'}</button><button className="btn" aria-pressed={camera} onClick={()=>setCamera(value=>!value)}>{camera?'Закрыть камеру':'Камера телефона'}</button></div>{camera&&<video ref={video} className="camera" playsInline muted aria-label="Изображение с камеры"/>}{result&&<div className={`scanResult ${result.error?'errorResult':'successResult'}`} role="status">{result.error?<><b>Код не распознан</b><p>{result.error}</p><small className="mono">{result.code}</small></>:<><span className="resultType">{result.kind}</span><h3>{result.code}</h3><p>{result.title}</p><small>{result.location}</small>{next&&<button className="btn primary scanNext" onClick={()=>setTab(next[0])}>{next[1]} →</button>}</>}</div>}</div>
+    <aside className="scanHistory" aria-label="Последние сканирования"><h3>Последние сканы</h3><p>До пяти кодов в текущей смене</p>{history.length?<ol>{history.map((item,index)=><li key={`${item.scannedAt}-${index}`}><span className="resultType">{item.kind}</span><b className="mono">{item.code}</b><small>{item.location}</small></li>)}</ol>:<div className="historyEmpty"><span>⌗</span><small>Здесь появится история</small></div>}<button className="linkButton" disabled={!history.length} onClick={()=>setHistory([])}>Очистить историю</button></aside></div>
   </section>;
 }
 

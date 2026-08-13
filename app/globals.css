@@ -71,13 +71,16 @@ h1,h2,h3,p{margin-top:0}
 .health small,.health b{display:block}.health small{color:var(--muted);font-size:10px}.health b{font-size:13px;margin-top:2px}
 .okDot{background:#27a368}
 .scannerCard{min-height:520px}
-.scanner{margin:55px auto 20px;max-width:650px;text-align:center}
+.scannerLayout{align-items:start;display:grid;gap:28px;grid-template-columns:minmax(0,1fr) 280px;margin:34px auto 20px;max-width:980px}
+.scanner{max-width:650px;text-align:center;width:100%}
 .scanGlyph{align-items:center;background:var(--brand);border-radius:18px;display:flex;font-size:33px;height:70px;justify-content:center;margin:0 auto 18px;width:70px}
 .scanner>label{display:block;font-size:13px;font-weight:700;margin-bottom:9px}
 .scanner>input{border:1px solid #cfd8d1;border-radius:13px;font-size:20px;font-weight:700;letter-spacing:.04em;padding:16px;text-align:center;width:100%}
+.scanHint{color:var(--muted);font-size:11px;margin:8px 0 0}
 .scanner .actions{margin-top:12px}
 .camera{background:#111;border-radius:14px;margin-top:16px;max-height:52vh;width:100%}
 .scanResult{border-radius:14px;margin-top:18px;padding:20px;text-align:left}.successResult{background:#eef9f2;border:1px solid #c6e7d1}.errorResult{background:#fff2f0;border:1px solid #f2c7c1}.scanResult h3{margin:6px 0}.scanResult p{margin-bottom:5px}.resultType{font-size:10px;font-weight:800;letter-spacing:.1em}
+.scanNext{margin-top:15px;width:100%}.scanHistory{background:#f8faf7;border:1px solid #e3e9e4;border-radius:14px;padding:16px;text-align:left}.scanHistory h3{font-size:15px;margin:0}.scanHistory>p{color:var(--muted);font-size:10px;margin:4px 0 14px}.scanHistory ol{display:grid;gap:7px;list-style:none;margin:0 0 14px;padding:0}.scanHistory li{background:#fff;border:1px solid #e5ebe6;border-radius:10px;display:grid;gap:2px;padding:10px}.scanHistory li b{font-size:12px}.scanHistory li small{color:var(--muted);font-size:9px}.historyEmpty{align-items:center;color:#8b958f;display:flex;flex-direction:column;gap:5px;justify-content:center;min-height:170px}.historyEmpty span{font-size:28px}.scanHistory .linkButton:disabled{cursor:not-allowed;opacity:.4}
 .formCard{max-width:760px}.formGrid{display:grid;gap:13px}.inlineForm{align-items:end;background:#f8faf7;border-radius:13px;display:grid;gap:10px;grid-template-columns:repeat(4,minmax(130px,1fr)) auto;margin-bottom:16px;padding:14px}
 .field{display:grid;gap:6px}.field>span{font-size:11px;font-weight:750}.field>span small{color:var(--muted);display:block;font-size:9px;font-weight:500;margin-top:2px}
 .field input,.field select,.field textarea,.pickControls input,.pickControls select,.search input{background:#fff;border:1px solid #ccd6cf;border-radius:10px;color:var(--ink);min-height:44px;padding:10px 11px;width:100%}
@@ -103,7 +106,7 @@ table{border-collapse:collapse;width:100%}th{border-bottom:1px solid var(--line)
 @media(max-width:820px){
   .side{display:none}.content{margin:0;padding:20px 14px 88px}.pageHeader{align-items:flex-start}.pageHeader h1{font-size:28px}.pageHeader .subtitle{display:none}.pageHeader .actions .ghost{display:none}
   .metrics{gap:8px;margin-top:18px}.metric{padding:13px}.metricIcon{height:38px;width:38px}.metric b{font-size:22px}.metric p{display:none}
-  .dashboardGrid,.ordersGrid{grid-template-columns:1fr}.orderDetail{position:static}.span2,.span3{grid-column:auto}.sectionTitle{align-items:flex-start;flex-direction:column}.sectionTitle .search{width:100%}
+  .dashboardGrid,.ordersGrid,.scannerLayout{grid-template-columns:1fr}.orderDetail{position:static}.span2,.span3{grid-column:auto}.sectionTitle{align-items:flex-start;flex-direction:column}.sectionTitle .search{width:100%}.scannerLayout{margin-top:14px}.scanHistory{order:2}
   .mobilebar{background:#111813;bottom:0;display:grid;grid-template-columns:repeat(5,1fr);inset:auto 0 0;position:fixed;z-index:30}.mobilebar button{align-items:center;background:transparent;border:0;color:#87938b;display:flex;flex-direction:column;font-size:9px;gap:3px;min-height:66px;padding:8px 2px}.mobilebar button span{font-size:18px}.mobilebar button.active{color:var(--brand)}
   .inlineForm{grid-template-columns:1fr}.rowActions{flex-wrap:wrap}.authShell{grid-template-columns:1fr}.authVisual{display:none}.authPanel{padding:16px}.authCard{padding:23px}
 }

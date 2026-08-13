@@ -46,3 +46,12 @@ test('PWA assets and install metadata are present', async () => {
   assert.doesNotMatch(serviceWorker, /cache\.put\([^)]*\/api\//);
   assert.match(layout, /appleWebApp/);
 });
+
+test('handheld scanner supports keyboard Enter, camera and operator feedback', async () => {
+  const source = await readFile(new URL('../components/WmsAppV3.js', import.meta.url), 'utf8');
+  assert.match(source, /e\.key===['"]Enter['"]/);
+  assert.match(source, /BrowserMultiFormatReader/);
+  assert.match(source, /navigator\.vibrate/);
+  assert.match(source, /Последние сканы/);
+  assert.match(source, /input\.current\?\.focus/);
+});
