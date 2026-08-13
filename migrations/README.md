@@ -19,3 +19,4 @@ Applied migrations:
 - `005_seller_portal.sql` — seller-scoped user access and warehouse location fields. Neon migration `937c9cb7-c778-4114-8bb7-f9f7e13da7ae`, verified on temporary branch and applied to production on 2026-08-13.
 - `006_organization_archive.sql` — reversible fulfillment archive marker and lifecycle lookup index. Neon migration `348a49f4-0ec5-4907-acb0-41af5b3a51dc`, verified on a temporary branch and applied to production on 2026-08-13.
 - `007_commercial_scale.sql` — plan/trial lifecycle and warehouse routing for orders and WB integrations. Neon migration `bba63f1f-d5d8-47be-98d0-94ac1ab52de4`, verified on a temporary branch and applied to production on 2026-08-13.
+- `008_wb_shipping_routes.sql` — WB destination data and a ready-order route index for the fulfillment shipping desk. Neon migration `b9415082-e39d-4ea6-be7e-300df05fe380`, verified on a temporary branch and applied to production on 2026-08-13.

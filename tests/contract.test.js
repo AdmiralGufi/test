@@ -190,6 +190,7 @@ test('Wildberries FBS integration is secure, idempotent and visible in the mobil
 
   assert.deepEqual(normalizeWbOrder({id:77,nmId:101,chrtId:202,skus:['460000000001']}),{
     id:'77',orderNo:'WB-77',sku:'WB-101-202',name:'Товар Wildberries · артикул 101',barcode:'460000000001',nmId:101,chrtId:202,
+    destination:null,officeId:null,warehouseId:null,orderUid:null,sellerDate:null,
     raw:{id:77,nmId:101,chrtId:202,skus:['460000000001']}
   });
 
@@ -220,6 +221,30 @@ test('Wildberries FBS integration is secure, idempotent and visible in the mobil
   assert.match(workflow,/cron: '\*\/5 \* \* \* \*'/);
   assert.match(workflow,/secrets\.WB_SYNC_SECRET/);
   assert.doesNotMatch(workflow,/Bearer [A-Za-z0-9_-]{20,}/);
+});
+
+test('fulfillment desk keeps the WB route and groups ready orders for shipping', async () => {
+  const normalized=normalizeWbOrder({id:88,nmId:303,chrtId:404,skus:['460000000002'],offices:['СЦ Коледино'],officeId:507,warehouseId:9001,orderUid:'basket-1',sellerDate:'02.06.2025'});
+  assert.equal(normalized.destination,'СЦ Коледино');
+  assert.equal(normalized.officeId,507);
+  assert.equal(normalized.warehouseId,9001);
+  assert.equal(normalized.orderUid,'basket-1');
+  assert.equal(normalized.sellerDate,'2025-06-02');
+
+  const ui=await readFile(new URL('../components/WmsAppV3.js',import.meta.url),'utf8');
+  const importer=await readFile(new URL('../lib/wildberries.js',import.meta.url),'utf8');
+  const bootstrap=await readFile(new URL('../app/api/bootstrap/route.js',import.meta.url),'utf8');
+  const migration=await readFile(new URL('../migrations/008_wb_shipping_routes.sql',import.meta.url),'utf8');
+  assert.match(ui,/function WorkspaceScope/);
+  assert.match(ui,/function ShippingBoard/);
+  assert.match(ui,/Маршруты на склады и СЦ WB/);
+  assert.match(ui,/action:'ORDER_SHIPPED'/);
+  assert.match(importer,/order\.offices/);
+  assert.match(importer,/wb_office_id,wb_warehouse_id,wb_order_uid,wb_seller_date/);
+  assert.match(bootstrap,/coalesce\(o\.shipped_at,o\.ready_at,o\.packed_at,o\.picked_at,o\.created_at\) updated_at/);
+  assert.doesNotMatch(bootstrap,/o\.wb_nm_id|o\.wb_chrt_id/);
+  assert.match(migration,/ADD COLUMN IF NOT EXISTS destination/i);
+  assert.match(migration,/orders_ready_destination_idx/);
 });
 
 test('seller portal is read-only, seller-scoped and hides warehouse internals', async () => {

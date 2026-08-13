@@ -35,11 +35,11 @@ export async function GET(request){
       where w.organization_id=${organizationId} and (${sellerId}::uuid is null or s.id=${sellerId}) group by w.name,s.name,b.id,z.name,c.code order by b.received_at desc`;
     rows=rows.map(item=>[item.warehouse,item.seller,item.box_code,item.status,item.zone,item.cell,item.qty,new Date(item.received_at).toISOString()]);
   }else if(type==='orders'){
-    headers=['Склад','Клиент','Заказ','Источник','Статус','Приоритет','Дедлайн','Создан'];
-    rows=await sql`select w.name warehouse,s.name seller,o.order_no,case when o.wb_order_id is null then 'Вручную' else 'Wildberries' end source,o.status,o.priority,o.deadline,o.created_at
+    headers=['Склад','Клиент','Заказ','Источник','Маршрут WB','Статус','Приоритет','Дедлайн','Создан'];
+    rows=await sql`select w.name warehouse,s.name seller,o.order_no,case when o.wb_order_id is null then 'Вручную' else 'Wildberries' end source,coalesce(o.destination,'') destination,o.status,o.priority,o.deadline,o.created_at
       from orders o join sellers s on s.id=o.seller_id join warehouses w on w.id=o.warehouse_id
       where s.organization_id=${organizationId} and (${sellerId}::uuid is null or s.id=${sellerId}) order by o.created_at desc`;
-    rows=rows.map(item=>[item.warehouse,item.seller,item.order_no,item.source,item.status,item.priority,item.deadline?new Date(item.deadline).toISOString():'',new Date(item.created_at).toISOString()]);
+    rows=rows.map(item=>[item.warehouse,item.seller,item.order_no,item.source,item.destination,item.status,item.priority,item.deadline?new Date(item.deadline).toISOString():'',new Date(item.created_at).toISOString()]);
   }else return fail('Неизвестный тип выгрузки');
   return new NextResponse(csv(headers,rows),{headers:{'content-type':'text/csv; charset=utf-8','content-disposition':`attachment; filename="wms-${type}-${new Date().toISOString().slice(0,10)}.csv"`,'cache-control':'private, no-store'}});
 }

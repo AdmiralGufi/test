@@ -116,7 +116,7 @@ export async function POST(r){
       const orderId=randomUUID();
       const orderItems=items.map(item=>({...item,id:randomUUID()}));
       const queries=await transaction(tx=>{
-        const batch=[tx`insert into orders(id,order_no,seller_id,warehouse_id,priority,deadline,status) values(${orderId},${no},${x.seller_id},${x.warehouse_id},${x.priority||'NORMAL'},${x.deadline||null},'NEW') returning id`];
+        const batch=[tx`insert into orders(id,order_no,seller_id,warehouse_id,priority,deadline,status,destination) values(${orderId},${no},${x.seller_id},${x.warehouse_id},${x.priority||'NORMAL'},${x.deadline||null},'NEW',${cleanText(x.destination,240)||null}) returning id`];
         for(const item of orderItems){
           batch.push(tx`insert into order_items(id,order_id,product_id,qty) values(${item.id},${orderId},${item.product_id},${item.qty})`);
           batch.push(tx`with locked as materialized (

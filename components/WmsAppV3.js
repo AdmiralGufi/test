@@ -6,16 +6,16 @@ import SellerPortal from './SellerPortal';
 import BarcodeLabel from './BarcodeLabel';
 
 const ROLE_TABS={
-  ADMIN:['Обзор','Скан','Приёмка','Короба','Товары','Клиенты','Заказы','Склады','Отчёты','Данные','Устройства','Сотрудники','Журнал'],
-  MANAGER:['Обзор','Скан','Приёмка','Короба','Товары','Клиенты','Заказы','Отчёты','Данные','Устройства','Журнал'],
+  ADMIN:['Обзор','Скан','Приёмка','Короба','Товары','Клиенты','Заказы','Отгрузка','Склады','Отчёты','Данные','Устройства','Сотрудники','Журнал'],
+  MANAGER:['Обзор','Скан','Приёмка','Короба','Товары','Клиенты','Заказы','Отгрузка','Отчёты','Данные','Устройства','Журнал'],
   RECEIVER:['Обзор','Скан','Приёмка','Короба','Товары','Устройства'],
   PICKER:['Обзор','Скан','Короба','Заказы','Устройства'],
-  PACKER:['Обзор','Скан','Короба','Заказы','Устройства'],
-  SHIPPER:['Обзор','Скан','Заказы','Устройства'],
+  PACKER:['Обзор','Скан','Короба','Заказы','Отгрузка','Устройства'],
+  SHIPPER:['Обзор','Скан','Заказы','Отгрузка','Устройства'],
   VIEWER:['Обзор','Скан','Короба','Товары','Заказы']
 };
-const MOBILE=['Обзор','Скан','Приёмка','Короба','Заказы'];
-const ICONS={Обзор:'⌂',Фулфилменты:'◇',Скан:'⌗',Приёмка:'↓',Короба:'□',Товары:'◆',Клиенты:'◎',Заказы:'≡',Склады:'⌂',Отчёты:'↗',Данные:'⇄',Устройства:'⌁',Сотрудники:'♙',Журнал:'◷'};
+const MOBILE=['Обзор','Скан','Приёмка','Короба','Заказы','Отгрузка'];
+const ICONS={Обзор:'⌂',Фулфилменты:'◇',Скан:'⌗',Приёмка:'↓',Короба:'□',Товары:'◆',Клиенты:'◎',Заказы:'≡',Отгрузка:'⇢',Склады:'⌂',Отчёты:'↗',Данные:'⇄',Устройства:'⌁',Сотрудники:'♙',Журнал:'◷'};
 const STATUS_LABELS={NEW:'Новый',PICKING:'Сборка',PICKED:'Собран',PACKED:'Упакован',READY:'Готов',SHIPPED:'Отгружен',CANCELLED:'Отменён'};
 
 async function api(url,options={}){
@@ -26,12 +26,28 @@ async function api(url,options={}){
 }
 const ops=body=>api('/api/ops',{method:'POST',body:JSON.stringify(body)});
 
+function filterBySeller(data,sellerId){
+  if(!sellerId)return data;
+  const sellers=(data.sellers||[]).filter(item=>item.id===sellerId);
+  const products=(data.products||[]).filter(item=>item.seller_id===sellerId);
+  const boxes=(data.boxes||[]).filter(item=>item.seller_id===sellerId);
+  const orders=(data.orders||[]).filter(item=>item.seller_id===sellerId);
+  const orderIds=new Set(orders.map(item=>item.id));
+  const boxIds=new Set(boxes.map(item=>item.id));
+  return {...data,sellers,products,boxes,orders,
+    orderItems:(data.orderItems||[]).filter(item=>orderIds.has(item.order_id)),
+    boxItems:(data.boxItems||[]).filter(item=>boxIds.has(item.box_id)||products.some(product=>product.id===item.product_id)),
+    integrations:(data.integrations||[]).filter(item=>item.seller_id===sellerId)
+  };
+}
+
 export default function WmsAppV3(){
   const[state,setState]=useState({loading:true});
   const[tab,setTab]=useState('Обзор');
   const[toast,setToast]=useState('');
   const[modal,setModal]=useState(null);
   const[query,setQuery]=useState('');
+  const[sellerId,setSellerId]=useState('');
   const canSyncWb=['ADMIN','MANAGER','SELLER'].includes(state.user?.role);
   const hasActiveWb=canSyncWb&&Boolean(state.data?.integrations?.some(item=>item.active));
 
@@ -67,10 +83,11 @@ export default function WmsAppV3(){
   if(state.user.role==='SELLER')return <SellerPortal user={state.user} data={state.data||{}} onRefresh={()=>load({quiet:true})} onLogout={async()=>{await api('/api/auth/logout',{method:'POST'});load()}}/>;
 
   const data=state.data||{};
+  const scopedData=filterBySeller(data,sellerId);
   const roleTabs=ROLE_TABS[state.user.role]||ROLE_TABS.VIEWER;
   const tabs=state.user.is_platform_admin?[roleTabs[0],'Фулфилменты',...roleTabs.slice(1)]:roleTabs;
   const visible=tabs.includes(tab)?tab:'Обзор';
-  const boxes=(data.boxes||[]).filter(box=>
+  const boxes=(scopedData.boxes||[]).filter(box=>
     `${box.box_code} ${box.seller_name||''} ${box.zone_name||''} ${box.cell_code||''}`
       .toLowerCase().includes(query.toLowerCase())
   );
@@ -89,19 +106,21 @@ export default function WmsAppV3(){
         <div><p className="eyebrow">FULFILLMENT CONTROL CENTER</p><h1>{visible}</h1><p className="subtitle">FBS · единая база склада · ТСД и телефон</p></div>
         <div className="actions"><PwaInstall/>{state.user.is_platform_admin&&<button className="btn platformShortcut" onClick={()=>setTab('Фулфилменты')}>◇ Фулфилменты</button>}<button className="btn primary" onClick={()=>setTab('Скан')}>⌗ Сканировать</button><button className="btn ghost" onClick={async()=>{await api('/api/auth/logout',{method:'POST'});load()}}>Выйти</button></div>
       </header>
+      <WorkspaceScope sellers={data.sellers||[]} value={sellerId} onChange={setSellerId}/>
       {data.subscription&&<SubscriptionBanner subscription={data.subscription}/>}
       {toast&&<div className="toast" role="status">✓ {toast}</div>}
-      <Metrics data={data}/>
-      {visible==='Обзор'&&<Overview data={data} setTab={setTab}/>}
+      <Metrics data={scopedData}/>
+      {visible==='Обзор'&&<Overview data={scopedData} setTab={setTab}/>}
       {visible==='Фулфилменты'&&<Organizations data={data} currentOrganizationId={state.user.organization_id} done={refresh}/>}
       {visible==='Скан'&&<Scanner setTab={setTab}/>} 
-      {visible==='Приёмка'&&<Receiving data={data} done={refresh}/>}
+      {visible==='Приёмка'&&<Receiving data={data} preferredSellerId={sellerId} done={refresh}/>}
       {visible==='Короба'&&<Boxes rows={boxes} query={query} setQuery={setQuery} open={setModal}/>}
-      {visible==='Товары'&&<Products data={data} done={refresh}/>}
+      {visible==='Товары'&&<Products data={scopedData} done={refresh}/>}
       {visible==='Клиенты'&&<Clients data={data} role={state.user.role} done={refresh}/>}
-      {visible==='Заказы'&&<Orders data={data} role={state.user.role} done={refresh}/>}
+      {visible==='Заказы'&&<Orders data={scopedData} role={state.user.role} done={refresh}/>}
+      {visible==='Отгрузка'&&<ShippingBoard data={scopedData} role={state.user.role} done={refresh}/>}
       {visible==='Склады'&&<Warehouses data={data} done={refresh}/>}
-      {visible==='Отчёты'&&<Reports data={data}/>}
+      {visible==='Отчёты'&&<Reports data={scopedData}/>}
       {visible==='Данные'&&<DataExchange done={refresh}/>}
       {visible==='Устройства'&&<Devices data={data} done={refresh}/>}
       {visible==='Сотрудники'&&<Users data={data} done={refresh}/>}
@@ -122,6 +141,14 @@ function SubscriptionBanner({subscription}){
   const trial=subscription.status==='TRIAL';
   const days=trial&&subscription.trial_ends_at?Math.max(0,Math.ceil((new Date(subscription.trial_ends_at)-Date.now())/86400000)):null;
   return <div className="infoBanner"><b>{trial?`Пробный период · осталось ${days} дн.`:`Тариф ${subscription.plan}`}</b> {trial?'После окончания владелец платформы должен активировать подписку.':'Доступ активен; лимиты контролируются автоматически.'}</div>;
+}
+
+function WorkspaceScope({sellers,value,onChange}){
+  const current=sellers.find(item=>item.id===value);
+  return <section className="workspaceScope" aria-label="Выбор рабочего клиента">
+    <div><span>РАБОЧИЙ СТОЛ</span><b>{current?.name||'Все клиенты фулфилмента'}</b><small>{current?'Приёмка, хранение и FBS-заказы только этого клиента':'Сводный операционный режим'}</small></div>
+    <label><span>Клиент / поставщик</span><select value={value} onChange={event=>onChange(event.target.value)}><option value="">Все клиенты</option>{sellers.map(seller=><option key={seller.id} value={seller.id}>{seller.name}</option>)}</select></label>
+  </section>;
 }
 
 function Auth({setup=false,done}){
@@ -167,9 +194,9 @@ function Overview({data,setTab}){
   const stages=[['Приёмка','RCV'],['QC','QC'],['Сортировка','SRT'],['Хранение','STG'],['Picking','PCK'],['Packing','PAK'],['Готово','RDY'],['Отгрузка','SHP']];
   return <div className="dashboardGrid">
     <section className="card span2"><SectionTitle title="Операционный поток" text="Текущее распределение коробов по зонам"/>
-      <div className="flow">{stages.map(([name,code],index)=><button className="flowStep" key={code} onClick={()=>setTab(code==='RCV'?'Приёмка':['PCK','PAK','RDY','SHP'].includes(code)?'Заказы':'Короба')}><span className="flowIndex">{String(index+1).padStart(2,'0')}</span><b>{name}</b><strong>{(data.boxes||[]).filter(box=>box.zone_code===code).length}</strong><small>коробов</small></button>)}</div>
+      <div className="flow">{stages.map(([name,code],index)=><button className="flowStep" key={code} onClick={()=>setTab(code==='RCV'?'Приёмка':code==='SHP'?'Отгрузка':['PCK','PAK','RDY'].includes(code)?'Заказы':'Короба')}><span className="flowIndex">{String(index+1).padStart(2,'0')}</span><b>{name}</b><strong>{(data.boxes||[]).filter(box=>box.zone_code===code).length}</strong><small>коробов</small></button>)}</div>
     </section>
-    <section className="card"><SectionTitle title="Быстрые действия" text="Частые операции в один переход"/><div className="quickActions"><button className="quick primaryQuick" onClick={()=>setTab('Скан')}><span>⌗</span><div><b>Скан-центр</b><small>Короб, SKU, ячейка</small></div><i>→</i></button><button className="quick" onClick={()=>setTab('Приёмка')}><span>↓</span><div><b>Принять короб</b><small>Новая поставка</small></div><i>→</i></button><button className="quick" onClick={()=>setTab('Заказы')}><span>≡</span><div><b>FBS заказы</b><small>Picking и packing</small></div><i>→</i></button></div></section>
+    <section className="card"><SectionTitle title="Быстрые действия" text="Частые операции в один переход"/><div className="quickActions"><button className="quick primaryQuick" onClick={()=>setTab('Скан')}><span>⌗</span><div><b>Скан-центр</b><small>Короб, SKU, ячейка</small></div><i>→</i></button><button className="quick" onClick={()=>setTab('Приёмка')}><span>↓</span><div><b>Принять короб</b><small>Новая поставка</small></div><i>→</i></button><button className="quick" onClick={()=>setTab('Заказы')}><span>≡</span><div><b>FBS заказы</b><small>Picking и packing</small></div><i>→</i></button><button className="quick" onClick={()=>setTab('Отгрузка')}><span>⇢</span><div><b>Готовые отправления</b><small>Маршруты на склады и СЦ WB</small></div><i>→</i></button></div></section>
     <section className="card span3"><SectionTitle title="Состояние склада" text="Контрольные сигналы"/><div className="healthRow"><Health label="База данных" value="Подключена" ok/><Health label="Устройства" value={`${data.devices?.filter(x=>x.active).length||0} активно`} ok/><Health label="Новые заказы" value={String(data.orders?.filter(x=>x.status==='NEW').length||0)}/><Health label="Готовы к отгрузке" value={String(data.orders?.filter(x=>x.status==='READY').length||0)}/></div></section>
   </div>;
 }
@@ -296,9 +323,10 @@ function Scanner({setTab}){
   </section>;
 }
 
-function Receiving({data,done}){
-  const[form,setForm]=useState({seller_id:'',warehouse_id:data.warehouses?.[0]?.id||'',box_code:'',notes:''}),[error,setError]=useState(''),[busy,setBusy]=useState(false);
-  async function save(event){event.preventDefault();setBusy(true);setError('');try{await ops({action:'CREATE_BOX',...form});setForm(current=>({...current,seller_id:'',box_code:'',notes:''}));await done('Короб принят')}catch(err){setError(err.message)}finally{setBusy(false)}}
+function Receiving({data,preferredSellerId='',done}){
+  const[form,setForm]=useState({seller_id:preferredSellerId,warehouse_id:data.warehouses?.[0]?.id||'',box_code:'',notes:''}),[error,setError]=useState(''),[busy,setBusy]=useState(false);
+  useEffect(()=>{setForm(current=>({...current,seller_id:preferredSellerId||current.seller_id}))},[preferredSellerId]);
+  async function save(event){event.preventDefault();setBusy(true);setError('');try{await ops({action:'CREATE_BOX',...form});setForm(current=>({...current,seller_id:preferredSellerId||'',box_code:'',notes:''}));await done('Короб принят')}catch(err){setError(err.message)}finally{setBusy(false)}}
   return <section className="card formCard"><SectionTitle title="Приёмка короба" text="Короб будет зарегистрирован в зоне «Приёмка» выбранного склада"/>{!data.sellers?.length&&<div className="notice danger">Сначала создайте клиента во вкладке «Клиенты».</div>}<form className="formGrid" onSubmit={save}><Field label="Склад"><select value={form.warehouse_id} onChange={e=>setForm({...form,warehouse_id:e.target.value})} required><option value="">Выберите склад</option>{data.warehouses?.map(w=><option key={w.id} value={w.id}>{w.name}{w.city?` · ${w.city}`:''}</option>)}</select></Field><Field label="Клиент"><select value={form.seller_id} onChange={e=>setForm({...form,seller_id:e.target.value})} required><option value="">Выберите клиента</option>{data.sellers?.map(s=><option key={s.id} value={s.id}>{s.name}</option>)}</select></Field><Field label="Код короба" hint="Можно отсканировать ТСД"><input value={form.box_code} onChange={e=>setForm({...form,box_code:e.target.value})} placeholder="Сгенерируется автоматически"/></Field><Field label="Комментарий"><textarea value={form.notes} onChange={e=>setForm({...form,notes:e.target.value})} rows="3"/></Field><ErrorMessage>{error}</ErrorMessage><button className="btn primary" disabled={busy||!form.seller_id||!form.warehouse_id}>{busy?'Принимаем…':'Принять короб'}</button></form></section>;
 }
 
@@ -325,7 +353,33 @@ function Orders({data,role,done}){
   const[selected,setSelected]=useState(null);
   const order=data.orders?.find(item=>item.id===selected);
   const items=data.orderItems?.filter(item=>item.order_id===selected)||[];
-  return <><WildberriesIntegration data={data} role={role} done={done}/><div className="ordersGrid"><section className="card"><SectionTitle title="FBS заказы" text={`Всего: ${data.orders?.length||0}`} action={['ADMIN','MANAGER'].includes(role)?<OrderCreate data={data} done={done}/>:null}/><DataTable heads={['Заказ','Источник','Клиент','Склад','Статус','Дедлайн']} empty="Заказов пока нет" rows={(data.orders||[]).map(item=>[<button className="linkButton mono" onClick={()=>setSelected(item.id)}>{item.order_no}</button>,item.wb_order_id?<span className="sourceBadge">WB</span>:<span className="sourceBadge manual">Вручную</span>,item.seller_name,item.warehouse_name||'—',<Status value={STATUS_LABELS[item.status]||item.status} tone={item.status}/>,item.deadline?new Date(item.deadline).toLocaleString('ru-RU'):'—'])}/></section>{order&&<section className="card orderDetail"><SectionTitle title={order.order_no} text={`${order.seller_name} · ${order.warehouse_name||'склад'}`} action={<button className="btn small" onClick={()=>window.print()}>Печать заказа</button>}/><div className="orderPrintLabel"><BarcodeLabel value={order.order_no} title="FBS заказ" subtitle={`${order.seller_name} · ${order.warehouse_name||''}`} meta={[["Статус",STATUS_LABELS[order.status]||order.status],["Дедлайн",order.deadline?new Date(order.deadline).toLocaleString('ru-RU'):'—']]}/></div><Status value={STATUS_LABELS[order.status]||order.status} tone={order.status}/>{order.wb_order_id&&<div className="wbOrderId">Wildberries ID: <b className="mono">{order.wb_order_id}</b></div>}{items.map(item=><PickLine key={item.id} item={item} data={data} role={role} done={done}/>)}<OrderActions order={order} role={role} done={done}/></section>}</div></>;
+  return <><WildberriesIntegration data={data} role={role} done={done}/><div className="ordersGrid"><section className="card"><SectionTitle title="FBS заказы" text={`Всего: ${data.orders?.length||0}`} action={['ADMIN','MANAGER'].includes(role)?<OrderCreate data={data} done={done}/>:null}/><DataTable heads={['Заказ','Источник','Клиент','Склад','Маршрут WB','Статус','Дедлайн']} empty="Заказов пока нет" rows={(data.orders||[]).map(item=>[<button className="linkButton mono" onClick={()=>setSelected(item.id)}>{item.order_no}</button>,item.wb_order_id?<span className="sourceBadge">WB</span>:<span className="sourceBadge manual">Вручную</span>,item.seller_name,item.warehouse_name||'—',item.destination||'—',<Status value={STATUS_LABELS[item.status]||item.status} tone={item.status}/>,item.deadline?new Date(item.deadline).toLocaleString('ru-RU'):'—'])}/></section>{order&&<section className="card orderDetail"><SectionTitle title={order.order_no} text={`${order.seller_name} · ${order.warehouse_name||'склад'}`} action={<button className="btn small" onClick={()=>window.print()}>Печать заказа</button>}/><div className="orderPrintLabel"><BarcodeLabel value={order.order_no} title="FBS заказ" subtitle={`${order.seller_name} · ${order.warehouse_name||''}`} meta={[["Статус",STATUS_LABELS[order.status]||order.status],["Маршрут",order.destination||'Не указан'],["Дедлайн",order.deadline?new Date(order.deadline).toLocaleString('ru-RU'):'—']]}/></div><Status value={STATUS_LABELS[order.status]||order.status} tone={order.status}/>{order.destination&&<div className="routeNotice"><span>⇢</span><div><small>Маршрут отгрузки</small><b>{order.destination}</b>{order.wb_seller_date&&<p>Рекомендуемая дата WB: {new Date(`${order.wb_seller_date}T00:00:00`).toLocaleDateString('ru-RU')}</p>}</div></div>}{order.wb_order_id&&<div className="wbOrderId">Wildberries ID: <b className="mono">{order.wb_order_id}</b></div>}{items.map(item=><PickLine key={item.id} item={item} data={data} role={role} done={done}/>)}<OrderActions order={order} role={role} done={done}/></section>}</div></>;
+}
+
+function ShippingBoard({data,role,done}){
+  const[busy,setBusy]=useState('');
+  const[error,setError]=useState('');
+  const ready=(data.orders||[]).filter(item=>item.status==='READY');
+  const groups=Object.values(ready.reduce((result,order)=>{
+    const destination=order.destination||'Маршрут не указан';
+    const key=`${destination}::${order.warehouse_id}`;
+    if(!result[key])result[key]={key,destination,warehouse:order.warehouse_name||'Склад',orders:[]};
+    result[key].orders.push(order);
+    return result;
+  },{}));
+  const shipped=(data.orders||[]).filter(item=>item.status==='SHIPPED').slice(0,30);
+  async function ship(order){
+    if(busy)return;
+    setBusy(order.id);setError('');
+    try{await ops({action:'ORDER_SHIPPED',order_id:order.id});await done(`Заказ ${order.order_no} отгружен`)}
+    catch(err){setError(err.message)}finally{setBusy('')}
+  }
+  return <div className="shippingDesk">
+    <section className="shippingHero"><div><p className="eyebrow">ГОТОВО К ВЫЕЗДУ</p><h2>{ready.length} заказов · {groups.length} маршрутов</h2><span>Заказы автоматически собраны по складам, сортировочным центрам и ПВЗ Wildberries.</span></div><div className="shippingHeroMetric"><b>{groups.length}</b><small>точек назначения</small></div></section>
+    <ErrorMessage>{error}</ErrorMessage>
+    <section className="routeGrid">{groups.length?groups.map(group=><article className="routeCard" key={group.key}><header><span>WB</span><div><small>ПУНКТ НАЗНАЧЕНИЯ</small><h3>{group.destination}</h3><p>Выезд со склада: {group.warehouse}</p></div><b>{group.orders.length}</b></header><div className="routeOrders">{group.orders.map(order=><div key={order.id}><div><b className="mono">{order.order_no}</b><small>{order.seller_name}{order.wb_seller_date?` · до ${new Date(`${order.wb_seller_date}T00:00:00`).toLocaleDateString('ru-RU')}`:''}</small></div>{['ADMIN','MANAGER','PACKER','SHIPPER'].includes(role)&&<button className="btn primary small" disabled={Boolean(busy)} onClick={()=>ship(order)}>{busy===order.id?'Отгружаем…':'Отгрузить'}</button>}</div>)}</div></article>):<div className="shippingEmpty"><span>✓</span><h3>Готовых заказов пока нет</h3><p>После сборки и упаковки они автоматически появятся здесь по маршрутам WB.</p></div>}</section>
+    <section className="card"><SectionTitle title="Последние отгрузки" text="Недавно переданные заказы"/><DataTable heads={['Заказ','Клиент','Маршрут','Склад','Отгружен']} empty="История отгрузок пуста" rows={shipped.map(order=>[<b className="mono">{order.order_no}</b>,order.seller_name,order.destination||'—',order.warehouse_name||'—',order.shipped_at?new Date(order.shipped_at).toLocaleString('ru-RU'):'—'])}/></section>
+  </div>;
 }
 
 function WildberriesIntegration({data,role,done}){
@@ -357,12 +411,14 @@ function WildberriesIntegration({data,role,done}){
 
 function OrderCreate({data,done}){
   const[open,setOpen]=useState(false);
-  const[form,setForm]=useState({seller_id:'',warehouse_id:data.warehouses?.[0]?.id||'',order_no:'',deadline:'',priority:'NORMAL'});
+  const onlySellerId=data.sellers?.length===1?data.sellers[0].id:'';
+  const[form,setForm]=useState({seller_id:onlySellerId,warehouse_id:data.warehouses?.[0]?.id||'',order_no:'',destination:'',deadline:'',priority:'NORMAL'});
   const[line,setLine]=useState({product_id:'',qty:1});
   const[items,setItems]=useState([]),[error,setError]=useState('');
+  useEffect(()=>{if(onlySellerId)setForm(current=>current.seller_id===onlySellerId?current:{...current,seller_id:onlySellerId})},[onlySellerId]);
   function add(){const qty=Number(line.qty);if(!line.product_id||!Number.isInteger(qty)||qty<1)return;const product=data.products?.find(x=>x.id===line.product_id);setItems(current=>[...current,{product_id:line.product_id,qty,label:product?`${product.sku} — ${product.name}`:line.product_id}]);setLine({product_id:'',qty:1})}
   async function save(){setError('');try{await ops({action:'CREATE_ORDER',...form,deadline:form.deadline||null,items:items.map(({product_id,qty})=>({product_id,qty}))});setOpen(false);setItems([]);done('Заказ создан')}catch(err){setError(err.message)}}
-  return <><button className="btn primary" onClick={()=>setOpen(true)}>+ Новый заказ</button>{open&&<Modal title="Новый FBS заказ" close={()=>setOpen(false)}><div className="formGrid"><Field label="Клиент"><select value={form.seller_id} onChange={e=>setForm({...form,seller_id:e.target.value})} required><option value="">Выберите</option>{data.sellers?.map(s=><option key={s.id} value={s.id}>{s.name}</option>)}</select></Field><Field label="Склад отгрузки"><select value={form.warehouse_id} onChange={e=>setForm({...form,warehouse_id:e.target.value})} required><option value="">Выберите</option>{data.warehouses?.map(w=><option key={w.id} value={w.id}>{w.name}</option>)}</select></Field><Field label="Номер заказа" hint="Необязательно"><input value={form.order_no} onChange={e=>setForm({...form,order_no:e.target.value})}/></Field><Field label="Дедлайн"><input type="datetime-local" value={form.deadline} onChange={e=>setForm({...form,deadline:e.target.value})}/></Field><Field label="Приоритет"><select value={form.priority} onChange={e=>setForm({...form,priority:e.target.value})}><option value="NORMAL">Обычный</option><option value="HIGH">Высокий</option><option value="URGENT">Срочный</option><option value="LOW">Низкий</option></select></Field><div className="lineBuilder"><Field label="SKU"><select value={line.product_id} onChange={e=>setLine({...line,product_id:e.target.value})}><option value="">Выберите</option>{data.products?.filter(p=>!form.seller_id||p.seller_id===form.seller_id).map(p=><option key={p.id} value={p.id}>{p.sku} — {p.name}</option>)}</select></Field><Field label="Количество"><input type="number" min="1" step="1" value={line.qty} onChange={e=>setLine({...line,qty:e.target.value})}/></Field><button className="btn" type="button" onClick={add}>Добавить</button></div><div className="orderLines">{items.map((item,index)=><div key={item.product_id+index}><span>{item.label}</span><b>× {item.qty}</b><button aria-label={`Удалить ${item.label}`} onClick={()=>setItems(current=>current.filter((_,i)=>i!==index))}>×</button></div>)}</div><ErrorMessage>{error}</ErrorMessage><div className="modalActions"><button className="btn" onClick={()=>setOpen(false)}>Отмена</button><button className="btn primary" disabled={!form.seller_id||!form.warehouse_id||!items.length} onClick={save}>Создать заказ</button></div></div></Modal>}</>;
+  return <><button className="btn primary" onClick={()=>setOpen(true)}>+ Новый заказ</button>{open&&<Modal title="Новый FBS заказ" close={()=>setOpen(false)}><div className="formGrid"><Field label="Клиент"><select value={form.seller_id} onChange={e=>setForm({...form,seller_id:e.target.value})} required><option value="">Выберите</option>{data.sellers?.map(s=><option key={s.id} value={s.id}>{s.name}</option>)}</select></Field><Field label="Склад отгрузки"><select value={form.warehouse_id} onChange={e=>setForm({...form,warehouse_id:e.target.value})} required><option value="">Выберите</option>{data.warehouses?.map(w=><option key={w.id} value={w.id}>{w.name}</option>)}</select></Field><Field label="Номер заказа" hint="Необязательно"><input value={form.order_no} onChange={e=>setForm({...form,order_no:e.target.value})}/></Field><Field label="Маршрут / пункт WB" hint="Для ручного заказа"><input value={form.destination} onChange={e=>setForm({...form,destination:e.target.value})} placeholder="Например, СЦ Коледино"/></Field><Field label="Дедлайн"><input type="datetime-local" value={form.deadline} onChange={e=>setForm({...form,deadline:e.target.value})}/></Field><Field label="Приоритет"><select value={form.priority} onChange={e=>setForm({...form,priority:e.target.value})}><option value="NORMAL">Обычный</option><option value="HIGH">Высокий</option><option value="URGENT">Срочный</option><option value="LOW">Низкий</option></select></Field><div className="lineBuilder"><Field label="SKU"><select value={line.product_id} onChange={e=>setLine({...line,product_id:e.target.value})}><option value="">Выберите</option>{data.products?.filter(p=>!form.seller_id||p.seller_id===form.seller_id).map(p=><option key={p.id} value={p.id}>{p.sku} — {p.name}</option>)}</select></Field><Field label="Количество"><input type="number" min="1" step="1" value={line.qty} onChange={e=>setLine({...line,qty:e.target.value})}/></Field><button className="btn" type="button" onClick={add}>Добавить</button></div><div className="orderLines">{items.map((item,index)=><div key={item.product_id+index}><span>{item.label}</span><b>× {item.qty}</b><button aria-label={`Удалить ${item.label}`} onClick={()=>setItems(current=>current.filter((_,i)=>i!==index))}>×</button></div>)}</div><ErrorMessage>{error}</ErrorMessage><div className="modalActions"><button className="btn" onClick={()=>setOpen(false)}>Отмена</button><button className="btn primary" disabled={!form.seller_id||!form.warehouse_id||!items.length} onClick={save}>Создать заказ</button></div></div></Modal>}</>;
 }
 
 function PickLine({item,data,role,done}){

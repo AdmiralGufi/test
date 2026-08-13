@@ -43,7 +43,8 @@ async function sellerSnapshot(user){
       left join inventory i on i.zone_id=z.id and i.product_id=p.id
       where p.seller_id=${sellerId} and p.active=true and w.organization_id=${organizationId} and w.active=true
       group by w.id,w.name,w.city,p.id order by p.name,w.name limit 5000`,
-    sql`select o.id,o.order_no,o.status,o.priority,o.deadline,o.wb_order_id,o.wb_nm_id,o.wb_chrt_id,o.created_at,o.updated_at,w.name warehouse_name,w.city warehouse_city,
+    sql`select o.id,o.order_no,o.status,o.priority,o.deadline,o.wb_order_id,o.destination,o.wb_office_id,o.wb_warehouse_id,o.wb_order_uid,o.wb_seller_date,o.created_at,
+      coalesce(o.shipped_at,o.ready_at,o.packed_at,o.picked_at,o.created_at) updated_at,w.name warehouse_name,w.city warehouse_city,
       coalesce(sum(oi.qty),0)::int item_qty,coalesce(sum(oi.picked_qty),0)::int picked_qty
       from orders o join warehouses w on w.id=o.warehouse_id left join order_items oi on oi.order_id=o.id
       where o.seller_id=${sellerId}
