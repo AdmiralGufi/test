@@ -24,10 +24,11 @@ fulfillment-wms/
 │   ├── observability.js    # structured runtime logging
 │   ├── rbac.js             # roles and access rules
 │   └── wms-contract.js     # public operation contract
+├── migrations/             # reviewed, ordered Neon schema changes
 ├── public/                 # icons, service worker and offline page
 ├── tests/                  # contract and architecture checks
 ├── .github/workflows/      # repeatable quality gate
 └── package.json
 ```
 
-Database migrations will live in `migrations/` after the first schema baseline is exported. Production data is never used as a development sandbox; migration tests run on Neon branches.
+Production data is never used as a development sandbox; migration tests run on temporary Neon branches.

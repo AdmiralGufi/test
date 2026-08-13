@@ -79,3 +79,11 @@ test('authentication supports staged organization migration', async () => {
   assert.match(bootstrap, /where s\.organization_id=\$\{organizationId\}/);
   assert.match(scan, /w\.organization_id=\$\{u\.organization_id\}/);
 });
+
+test('applied database migrations are versioned in the repository', async () => {
+  const migration = await readFile(new URL('../migrations/001_organizations.sql', import.meta.url), 'utf8');
+  const guide = await readFile(new URL('../migrations/README.md', import.meta.url), 'utf8');
+  assert.match(migration, /create table organizations/);
+  assert.match(migration, /organization_members/);
+  assert.match(guide, /13a6bbd8-5668-41e6-8ed0-4ab0f85726f0/);
+});

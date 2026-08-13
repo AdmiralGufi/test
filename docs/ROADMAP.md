@@ -13,7 +13,8 @@
 
 ## Phase 1 — commercial pilot
 
-- [ ] Organization and warehouse tenancy
+- [x] Organization and warehouse foundation
+- [ ] Complete organization ownership checks for every write action
 - [ ] Organization-scoped authorization tests
 - [ ] Guided first-run company setup
 - [ ] Seller portal
