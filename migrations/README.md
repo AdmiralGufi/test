@@ -18,3 +18,4 @@ Applied migrations:
 - `004_wildberries_integration.sql` — encrypted WB credentials, product identifiers and idempotent FBS imports. Neon migration `8864fca9-7edd-4903-8550-add845bf21e6`.
 - `005_seller_portal.sql` — seller-scoped user access and warehouse location fields. Neon migration `937c9cb7-c778-4114-8bb7-f9f7e13da7ae`, verified on temporary branch and applied to production on 2026-08-13.
 - `006_organization_archive.sql` — reversible fulfillment archive marker and lifecycle lookup index. Neon migration `348a49f4-0ec5-4907-acb0-41af5b3a51dc`, verified on a temporary branch and applied to production on 2026-08-13.
+- `007_commercial_scale.sql` — plan/trial lifecycle and warehouse routing for orders and WB integrations. Neon migration `bba63f1f-d5d8-47be-98d0-94ac1ab52de4`, verified on a temporary branch and applied to production on 2026-08-13.

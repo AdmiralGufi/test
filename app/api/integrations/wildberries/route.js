@@ -2,7 +2,7 @@ import {NextResponse} from 'next/server';
 import {getCurrentUser} from '../../../../lib/auth';
 import {sql} from '../../../../lib/db';
 import {cleanText} from '../../../../lib/wms-contract';
-import {requireSeller} from '../../../../lib/tenant';
+import {requireSeller,requireWarehouse} from '../../../../lib/tenant';
 import {encryptSecret} from '../../../../lib/secrets';
 import {syncWildberriesIntegration,validateWildberriesToken} from '../../../../lib/wildberries';
 import {logError,logInfo,requestContext} from '../../../../lib/observability';
@@ -51,15 +51,16 @@ export async function POST(request){
       if(!canManage(user))return fail('Недостаточно прав',403);
       if(user.role==='SELLER'&&user.seller_access_role!=='OWNER')return fail('Подключение доступно владельцу кабинета',403);
       const token=String(input.token||'').trim().replace(/^Bearer\s+/i,'');
-      if(!input.seller_id||token.length<20)return fail('Выберите клиента и вставьте полный API-токен Wildberries');
+      if(!input.seller_id||!input.warehouse_id||token.length<20)return fail('Выберите клиента, склад и вставьте полный API-токен Wildberries');
       if(user.role==='SELLER'&&input.seller_id!==user.seller_id)return fail('Недостаточно прав',403);
       await requireSeller(user,input.seller_id);
+      await requireWarehouse(user,input.warehouse_id);
       await validateWildberriesToken(token);
       const hint=`•••• ${token.slice(-4)}`;
       const encrypted=encryptSecret(token);
-      const rows=await sql`insert into wb_integrations(organization_id,seller_id,name,token_encrypted,token_hint,active,created_by)
-        values(${user.organization_id},${input.seller_id},${cleanText(input.name,120)||'Wildberries FBS'},${encrypted},${hint},true,${user.id})
-        on conflict(organization_id,seller_id) do update set name=excluded.name,token_encrypted=excluded.token_encrypted,token_hint=excluded.token_hint,active=true,last_error=null,updated_at=now()
+      const rows=await sql`insert into wb_integrations(organization_id,seller_id,warehouse_id,name,token_encrypted,token_hint,active,created_by)
+        values(${user.organization_id},${input.seller_id},${input.warehouse_id},${cleanText(input.name,120)||'Wildberries FBS'},${encrypted},${hint},true,${user.id})
+        on conflict(organization_id,seller_id) do update set warehouse_id=excluded.warehouse_id,name=excluded.name,token_encrypted=excluded.token_encrypted,token_hint=excluded.token_hint,active=true,last_error=null,updated_at=now()
         returning *`;
       const result=await syncWildberriesIntegration(rows[0],user.id);
       logInfo('wb_integration_connected',{...context,actorId:user.id,sellerId:input.seller_id,imported:result.imported});

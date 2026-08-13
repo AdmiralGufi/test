@@ -4,7 +4,9 @@ import {sql,transaction} from '../../../lib/db';
 import {getCurrentUser} from '../../../lib/auth';
 import {cleanText,DEVICE_TYPES,ORDER_PRIORITIES,positiveInteger,ROLES,validEmail} from '../../../lib/wms-contract';
 import {logError,logInfo,requestContext} from '../../../lib/observability';
+import {requirePlanCapacity} from '../../../lib/plans';
 import {requireBox,requireBoxProduct,requireCell,requireDeviceCode,requireMember,requireOrder,requireOrderProducts,requireOrganization,requirePick,requireReceipt,requireSeller,requireWarehouse,requireZone} from '../../../lib/tenant';
+import {STANDARD_ZONES} from '../../../lib/warehouse';
 const allowed=(role,list)=>list.includes(role);
 const fail=(message,status=400)=>NextResponse.json({error:message},{status});
 const errorMessages={
@@ -13,6 +15,8 @@ const errorMessages={
   PRODUCT_FIELDS_REQUIRED:'Заполните клиента, SKU и название',
   SELLER_NAME_REQUIRED:'Введите название клиента',
   WAREHOUSE_FIELDS_REQUIRED:'Укажите склад и его название',
+  WAREHOUSE_CODE_INVALID:'Код склада может содержать только латинские буквы, цифры, дефис и подчёркивание',
+  PLAN_LIMIT_REACHED:'Лимит текущего тарифа исчерпан. Измените тариф в панели владельца платформы',
   TARGET_REQUIRED:'Выберите зону или ячейку',
   CELL_NOT_FOUND:'Ячейка не найдена или недоступна',
   ITEM_FIELDS_REQUIRED:'Выберите товар и укажите количество',
@@ -44,6 +48,8 @@ export async function POST(r){
       if(!allowed(u.role,['ADMIN','MANAGER','RECEIVER']))throw new Error('FORBIDDEN');
       if(!x.seller_id)throw new Error('SELLER_REQUIRED');
       await requireSeller(u,x.seller_id);
+      if(!x.warehouse_id)throw new Error('WAREHOUSE_FIELDS_REQUIRED');
+      await requireWarehouse(u,x.warehouse_id);
       await requireReceipt(u,x.receipt_id,x.seller_id);
       const code=cleanText(x.box_code,80)||('BOX-'+Date.now().toString().slice(-9));
       const boxId=randomUUID();
@@ -51,7 +57,7 @@ export async function POST(r){
         tx`insert into boxes(id,box_code,barcode,seller_id,zone_id,receipt_id,status,notes)
            select ${boxId},${code},${cleanText(x.barcode,120)||code},${x.seller_id},z.id,${x.receipt_id||null},'RECEIVED',${cleanText(x.notes,500)||null}
            from zones z join warehouses w on w.id=z.warehouse_id and w.active=true
-           where w.organization_id=${organizationId} and z.code='RCV'
+           where w.organization_id=${organizationId} and w.id=${x.warehouse_id} and z.code='RCV'
            order by w.created_at,z.sort_order,z.id limit 1 returning id`,
         tx`insert into audit_logs(actor_id,action,entity_type,entity_id,new_data)
            select ${u.id},'RECEIVE_BOX','box',${boxId},jsonb_build_object('box_code',${code}::text,'seller_id',${x.seller_id}::text,'receipt_id',${x.receipt_id||null}::text)
@@ -71,6 +77,7 @@ export async function POST(r){
       if(!allowed(u.role,['ADMIN','MANAGER']))throw new Error('FORBIDDEN');
       if(!x.name)throw new Error('SELLER_NAME_REQUIRED');
       if(x.email&&!validEmail(x.email))throw new Error('INVALID_EMAIL');
+      await requirePlanCapacity(organizationId,'seller');
       const a=await sql`insert into sellers(organization_id,name,contact_name,phone,email) values(${organizationId},${cleanText(x.name,200)},${cleanText(x.contact,160)||null},${cleanText(x.phone,60)||null},${cleanText(x.email,254).toLowerCase()||null}) returning id`;
       return NextResponse.json({ok:true,id:a[0].id});
     }
@@ -101,18 +108,21 @@ export async function POST(r){
       const items=x.items.map(item=>({product_id:item.product_id,qty:positiveInteger(item.qty)}));
       if(items.some(item=>!item.product_id||!item.qty))throw new Error('ORDER_FIELDS_REQUIRED');
       await requireSeller(u,x.seller_id);
+      if(!x.warehouse_id)throw new Error('WAREHOUSE_FIELDS_REQUIRED');
+      await requireWarehouse(u,x.warehouse_id);
+      await requirePlanCapacity(organizationId,'monthlyOrder');
       await requireOrderProducts(u,x.seller_id,items);
       const no=cleanText(x.order_no,100)||('ORD-'+Date.now().toString().slice(-9));
       const orderId=randomUUID();
       const orderItems=items.map(item=>({...item,id:randomUUID()}));
       const queries=await transaction(tx=>{
-        const batch=[tx`insert into orders(id,order_no,seller_id,priority,deadline,status) values(${orderId},${no},${x.seller_id},${x.priority||'NORMAL'},${x.deadline||null},'NEW') returning id`];
+        const batch=[tx`insert into orders(id,order_no,seller_id,warehouse_id,priority,deadline,status) values(${orderId},${no},${x.seller_id},${x.warehouse_id},${x.priority||'NORMAL'},${x.deadline||null},'NEW') returning id`];
         for(const item of orderItems){
           batch.push(tx`insert into order_items(id,order_id,product_id,qty) values(${item.id},${orderId},${item.product_id},${item.qty})`);
           batch.push(tx`with locked as materialized (
               select i.id,i.cell_id,(i.physical_qty-i.reserved_qty-i.damaged_qty-i.quarantine_qty)::int available,i.updated_at
               from inventory i join zones z on z.id=i.zone_id join warehouses w on w.id=z.warehouse_id
-              where i.product_id=${item.product_id} and z.code='STG' and w.organization_id=${organizationId} and i.cell_id is not null
+              where i.product_id=${item.product_id} and z.code='STG' and w.organization_id=${organizationId} and w.id=${x.warehouse_id} and i.cell_id is not null
                 and (i.physical_qty-i.reserved_qty-i.damaged_qty-i.quarantine_qty)>0
               order by i.updated_at,i.id for update of i
             ), ranked as (
@@ -167,6 +177,7 @@ export async function POST(r){
       if(String(x.password).length<8)throw new Error('PASSWORD_TOO_SHORT');
       if(!validEmail(x.email))throw new Error('INVALID_EMAIL');
       if(!ROLES.includes(x.role)||x.role==='SELLER')throw new Error('INVALID_ROLE');
+      await requirePlanCapacity(organizationId,'user');
       const a=await sql`with new_user as (insert into users(email,name,password_hash,role,active) values(lower(${cleanText(x.email,254)}::text),${cleanText(x.name,160)}::text,crypt(${x.password}::text,gen_salt('bf',10)),${x.role}::text,true) returning id,email,name,role,active),new_member as (insert into organization_members(organization_id,user_id,role,active) select ${organizationId},id,role,true from new_user) select * from new_user`;
       return NextResponse.json(a[0]);
     }
@@ -177,6 +188,7 @@ export async function POST(r){
       if(!validEmail(x.email))throw new Error('INVALID_EMAIL');
       const accessRole=x.access_role==='OWNER'?'OWNER':'VIEWER';
       await requireSeller(u,x.seller_id);
+      await requirePlanCapacity(organizationId,'user');
       const userId=randomUUID();
       try{
         await transaction(tx=>[
@@ -190,6 +202,21 @@ export async function POST(r){
         throw error;
       }
       return NextResponse.json({ok:true,id:userId});
+    }
+    if(x.action==='CREATE_WAREHOUSE'){
+      if(u.role!=='ADMIN')throw new Error('FORBIDDEN');
+      const name=cleanText(x.name,200);
+      const code=cleanText(x.code,40).toUpperCase();
+      if(!name||!code)throw new Error('WAREHOUSE_FIELDS_REQUIRED');
+      if(!/^[A-Z0-9_-]+$/.test(code))throw new Error('WAREHOUSE_CODE_INVALID');
+      await requirePlanCapacity(organizationId,'warehouse');
+      const warehouseId=randomUUID();
+      await transaction(tx=>[
+        tx`insert into warehouses(id,organization_id,code,name,city,address,timezone,active) values(${warehouseId},${organizationId},${code},${name},${cleanText(x.city,120)||null},${cleanText(x.address,240)||null},${cleanText(x.timezone,80)||'Asia/Bishkek'},true)`,
+        ...STANDARD_ZONES.map(([zoneCode,zoneName,type,sortOrder])=>tx`insert into zones(id,warehouse_id,code,name,zone_type,sort_order) values(${randomUUID()},${warehouseId},${zoneCode},${zoneName},${type},${sortOrder})`),
+        tx`insert into audit_logs(actor_id,action,entity_type,entity_id,new_data) values(${u.id},'CREATE_WAREHOUSE','warehouse',${warehouseId},jsonb_build_object('code',${code}::text,'name',${name}::text))`
+      ],{isolationLevel:'Serializable'});
+      return NextResponse.json({ok:true,id:warehouseId});
     }
     if(x.action==='UPDATE_WAREHOUSE'){
       if(u.role!=='ADMIN')throw new Error('FORBIDDEN');

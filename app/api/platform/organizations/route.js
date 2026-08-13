@@ -4,20 +4,9 @@ import {getCurrentUser} from '../../../../lib/auth';
 import {sql,transaction} from '../../../../lib/db';
 import {cleanText,validEmail} from '../../../../lib/wms-contract';
 import {logError,logInfo,requestContext} from '../../../../lib/observability';
+import {STANDARD_ZONES} from '../../../../lib/warehouse';
 
 export const runtime='nodejs';
-
-const ZONES=[
-  ['RCV','Приёмка','RECEIVING',10],
-  ['QC','QC / карантин','QC',20],
-  ['SRT','Сортировка','SORTING',30],
-  ['STG','Хранение','STORAGE',40],
-  ['PCK','Picking','PICKING',50],
-  ['PAK','Packing','PACKING',60],
-  ['RDY','Готово к отгрузке','READY',70],
-  ['SHP','Отгрузка','SHIPPING',80],
-  ['RET','Возвраты','RETURNS',90]
-];
 
 const fail=(error,status=400)=>NextResponse.json({error},{status});
 const PLANS=['PILOT','START','GROWTH','BUSINESS','ENTERPRISE'];
@@ -67,9 +56,9 @@ export async function POST(request){
 
   try{
     await transaction(tx=>[
-      tx`insert into organizations(id,name,slug,status,plan) values(${organizationId},${name},${slug},'TRIAL','PILOT')`,
+      tx`insert into organizations(id,name,slug,status,plan,billing_status,trial_ends_at) values(${organizationId},${name},${slug},'TRIAL','PILOT','TRIALING',now()+interval '14 days')`,
       tx`insert into warehouses(id,organization_id,code,name,city,address,timezone,active) values(${warehouseId},${organizationId},${warehouseCode},${warehouseName},${warehouseCity||null},${warehouseAddress||null},${timezone},true)`,
-      ...ZONES.map(([code,zoneName,type,sortOrder])=>tx`insert into zones(id,warehouse_id,code,name,zone_type,sort_order) values(${randomUUID()},${warehouseId},${code},${zoneName},${type},${sortOrder})`),
+      ...STANDARD_ZONES.map(([code,zoneName,type,sortOrder])=>tx`insert into zones(id,warehouse_id,code,name,zone_type,sort_order) values(${randomUUID()},${warehouseId},${code},${zoneName},${type},${sortOrder})`),
       tx`insert into users(id,email,name,password_hash,role,active,is_platform_admin) values(${adminId},${adminEmail},${adminName},crypt(${password},gen_salt('bf',10)),'ADMIN',true,false)`,
       tx`insert into organization_members(organization_id,user_id,role,active) values(${organizationId},${adminId},'ADMIN',true)`,
       tx`insert into audit_logs(actor_id,action,entity_type,entity_id,new_data) values(${actor.id},'ONBOARD_ORGANIZATION','organization',${organizationId},jsonb_build_object('name',${name}::text,'slug',${slug}::text,'warehouse_code',${warehouseCode}::text,'admin_email',${adminEmail}::text))`
@@ -133,7 +122,7 @@ export async function PATCH(request){
       if(target.archived_at)return fail('Сначала восстановите фулфилмент из архива');
       if(target.id===actor.organization_id&&status==='SUSPENDED')return fail('Нельзя приостановить собственный рабочий фулфилмент');
       const queries=[
-        tx=>tx`update organizations set status=${status},updated_at=now() where id=${target.id}`,
+        tx=>tx`update organizations set status=${status},billing_status=case when ${status}='ACTIVE' then 'MANUAL' when ${status}='TRIAL' then 'TRIALING' else billing_status end,trial_ends_at=case when ${status}='TRIAL' and (trial_ends_at is null or trial_ends_at<=now()) then now()+interval '14 days' else trial_ends_at end,updated_at=now() where id=${target.id}`,
         tx=>tx`insert into audit_logs(actor_id,action,entity_type,entity_id,old_data,new_data) values(${actor.id},'SET_ORGANIZATION_STATUS','organization',${target.id},jsonb_build_object('status',${target.status}::text),jsonb_build_object('status',${status}::text))`
       ];
       if(status==='SUSPENDED')queries.push(tx=>tx`delete from sessions where organization_id=${target.id}`);
@@ -145,7 +134,7 @@ export async function PATCH(request){
     if(input.action==='RESTORE'){
       if(!target.archived_at)return fail('Фулфилмент не находится в архиве');
       await transaction(tx=>[
-        tx`update organizations set status='ACTIVE',archived_at=null,updated_at=now() where id=${target.id}`,
+        tx`update organizations set status='ACTIVE',billing_status='MANUAL',archived_at=null,updated_at=now() where id=${target.id}`,
         tx`insert into audit_logs(actor_id,action,entity_type,entity_id,new_data) values(${actor.id},'RESTORE_ORGANIZATION','organization',${target.id},jsonb_build_object('status','ACTIVE'))`
       ],{isolationLevel:'Serializable'});
       logInfo('organization_restored',{...context,actorId:actor.id,organizationId:target.id});

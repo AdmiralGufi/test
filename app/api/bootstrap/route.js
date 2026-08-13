@@ -43,16 +43,16 @@ async function sellerSnapshot(user){
       left join inventory i on i.zone_id=z.id and i.product_id=p.id
       where p.seller_id=${sellerId} and p.active=true and w.organization_id=${organizationId} and w.active=true
       group by w.id,w.name,w.city,p.id order by p.name,w.name limit 5000`,
-    sql`select o.id,o.order_no,o.status,o.priority,o.deadline,o.wb_order_id,o.wb_nm_id,o.wb_chrt_id,o.created_at,o.updated_at,
+    sql`select o.id,o.order_no,o.status,o.priority,o.deadline,o.wb_order_id,o.wb_nm_id,o.wb_chrt_id,o.created_at,o.updated_at,w.name warehouse_name,w.city warehouse_city,
       coalesce(sum(oi.qty),0)::int item_qty,coalesce(sum(oi.picked_qty),0)::int picked_qty
-      from orders o left join order_items oi on oi.order_id=o.id
+      from orders o join warehouses w on w.id=o.warehouse_id left join order_items oi on oi.order_id=o.id
       where o.seller_id=${sellerId}
-      group by o.id order by o.created_at desc limit 1000`,
+      group by o.id,w.name,w.city order by o.created_at desc limit 1000`,
     sql`select oi.id,oi.order_id,oi.qty,oi.picked_qty,p.sku,p.name product_name,p.wb_barcode
       from order_items oi join orders o on o.id=oi.order_id join products p on p.id=oi.product_id
       where o.seller_id=${sellerId} order by o.created_at desc,oi.id limit 5000`,
-    sql`select i.id,i.seller_id,i.name,i.token_hint,i.active,i.last_sync_at,i.last_success_at,i.last_error,i.imported_orders,i.created_at,s.name seller_name
-      from wb_integrations i join sellers s on s.id=i.seller_id
+    sql`select i.id,i.seller_id,i.warehouse_id,i.name,i.token_hint,i.active,i.last_sync_at,i.last_success_at,i.last_error,i.imported_orders,i.created_at,s.name seller_name,w.name warehouse_name
+      from wb_integrations i join sellers s on s.id=i.seller_id join warehouses w on w.id=i.warehouse_id
       where i.organization_id=${organizationId} and i.seller_id=${sellerId} order by i.created_at`
   ]);
   return respond({loading:false,user,data:{sellers,warehouses,stock,orders,orderItems,integrations}});
@@ -65,7 +65,7 @@ export async function GET(){
   if(!user)return respond({loading:false,user:null});
   if(user.role==='SELLER')return sellerSnapshot(user);
   const organizationId=user.organization_id;
-  const [warehouses,zones,cells,sellers,products,boxes,boxItems,orders,orderItems,tasks,devices,audit,users,organizations,integrations]=await Promise.all([
+  const [warehouses,zones,cells,sellers,products,boxes,boxItems,orders,orderItems,tasks,devices,audit,users,organizations,integrations,subscription]=await Promise.all([
     organizationId?sql`select id,code,name,city,address,timezone,active,created_at from warehouses where organization_id=${organizationId} order by created_at`:Promise.resolve([]),
     organizationId?sql`select z.* from zones z join warehouses w on w.id=z.warehouse_id where w.organization_id=${organizationId} order by z.sort_order`:sql`select * from zones order by sort_order`,
     organizationId?sql`select c.* from cells c join zones z on z.id=c.zone_id join warehouses w on w.id=z.warehouse_id where w.organization_id=${organizationId} order by c.code`:sql`select * from cells order by code`,
@@ -73,17 +73,18 @@ export async function GET(){
     organizationId?sql`select p.*,s.name seller_name from products p join sellers s on s.id=p.seller_id where s.organization_id=${organizationId} and p.active=true order by p.created_at desc limit 1000`:sql`select p.*,s.name seller_name from products p join sellers s on s.id=p.seller_id where p.active=true order by p.created_at desc limit 1000`,
     organizationId?sql`select b.*,s.name seller_name,z.name zone_name,z.code zone_code,c.code cell_code,coalesce(sum(bi.qty),0)::int item_qty from boxes b join sellers s on s.id=b.seller_id join zones z on z.id=b.zone_id left join cells c on c.id=b.cell_id left join box_items bi on bi.box_id=b.id where s.organization_id=${organizationId} group by b.id,s.name,z.name,z.code,c.code order by b.received_at desc limit 2000`:sql`select b.*,s.name seller_name,z.name zone_name,z.code zone_code,c.code cell_code,coalesce(sum(bi.qty),0)::int item_qty from boxes b join sellers s on s.id=b.seller_id join zones z on z.id=b.zone_id left join cells c on c.id=b.cell_id left join box_items bi on bi.box_id=b.id group by b.id,s.name,z.name,z.code,c.code order by b.received_at desc limit 2000`,
     organizationId?sql`select bi.*,p.sku,p.name product_name,b.box_code,c.code cell_code from box_items bi join products p on p.id=bi.product_id join boxes b on b.id=bi.box_id join sellers s on s.id=b.seller_id left join cells c on c.id=b.cell_id where s.organization_id=${organizationId} order by b.received_at desc limit 5000`:sql`select bi.*,p.sku,p.name product_name,b.box_code,c.code cell_code from box_items bi join products p on p.id=bi.product_id join boxes b on b.id=bi.box_id left join cells c on c.id=b.cell_id order by b.received_at desc limit 5000`,
-    organizationId?sql`select o.*,s.name seller_name from orders o join sellers s on s.id=o.seller_id where s.organization_id=${organizationId} order by o.created_at desc limit 1000`:sql`select o.*,s.name seller_name from orders o join sellers s on s.id=o.seller_id order by o.created_at desc limit 1000`,
+    organizationId?sql`select o.*,s.name seller_name,w.name warehouse_name,w.code warehouse_code from orders o join sellers s on s.id=o.seller_id join warehouses w on w.id=o.warehouse_id where s.organization_id=${organizationId} order by o.created_at desc limit 1000`:sql`select o.*,s.name seller_name,w.name warehouse_name,w.code warehouse_code from orders o join sellers s on s.id=o.seller_id join warehouses w on w.id=o.warehouse_id order by o.created_at desc limit 1000`,
     organizationId?sql`select oi.*,p.sku,p.name product_name,c.code source_cell_code,b.box_code picked_box_code from order_items oi join orders o on o.id=oi.order_id join sellers s on s.id=o.seller_id join products p on p.id=oi.product_id left join cells c on c.id=oi.source_cell_id left join boxes b on b.id=oi.picked_box_id where s.organization_id=${organizationId} order by oi.id limit 5000`:sql`select oi.*,p.sku,p.name product_name,c.code source_cell_code,b.box_code picked_box_code from order_items oi join products p on p.id=oi.product_id left join cells c on c.id=oi.source_cell_id left join boxes b on b.id=oi.picked_box_id order by oi.id limit 5000`,
     organizationId?sql`select t.* from operational_tasks t left join zones z on z.id=t.zone_id left join warehouses w on w.id=z.warehouse_id left join organization_members m on m.user_id=t.assigned_to and m.organization_id=${organizationId} where w.organization_id=${organizationId} or m.user_id is not null order by t.created_at desc limit 500`:sql`select * from operational_tasks order by created_at desc limit 500`,
     organizationId?sql`select d.* from devices d join organization_members m on m.user_id=d.user_id where m.organization_id=${organizationId} order by d.created_at desc limit 200`:sql`select * from devices order by created_at desc limit 200`,
     organizationId?sql`select a.*,u.name user_name from audit_logs a join users u on u.id=a.actor_id join organization_members m on m.user_id=u.id where m.organization_id=${organizationId} order by a.created_at desc limit 500`:sql`select a.*,u.name user_name from audit_logs a left join users u on u.id=a.actor_id order by a.created_at desc limit 500`,
     user.role==='ADMIN'?(organizationId?sql`select u.id,u.email,u.name,m.role,m.active,u.created_at,sm.seller_id,sm.access_role seller_access_role,s.name seller_name from users u join organization_members m on m.user_id=u.id left join seller_members sm on sm.organization_id=m.organization_id and sm.user_id=u.id left join sellers s on s.id=sm.seller_id where m.organization_id=${organizationId} order by u.created_at`:sql`select id,email,name,role,active,created_at from users order by created_at`):Promise.resolve([]),
-    user.is_platform_admin?sql`select o.id,o.name,o.slug,o.status,o.plan,o.created_at,o.updated_at,o.archived_at,
+    user.is_platform_admin?sql`select o.id,o.name,o.slug,o.status,o.plan,o.billing_status,o.trial_ends_at,o.created_at,o.updated_at,o.archived_at,
       count(distinct w.id)::int warehouse_count,
       count(distinct m.user_id) filter(where m.active=true)::int user_count,
       count(distinct s.id)::int seller_count,
       count(distinct ord.id)::int order_count,
+      count(distinct ord.id) filter(where ord.created_at>=date_trunc('month',now()))::int monthly_order_count,
       count(distinct wi.id) filter(where wi.active=true)::int integration_count,
       (select pw.name from warehouses pw where pw.organization_id=o.id and pw.active=true order by pw.created_at limit 1) warehouse_name,
       (select pw.city from warehouses pw where pw.organization_id=o.id and pw.active=true order by pw.created_at limit 1) warehouse_city,
@@ -98,9 +99,10 @@ export async function GET(){
       left join orders ord on ord.seller_id=s.id
       left join wb_integrations wi on wi.organization_id=o.id
       group by o.id order by o.created_at desc`:Promise.resolve([]),
-    sql`select i.id,i.seller_id,i.name,i.token_hint,i.active,i.last_sync_at,i.last_success_at,i.last_error,i.imported_orders,i.created_at,s.name seller_name
-      from wb_integrations i join sellers s on s.id=i.seller_id
-      where i.organization_id=${organizationId} order by i.created_at`
+    sql`select i.id,i.seller_id,i.warehouse_id,i.name,i.token_hint,i.active,i.last_sync_at,i.last_success_at,i.last_error,i.imported_orders,i.created_at,s.name seller_name,w.name warehouse_name
+      from wb_integrations i join sellers s on s.id=i.seller_id join warehouses w on w.id=i.warehouse_id
+      where i.organization_id=${organizationId} order by i.created_at`,
+    organizationId?sql`select id,name,plan,status,billing_status,trial_ends_at from organizations where id=${organizationId} limit 1`:Promise.resolve([])
   ]);
-  return respond({loading:false,user,data:{warehouses,zones,cells,sellers,products,boxes,boxItems,orders,orderItems,tasks,devices,audit,users,organizations,integrations}})
+  return respond({loading:false,user,data:{warehouses,zones,cells,sellers,products,boxes,boxItems,orders,orderItems,tasks,devices,audit,users,organizations,integrations,subscription:subscription[0]||null}})
 }

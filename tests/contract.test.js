@@ -65,7 +65,7 @@ test('commercial foundation exposes health checks and architecture documentation
   assert.match(status, /database:'connected'/);
   assert.match(status, /cache-control.*no-store/);
   assert.match(architecture, /Multi-tenant model/);
-  assert.match(roadmap, /commercial pilot/i);
+  assert.match(roadmap, /commercial scale/i);
 });
 
 test('authentication supports staged organization migration', async () => {
@@ -123,12 +123,32 @@ test('receiving and reservation are scoped to the active organization and transa
   const route = await readFile(new URL('../app/api/ops/route.js', import.meta.url), 'utf8');
   const db = await readFile(new URL('../lib/db.js', import.meta.url), 'utf8');
   assert.match(db, /transaction\(build/);
-  assert.match(route, /w\.organization_id=\$\{organizationId\} and z\.code='RCV'/);
+  assert.match(route, /w\.organization_id=\$\{organizationId\} and w\.id=\$\{x\.warehouse_id\} and z\.code='RCV'/);
   assert.match(route, /w\.organization_id=\$\{organizationId\}/);
   assert.match(route, /for update of i/);
   assert.match(route, /isolationLevel:'Serializable'/);
   assert.doesNotMatch(route, /wms_receive_box/);
   assert.doesNotMatch(route, /wms_create_order/);
+});
+
+test('commercial scale enforces plan limits, trial lifecycle and warehouse routing', async () => {
+  const opsRoute=await readFile(new URL('../app/api/ops/route.js',import.meta.url),'utf8');
+  const wbRoute=await readFile(new URL('../app/api/integrations/wildberries/route.js',import.meta.url),'utf8');
+  const importer=await readFile(new URL('../lib/wildberries.js',import.meta.url),'utf8');
+  const plans=await readFile(new URL('../lib/plans.js',import.meta.url),'utf8');
+  const lifecycle=await readFile(new URL('../app/api/cron/subscriptions/route.js',import.meta.url),'utf8');
+  const migration=await readFile(new URL('../migrations/007_commercial_scale.sql',import.meta.url),'utf8');
+  assert.match(opsRoute,/action==='CREATE_WAREHOUSE'/);
+  assert.match(opsRoute,/requirePlanCapacity\(organizationId,'warehouse'\)/);
+  assert.match(opsRoute,/warehouse_id,priority,deadline,status/);
+  assert.match(wbRoute,/requireWarehouse\(user,input\.warehouse_id\)/);
+  assert.match(importer,/integration\.warehouse_id/);
+  assert.match(importer,/organizationUsage/);
+  assert.match(plans,/monthlyOrders:1000/);
+  assert.match(lifecycle,/billing_status='PAST_DUE'/);
+  assert.match(lifecycle,/delete from sessions/);
+  assert.match(migration,/orders ADD COLUMN IF NOT EXISTS warehouse_id/i);
+  assert.match(migration,/trial_ends_at/);
 });
 
 test('platform and zone migrations are versioned', async () => {
