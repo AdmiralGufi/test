@@ -1,70 +1,48 @@
 # Fulfillment WMS
 
-Production: https://fulfillment-wms.vercel.app  
-Repository: `AdmiralGufi/test` · branch `main`
+Production-oriented warehouse management system for FBS fulfillment operations. The current product covers receiving, address storage, inventory, picking, packing, shipping, handheld scanners and mobile PWA installation.
 
-## Project tree
+## Local development
 
-```text
-app/
-├── page.js                       → components/WmsAppV3.js
-├── layout.js
-├── globals.css                   → desktop/mobile responsive UI
-└── api/
-    ├── bootstrap/route.js        → initial state, user and WMS data
-    ├── auth/
-    │   ├── setup/route.js        → first administrator
-    │   ├── login/route.js        → login and session
-    │   └── logout/route.js
-    ├── ops/route.js              → transactional WMS commands
-    ├── scan/route.js             → BOX / SKU / cell / order lookup
-    └── status/route.js           → setup and session status
-components/
-└── WmsAppV3.js                   → operational UI, ZXing camera, TSD Enter
-lib/
-├── db.js                         → lazy server-only Neon connection
-├── auth.js                       → secure HTTP-only sessions
-└── rbac.js                       → role permissions
+Requirements: Node.js 22+ and a PostgreSQL/Neon connection string.
+
+```bash
+npm ci
+DATABASE_URL="postgresql://..." npm run dev
 ```
 
-## Operational tree
+`DATABASE_URL` is server-only. Never prefix it with `NEXT_PUBLIC_` and never commit it.
 
-```text
-First run
-└── CREATE ADMIN
-    └── Login
-        ├── Receiving
-        │   ├── CREATE_SELLER
-        │   ├── CREATE_PRODUCT
-        │   ├── CREATE_BOX
-        │   └── ADD_BOX_ITEM
-        ├── Warehouse
-        │   ├── MOVE_BOX → zone
-        │   └── MOVE_BOX → cell
-        ├── Orders
-        │   ├── CREATE_ORDER → inventory reservation
-        │   ├── PICK_ITEM → transactional inventory deduction
-        │   ├── ORDER_PACKED
-        │   ├── ORDER_READY
-        │   └── ORDER_SHIPPED
-        ├── Staff
-        │   └── CREATE_USER
-        └── Devices
-            ├── REGISTER_DEVICE (PHONE)
-            └── REGISTER_DEVICE (TSD)
+## Quality gate
+
+```bash
+npm run check
 ```
 
-## Data tree
+This runs contract tests and a production Next.js build. GitHub Actions runs the same gate for every push to `main` and every pull request.
 
-```text
-Neon: long-queen-60642599 / br-lucky-moon-axa4is5f / neondb
-├── zones ── cells
-├── sellers ── products
-├── receipts ── boxes ── box_items ── inventory
-├── orders ── order_items ── order_allocations
-├── users ── sessions
-├── devices ── scan_events
-└── audit_logs
-```
+## Application boundaries
 
-`DATABASE_URL` is configured only as a Sensitive Vercel environment variable. It is never exposed through `NEXT_PUBLIC_*` and is not committed.
+- `app/` — UI entry points and HTTP routes
+- `components/` — operator interfaces and PWA controls
+- `lib/` — authentication, database access, roles, contracts and logging
+- `public/` — PWA assets and offline shell
+- `tests/` — executable contract checks
+- `docs/` — product, architecture and delivery decisions
+
+The canonical write endpoint is `POST /api/ops`. Legacy write endpoints intentionally return `410 Gone`.
+
+## Deployment
+
+`main` is connected to the Vercel project `fulfillment-wms`. Production uses the stable domain:
+
+https://fulfillment-wms.vercel.app
+
+Database schema changes must be tested on a temporary Neon branch before they are applied to production.
+
+## Product documentation
+
+- [Product requirements](docs/PRODUCT.md)
+- [Architecture](docs/ARCHITECTURE.md)
+- [Roadmap](docs/ROADMAP.md)
+- [Repository tree](docs/PROJECT-TREE.md)

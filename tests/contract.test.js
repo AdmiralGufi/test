@@ -55,3 +55,13 @@ test('handheld scanner supports keyboard Enter, camera and operator feedback', a
   assert.match(source, /Последние сканы/);
   assert.match(source, /input\.current\?\.focus/);
 });
+
+test('commercial foundation exposes health checks and architecture documentation', async () => {
+  const status = await readFile(new URL('../app/api/status/route.js', import.meta.url), 'utf8');
+  const architecture = await readFile(new URL('../docs/ARCHITECTURE.md', import.meta.url), 'utf8');
+  const roadmap = await readFile(new URL('../docs/ROADMAP.md', import.meta.url), 'utf8');
+  assert.match(status, /database:'connected'/);
+  assert.match(status, /cache-control.*no-store/);
+  assert.match(architecture, /Multi-tenant target/);
+  assert.match(roadmap, /commercial pilot/i);
+});

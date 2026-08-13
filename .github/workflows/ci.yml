@@ -1,4 +1,4 @@
-name: WMS CI
+name: WMS Quality Gate
 on:
   push:
     branches: [main]
@@ -14,5 +14,5 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 22
-      - run: npm install
-      - run: npm run build
+      - run: npm ci
+      - run: npm run check
