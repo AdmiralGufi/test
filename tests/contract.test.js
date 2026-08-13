@@ -151,6 +151,23 @@ test('commercial scale enforces plan limits, trial lifecycle and warehouse routi
   assert.match(migration,/trial_ends_at/);
 });
 
+test('operator toolkit provides scoped exports, bulk product import, labels and reports', async () => {
+  const exportRoute=await readFile(new URL('../app/api/export/route.js',import.meta.url),'utf8');
+  const importRoute=await readFile(new URL('../app/api/import/products/route.js',import.meta.url),'utf8');
+  const label=await readFile(new URL('../components/BarcodeLabel.js',import.meta.url),'utf8');
+  const ui=await readFile(new URL('../components/WmsAppV3.js',import.meta.url),'utf8');
+  assert.match(exportRoute,/organization_id=\$\{organizationId\}/);
+  assert.match(exportRoute,/sellerId/);
+  assert.match(exportRoute,/text\/csv/);
+  assert.match(importRoute,/rows\.length>5000/);
+  assert.match(importRoute,/on conflict\(seller_id,sku\) do update/);
+  assert.match(importRoute,/IMPORT_PRODUCTS/);
+  assert.match(label,/import\('jsbarcode'\)/);
+  assert.match(ui,/function Reports/);
+  assert.match(ui,/function DataExchange/);
+  assert.match(ui,/window\.print\(\)/);
+});
+
 test('platform and zone migrations are versioned', async () => {
   const owner = await readFile(new URL('../migrations/002_platform_admin.sql', import.meta.url), 'utf8');
   const zones = await readFile(new URL('../migrations/003_zone_scope.sql', import.meta.url), 'utf8');

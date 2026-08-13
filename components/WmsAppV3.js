@@ -3,10 +3,11 @@
 import {cloneElement,useEffect,useId,useRef,useState} from 'react';
 import PwaInstall from './PwaInstall';
 import SellerPortal from './SellerPortal';
+import BarcodeLabel from './BarcodeLabel';
 
 const ROLE_TABS={
-  ADMIN:['Обзор','Скан','Приёмка','Короба','Товары','Клиенты','Заказы','Склады','Устройства','Сотрудники','Журнал'],
-  MANAGER:['Обзор','Скан','Приёмка','Короба','Товары','Клиенты','Заказы','Устройства','Журнал'],
+  ADMIN:['Обзор','Скан','Приёмка','Короба','Товары','Клиенты','Заказы','Склады','Отчёты','Данные','Устройства','Сотрудники','Журнал'],
+  MANAGER:['Обзор','Скан','Приёмка','Короба','Товары','Клиенты','Заказы','Отчёты','Данные','Устройства','Журнал'],
   RECEIVER:['Обзор','Скан','Приёмка','Короба','Товары','Устройства'],
   PICKER:['Обзор','Скан','Короба','Заказы','Устройства'],
   PACKER:['Обзор','Скан','Короба','Заказы','Устройства'],
@@ -14,7 +15,7 @@ const ROLE_TABS={
   VIEWER:['Обзор','Скан','Короба','Товары','Заказы']
 };
 const MOBILE=['Обзор','Скан','Приёмка','Короба','Заказы'];
-const ICONS={Обзор:'⌂',Фулфилменты:'◇',Скан:'⌗',Приёмка:'↓',Короба:'□',Товары:'◆',Клиенты:'◎',Заказы:'≡',Склады:'⌂',Устройства:'⌁',Сотрудники:'♙',Журнал:'◷'};
+const ICONS={Обзор:'⌂',Фулфилменты:'◇',Скан:'⌗',Приёмка:'↓',Короба:'□',Товары:'◆',Клиенты:'◎',Заказы:'≡',Склады:'⌂',Отчёты:'↗',Данные:'⇄',Устройства:'⌁',Сотрудники:'♙',Журнал:'◷'};
 const STATUS_LABELS={NEW:'Новый',PICKING:'Сборка',PICKED:'Собран',PACKED:'Упакован',READY:'Готов',SHIPPED:'Отгружен',CANCELLED:'Отменён'};
 
 async function api(url,options={}){
@@ -100,6 +101,8 @@ export default function WmsAppV3(){
       {visible==='Клиенты'&&<Clients data={data} role={state.user.role} done={refresh}/>}
       {visible==='Заказы'&&<Orders data={data} role={state.user.role} done={refresh}/>}
       {visible==='Склады'&&<Warehouses data={data} done={refresh}/>}
+      {visible==='Отчёты'&&<Reports data={data}/>}
+      {visible==='Данные'&&<DataExchange done={refresh}/>}
       {visible==='Устройства'&&<Devices data={data} done={refresh}/>}
       {visible==='Сотрудники'&&<Users data={data} done={refresh}/>}
       {visible==='Журнал'&&<Audit data={data}/>}
@@ -108,7 +111,7 @@ export default function WmsAppV3(){
     <nav className="mobilebar" aria-label="Мобильная навигация">
       {MOBILE.filter(item=>tabs.includes(item)).map(item=><button key={item} className={visible===item?'active':''} aria-current={visible===item?'page':undefined} onClick={()=>setTab(item)}><span aria-hidden="true">{ICONS[item]}</span>{item}</button>)}
     </nav>
-    {modal&&<BoxModal spec={modal} data={data} close={()=>setModal(null)} done={async message=>{setModal(null);await refresh(message)}}/>}
+    {modal&&(modal.kind==='label'?<LabelModal spec={modal} close={()=>setModal(null)}/>:<BoxModal spec={modal} data={data} close={()=>setModal(null)} done={async message=>{setModal(null);await refresh(message)}}/>)}
   </div>;
 }
 
@@ -299,7 +302,7 @@ function Receiving({data,done}){
   return <section className="card formCard"><SectionTitle title="Приёмка короба" text="Короб будет зарегистрирован в зоне «Приёмка» выбранного склада"/>{!data.sellers?.length&&<div className="notice danger">Сначала создайте клиента во вкладке «Клиенты».</div>}<form className="formGrid" onSubmit={save}><Field label="Склад"><select value={form.warehouse_id} onChange={e=>setForm({...form,warehouse_id:e.target.value})} required><option value="">Выберите склад</option>{data.warehouses?.map(w=><option key={w.id} value={w.id}>{w.name}{w.city?` · ${w.city}`:''}</option>)}</select></Field><Field label="Клиент"><select value={form.seller_id} onChange={e=>setForm({...form,seller_id:e.target.value})} required><option value="">Выберите клиента</option>{data.sellers?.map(s=><option key={s.id} value={s.id}>{s.name}</option>)}</select></Field><Field label="Код короба" hint="Можно отсканировать ТСД"><input value={form.box_code} onChange={e=>setForm({...form,box_code:e.target.value})} placeholder="Сгенерируется автоматически"/></Field><Field label="Комментарий"><textarea value={form.notes} onChange={e=>setForm({...form,notes:e.target.value})} rows="3"/></Field><ErrorMessage>{error}</ErrorMessage><button className="btn primary" disabled={busy||!form.seller_id||!form.warehouse_id}>{busy?'Принимаем…':'Принять короб'}</button></form></section>;
 }
 
-function Boxes({rows,query,setQuery,open}){return <section className="card"><SectionTitle title="Короба" text={`Найдено: ${rows.length}`} action={<label className="search"><span aria-hidden="true">⌕</span><input aria-label="Поиск коробов" value={query} placeholder="Короб, клиент, ячейка…" onChange={e=>setQuery(e.target.value)}/></label>}/><DataTable heads={['Короб','Клиент','Зона','Ячейка','Единиц','Действия']} empty="Короба не найдены" rows={rows.map(box=>[<b className="mono">{box.box_code}</b>,box.seller_name,<Status value={box.zone_name}/>,box.cell_code||'—',box.item_qty||0,<div className="rowActions"><button className="btn small" onClick={()=>open({kind:'item',id:box.id,sellerId:box.seller_id})}>+ SKU</button><button className="btn small" onClick={()=>open({kind:'move',id:box.id})}>Переместить</button></div>])}/></section>}
+function Boxes({rows,query,setQuery,open}){return <section className="card"><SectionTitle title="Короба" text={`Найдено: ${rows.length}`} action={<label className="search"><span aria-hidden="true">⌕</span><input aria-label="Поиск коробов" value={query} placeholder="Короб, клиент, ячейка…" onChange={e=>setQuery(e.target.value)}/></label>}/><DataTable heads={['Короб','Клиент','Зона','Ячейка','Единиц','Действия']} empty="Короба не найдены" rows={rows.map(box=>[<b className="mono">{box.box_code}</b>,box.seller_name,<Status value={box.zone_name}/>,box.cell_code||'—',box.item_qty||0,<div className="rowActions"><button className="btn small" onClick={()=>open({kind:'item',id:box.id,sellerId:box.seller_id})}>+ SKU</button><button className="btn small" onClick={()=>open({kind:'move',id:box.id})}>Переместить</button><button className="btn small" onClick={()=>open({kind:'label',value:box.box_code,title:'Короб',subtitle:box.seller_name,meta:[['Зона',box.zone_name],['Ячейка',box.cell_code],['Единиц',box.item_qty||0]]})}>Этикетка</button></div>])}/></section>}
 
 function Products({data,done}){
   const[form,setForm]=useState({seller_id:'',sku:'',name:'',barcode:''}),[error,setError]=useState('');
@@ -322,7 +325,7 @@ function Orders({data,role,done}){
   const[selected,setSelected]=useState(null);
   const order=data.orders?.find(item=>item.id===selected);
   const items=data.orderItems?.filter(item=>item.order_id===selected)||[];
-  return <><WildberriesIntegration data={data} role={role} done={done}/><div className="ordersGrid"><section className="card"><SectionTitle title="FBS заказы" text={`Всего: ${data.orders?.length||0}`} action={['ADMIN','MANAGER'].includes(role)?<OrderCreate data={data} done={done}/>:null}/><DataTable heads={['Заказ','Источник','Клиент','Склад','Статус','Дедлайн']} empty="Заказов пока нет" rows={(data.orders||[]).map(item=>[<button className="linkButton mono" onClick={()=>setSelected(item.id)}>{item.order_no}</button>,item.wb_order_id?<span className="sourceBadge">WB</span>:<span className="sourceBadge manual">Вручную</span>,item.seller_name,item.warehouse_name||'—',<Status value={STATUS_LABELS[item.status]||item.status} tone={item.status}/>,item.deadline?new Date(item.deadline).toLocaleString('ru-RU'):'—'])}/></section>{order&&<section className="card orderDetail"><SectionTitle title={order.order_no} text={`${order.seller_name} · ${order.warehouse_name||'склад'}`}/><Status value={STATUS_LABELS[order.status]||order.status} tone={order.status}/>{order.wb_order_id&&<div className="wbOrderId">Wildberries ID: <b className="mono">{order.wb_order_id}</b></div>}{items.map(item=><PickLine key={item.id} item={item} data={data} role={role} done={done}/>)}<OrderActions order={order} role={role} done={done}/></section>}</div></>;
+  return <><WildberriesIntegration data={data} role={role} done={done}/><div className="ordersGrid"><section className="card"><SectionTitle title="FBS заказы" text={`Всего: ${data.orders?.length||0}`} action={['ADMIN','MANAGER'].includes(role)?<OrderCreate data={data} done={done}/>:null}/><DataTable heads={['Заказ','Источник','Клиент','Склад','Статус','Дедлайн']} empty="Заказов пока нет" rows={(data.orders||[]).map(item=>[<button className="linkButton mono" onClick={()=>setSelected(item.id)}>{item.order_no}</button>,item.wb_order_id?<span className="sourceBadge">WB</span>:<span className="sourceBadge manual">Вручную</span>,item.seller_name,item.warehouse_name||'—',<Status value={STATUS_LABELS[item.status]||item.status} tone={item.status}/>,item.deadline?new Date(item.deadline).toLocaleString('ru-RU'):'—'])}/></section>{order&&<section className="card orderDetail"><SectionTitle title={order.order_no} text={`${order.seller_name} · ${order.warehouse_name||'склад'}`} action={<button className="btn small" onClick={()=>window.print()}>Печать заказа</button>}/><div className="orderPrintLabel"><BarcodeLabel value={order.order_no} title="FBS заказ" subtitle={`${order.seller_name} · ${order.warehouse_name||''}`} meta={[["Статус",STATUS_LABELS[order.status]||order.status],["Дедлайн",order.deadline?new Date(order.deadline).toLocaleString('ru-RU'):'—']]}/></div><Status value={STATUS_LABELS[order.status]||order.status} tone={order.status}/>{order.wb_order_id&&<div className="wbOrderId">Wildberries ID: <b className="mono">{order.wb_order_id}</b></div>}{items.map(item=><PickLine key={item.id} item={item} data={data} role={role} done={done}/>)}<OrderActions order={order} role={role} done={done}/></section>}</div></>;
 }
 
 function WildberriesIntegration({data,role,done}){
@@ -396,6 +399,29 @@ function Warehouses({data,done}){
   return <div className="warehouseSettings"><section className="card"><SectionTitle title="Склады" text="Площадки, которые видят ваши клиенты"/><div className="warehouseAdminList">{warehouses.map(item=><button key={item.id} className={(current?.id===item.id)?'active':''} onClick={()=>choose(item.id)}><span>⌂</span><div><b>{item.name}</b><small>{[item.city,item.address].filter(Boolean).join(' · ')||'Город и адрес не заполнены'}</small></div><Status value={item.active?'Активен':'Отключён'} tone={item.active?'READY':'CANCELLED'}/></button>)}</div><form className="formGrid" onSubmit={createWarehouse}><h3>Добавить склад</h3><div className="formRow"><Field label="Код" hint="Например, MSK-2"><input value={create.code} onChange={e=>setCreate({...create,code:e.target.value.toUpperCase()})} required/></Field><Field label="Название"><input value={create.name} onChange={e=>setCreate({...create,name:e.target.value})} required/></Field></div><div className="formRow"><Field label="Город"><input value={create.city} onChange={e=>setCreate({...create,city:e.target.value})}/></Field><Field label="Адрес"><input value={create.address} onChange={e=>setCreate({...create,address:e.target.value})}/></Field></div><Field label="Часовой пояс"><select value={create.timezone} onChange={e=>setCreate({...create,timezone:e.target.value})}><option>Asia/Bishkek</option><option>Europe/Moscow</option><option>Asia/Almaty</option><option>Asia/Tashkent</option></select></Field><button className="btn primary wide" disabled={busy}>{busy?'Создаём…':'Создать склад с рабочими зонами'}</button></form></section>{current&&<section className="card"><SectionTitle title="Карточка склада" text="Эти данные отображаются в клиентском кабинете"/><form className="formGrid" onSubmit={save}><Field label="Название склада"><input value={form.name} onChange={e=>setForm({...form,name:e.target.value})} required/></Field><div className="formRow"><Field label="Город"><input value={form.city} onChange={e=>setForm({...form,city:e.target.value})} placeholder="Москва"/></Field><Field label="Адрес"><input value={form.address} onChange={e=>setForm({...form,address:e.target.value})} placeholder="Улица и дом"/></Field></div><Field label="Часовой пояс"><select value={form.timezone} onChange={e=>setForm({...form,timezone:e.target.value})}><option>Asia/Bishkek</option><option>Europe/Moscow</option><option>Asia/Almaty</option><option>Asia/Tashkent</option></select></Field><ErrorMessage>{error}</ErrorMessage><button className="btn primary wide" disabled={busy}>{busy?'Сохраняем…':'Сохранить данные склада'}</button></form></section>}</div>;
 }
 
+function Reports({data}){
+  const orders=data.orders||[];
+  const shipped=orders.filter(item=>item.status==='SHIPPED').length;
+  const active=orders.filter(item=>!['SHIPPED','CANCELLED'].includes(item.status)).length;
+  const late=orders.filter(item=>item.deadline&&new Date(item.deadline)<new Date()&&!['SHIPPED','CANCELLED'].includes(item.status)).length;
+  const physical=(data.warehouseStats||[]).reduce((sum,item)=>sum+(item.physical_qty||0),0);
+  const available=(data.warehouseStats||[]).reduce((sum,item)=>sum+(item.available_qty||0),0);
+  return <div className="reportGrid"><section className="card"><SectionTitle title="Операционные KPI" text="Живая сводка по текущему фулфилменту"/><div className="reportMetrics"><article><small>Активные заказы</small><b>{active}</b><span>в обработке</span></article><article><small>Отгружено</small><b>{shipped}</b><span>в загруженной истории</span></article><article><small>Просрочено</small><b className={late?'dangerText':''}>{late}</b><span>требуют внимания</span></article><article><small>Доступный остаток</small><b>{available}</b><span>из {physical} единиц</span></article></div></section><section className="card"><SectionTitle title="Склады" text="Остатки и резервы по площадкам"/><DataTable heads={['Склад','Город','Физически','Резерв','Доступно','QC / брак']} empty="Нет активных складов" rows={(data.warehouseStats||[]).map(item=>[<b>{item.name}</b>,item.city||'—',item.physical_qty,item.reserved_qty,item.available_qty,(item.quarantine_qty||0)+(item.damaged_qty||0)])}/></section><section className="card"><SectionTitle title="Выгрузки для отчётности" text="CSV открывается в Excel и Google Таблицах"/><div className="exportButtons"><a className="btn" href="/api/export?type=orders">Заказы CSV</a><a className="btn" href="/api/export?type=inventory">Остатки CSV</a><a className="btn" href="/api/export?type=boxes">Короба CSV</a><a className="btn" href="/api/export?type=products">Товары CSV</a></div></section></div>;
+}
+
+function DataExchange({done}){
+  const[rows,setRows]=useState([]),[fileName,setFileName]=useState(''),[error,setError]=useState(''),[busy,setBusy]=useState(false);
+  function parse(file){
+    setError('');setFileName(file?.name||'');setRows([]);
+    if(!file)return;
+    const reader=new FileReader();
+    reader.onload=()=>{try{const lines=String(reader.result||'').replace(/^\ufeff/,'').split(/\r?\n/).filter(Boolean);if(lines.length<2)throw new Error('В файле нет строк с товарами');const delimiter=lines[0].includes(';')?';':',';const cells=line=>line.split(delimiter).map(item=>item.trim().replace(/^"|"$/g,'').replaceAll('""','"'));const header=cells(lines[0]).map(item=>item.toLowerCase());const index=name=>header.indexOf(name);const mapped=lines.slice(1).map(line=>{const value=cells(line);return{seller:value[index('seller')]||value[index('клиент')]||'',sku:value[index('sku')]||'',name:value[index('name')]||value[index('название')]||'',barcode:value[index('barcode')]||value[index('штрихкод')]||'',vendor:value[index('vendor')]||value[index('артикул')]||''}});setRows(mapped)}catch(err){setError(err.message)}};
+    reader.onerror=()=>setError('Не удалось прочитать файл');reader.readAsText(file,'UTF-8');
+  }
+  async function upload(){setBusy(true);setError('');try{const result=await api('/api/import/products',{method:'POST',body:JSON.stringify({rows})});setRows([]);setFileName('');await done(`Импортировано товаров: ${result.imported}`)}catch(err){setError(err.message)}finally{setBusy(false)}}
+  return <div className="dataGrid"><section className="card"><SectionTitle title="Массовый импорт товаров" text="До 5000 SKU за одну загрузку"/><div className="infoBanner">Колонки: <b>Клиент; SKU; Название; Штрихкод; Артикул</b>. Название клиента должно точно совпадать с карточкой клиента.</div><label className="fileDrop"><input type="file" accept=".csv,text/csv" onChange={event=>parse(event.target.files?.[0])}/><span>⇧</span><b>{fileName||'Выберите CSV-файл'}</b><small>{rows.length?`Подготовлено строк: ${rows.length}`:'Файл не выбран'}</small></label>{rows.length>0&&<DataTable heads={['Клиент','SKU','Название','Штрихкод']} empty="Нет строк" rows={rows.slice(0,10).map(item=>[item.seller,item.sku,item.name,item.barcode||'—'])}/>}<ErrorMessage>{error}</ErrorMessage><button className="btn primary wide" disabled={!rows.length||busy} onClick={upload}>{busy?'Загружаем…':`Импортировать ${rows.length||0} товаров`}</button></section><section className="card"><SectionTitle title="Экспорт данных" text="Готовые файлы для сверки и аналитики"/><div className="exportList"><a href="/api/export?type=products"><b>Каталог товаров</b><span>Клиенты, SKU, штрихкоды и артикулы</span><i>CSV ↓</i></a><a href="/api/export?type=inventory"><b>Остатки</b><span>По складам, зонам и ячейкам</span><i>CSV ↓</i></a><a href="/api/export?type=boxes"><b>Короба</b><span>Размещение и количество товара</span><i>CSV ↓</i></a><a href="/api/export?type=orders"><b>FBS заказы</b><span>Источник, статус, склад и дедлайн</span><i>CSV ↓</i></a></div></section></div>;
+}
+
 function Users({data,done}){
   const[form,setForm]=useState({name:'',email:'',password:'',role:'RECEIVER'}),[error,setError]=useState('');
   async function save(event){event.preventDefault();setError('');try{await ops({action:'CREATE_USER',...form});setForm({name:'',email:'',password:'',role:'RECEIVER'});done('Сотрудник создан')}catch(err){setError(err.message)}}
@@ -414,6 +440,8 @@ function Modal({title,close,children}){
   useEffect(()=>{const previous=document.activeElement;ref.current?.focus();const handler=event=>{if(event.key==='Escape')close()};document.addEventListener('keydown',handler);return()=>{document.removeEventListener('keydown',handler);previous?.focus?.()}},[close]);
   return <div className="modalBackdrop" onMouseDown={event=>{if(event.target===event.currentTarget)close()}}><section className="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title" tabIndex="-1" ref={ref}><header><h2 id="modal-title">{title}</h2><button className="iconButton" aria-label="Закрыть" onClick={close}>×</button></header>{children}</section></div>;
 }
+
+function LabelModal({spec,close}){return <Modal title="Печатная этикетка" close={close}><div className="labelPreview"><BarcodeLabel value={spec.value} title={spec.title} subtitle={spec.subtitle} meta={spec.meta}/></div><div className="modalActions noPrint"><button className="btn" onClick={close}>Закрыть</button><button className="btn primary" onClick={()=>window.print()}>Печать</button></div></Modal>}
 
 function BoxModal({spec,data,close,done}){
   const[form,setForm]=useState({target:'',reason:'',product_id:'',qty:1}),[error,setError]=useState('');

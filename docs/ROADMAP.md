@@ -23,9 +23,10 @@
 - [x] Fourteen-day trial lifecycle and automatic access suspension after expiry
 - [x] Multiple warehouses with automatic operational-zone setup
 - [x] Warehouse routing for receiving, manual orders and Wildberries imports
-- [ ] CSV/XLSX import and export
-- [ ] Label printing
-- [ ] Operational KPI dashboard
+- [x] CSV product import and tenant-scoped CSV exports
+- [x] Code-128 box and order label printing
+- [x] Operational KPI and per-warehouse stock dashboard
+- [ ] XLSX templates with validation and error workbook
 
 ## Next — operator productivity and integrations
 

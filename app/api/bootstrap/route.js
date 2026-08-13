@@ -65,7 +65,7 @@ export async function GET(){
   if(!user)return respond({loading:false,user:null});
   if(user.role==='SELLER')return sellerSnapshot(user);
   const organizationId=user.organization_id;
-  const [warehouses,zones,cells,sellers,products,boxes,boxItems,orders,orderItems,tasks,devices,audit,users,organizations,integrations,subscription]=await Promise.all([
+  const [warehouses,zones,cells,sellers,products,boxes,boxItems,orders,orderItems,tasks,devices,audit,users,organizations,integrations,subscription,warehouseStats]=await Promise.all([
     organizationId?sql`select id,code,name,city,address,timezone,active,created_at from warehouses where organization_id=${organizationId} order by created_at`:Promise.resolve([]),
     organizationId?sql`select z.* from zones z join warehouses w on w.id=z.warehouse_id where w.organization_id=${organizationId} order by z.sort_order`:sql`select * from zones order by sort_order`,
     organizationId?sql`select c.* from cells c join zones z on z.id=c.zone_id join warehouses w on w.id=z.warehouse_id where w.organization_id=${organizationId} order by c.code`:sql`select * from cells order by code`,
@@ -102,7 +102,13 @@ export async function GET(){
     sql`select i.id,i.seller_id,i.warehouse_id,i.name,i.token_hint,i.active,i.last_sync_at,i.last_success_at,i.last_error,i.imported_orders,i.created_at,s.name seller_name,w.name warehouse_name
       from wb_integrations i join sellers s on s.id=i.seller_id join warehouses w on w.id=i.warehouse_id
       where i.organization_id=${organizationId} order by i.created_at`,
-    organizationId?sql`select id,name,plan,status,billing_status,trial_ends_at from organizations where id=${organizationId} limit 1`:Promise.resolve([])
+    organizationId?sql`select id,name,plan,status,billing_status,trial_ends_at from organizations where id=${organizationId} limit 1`:Promise.resolve([]),
+    organizationId?sql`select w.id,w.name,w.city,
+      coalesce(sum(i.physical_qty),0)::int physical_qty,coalesce(sum(i.reserved_qty),0)::int reserved_qty,
+      coalesce(sum(i.physical_qty-i.reserved_qty-i.damaged_qty-i.quarantine_qty),0)::int available_qty,
+      coalesce(sum(i.damaged_qty),0)::int damaged_qty,coalesce(sum(i.quarantine_qty),0)::int quarantine_qty
+      from warehouses w left join zones z on z.warehouse_id=w.id left join inventory i on i.zone_id=z.id
+      where w.organization_id=${organizationId} and w.active=true group by w.id order by w.created_at`:Promise.resolve([])
   ]);
-  return respond({loading:false,user,data:{warehouses,zones,cells,sellers,products,boxes,boxItems,orders,orderItems,tasks,devices,audit,users,organizations,integrations,subscription:subscription[0]||null}})
+  return respond({loading:false,user,data:{warehouses,zones,cells,sellers,products,boxes,boxItems,orders,orderItems,tasks,devices,audit,users,organizations,integrations,subscription:subscription[0]||null,warehouseStats}})
 }
