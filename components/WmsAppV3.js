@@ -1,6 +1,7 @@
 'use client';
 
 import {cloneElement,useEffect,useId,useRef,useState} from 'react';
+import PwaInstall from './PwaInstall';
 
 const ROLE_TABS={
   ADMIN:['Обзор','Скан','Приёмка','Короба','Товары','Клиенты','Заказы','Устройства','Сотрудники','Журнал'],
@@ -67,7 +68,7 @@ export default function WmsAppV3(){
     <main className="content" id="main-content">
       <header className="pageHeader">
         <div><p className="eyebrow">FULFILLMENT CONTROL CENTER</p><h1>{visible}</h1><p className="subtitle">FBS · единая база склада · ТСД и телефон</p></div>
-        <div className="actions"><button className="btn primary" onClick={()=>setTab('Скан')}>⌗ Сканировать</button><button className="btn ghost" onClick={async()=>{await api('/api/auth/logout',{method:'POST'});load()}}>Выйти</button></div>
+        <div className="actions"><PwaInstall/><button className="btn primary" onClick={()=>setTab('Скан')}>⌗ Сканировать</button><button className="btn ghost" onClick={async()=>{await api('/api/auth/logout',{method:'POST'});load()}}>Выйти</button></div>
       </header>
       {toast&&<div className="toast" role="status">✓ {toast}</div>}
       <Metrics data={data}/>

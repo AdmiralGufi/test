@@ -35,3 +35,14 @@ test('database connection remains server-only', async () => {
     assert.doesNotMatch(source, /DATABASE_URL|postgres(?:ql)?:\/\//);
   }
 });
+
+test('PWA assets and install metadata are present', async () => {
+  const manifest = await readFile(new URL('../app/manifest.js', import.meta.url), 'utf8');
+  const serviceWorker = await readFile(new URL('../public/sw.js', import.meta.url), 'utf8');
+  const layout = await readFile(new URL('../app/layout.js', import.meta.url), 'utf8');
+  assert.match(manifest, /display:'standalone'/);
+  assert.match(manifest, /icon-512\.png/);
+  assert.match(serviceWorker, /offline\.html/);
+  assert.doesNotMatch(serviceWorker, /cache\.put\([^)]*\/api\//);
+  assert.match(layout, /appleWebApp/);
+});
