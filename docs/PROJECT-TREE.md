@@ -7,6 +7,7 @@ fulfillment-wms/
 │   │   ├── auth/           # setup, login and logout
 │   │   ├── bootstrap/      # authenticated application snapshot
 │   │   ├── ops/            # canonical transactional operations
+│   │   ├── platform/       # platform-owner organization onboarding
 │   │   ├── scan/           # box/SKU/cell/order lookup
 │   │   └── status/         # production readiness probe
 │   ├── error.js            # recoverable UI failure state
@@ -20,7 +21,7 @@ fulfillment-wms/
 ├── docs/                   # product and engineering decisions
 ├── lib/
 │   ├── auth.js             # secure sessions
-│   ├── db.js               # server-only Neon client
+│   ├── db.js               # server-only Neon client and transactions
 │   ├── observability.js    # structured runtime logging
 │   ├── rbac.js             # roles and access rules
 │   └── wms-contract.js     # public operation contract

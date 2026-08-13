@@ -13,7 +13,7 @@ const ROLE_TABS={
   VIEWER:['Обзор','Скан','Короба','Товары','Заказы']
 };
 const MOBILE=['Обзор','Скан','Приёмка','Короба','Заказы'];
-const ICONS={Обзор:'⌂',Скан:'⌗',Приёмка:'↓',Короба:'□',Товары:'◆',Клиенты:'◎',Заказы:'≡',Устройства:'⌁',Сотрудники:'♙',Журнал:'◷'};
+const ICONS={Обзор:'⌂',Фулфилменты:'◇',Скан:'⌗',Приёмка:'↓',Короба:'□',Товары:'◆',Клиенты:'◎',Заказы:'≡',Устройства:'⌁',Сотрудники:'♙',Журнал:'◷'};
 const STATUS_LABELS={NEW:'Новый',PICKING:'Сборка',PICKED:'Собран',PACKED:'Упакован',READY:'Готов',SHIPPED:'Отгружен',CANCELLED:'Отменён'};
 
 async function api(url,options={}){
@@ -49,7 +49,8 @@ export default function WmsAppV3(){
   if(!state.user)return <Auth done={()=>load()}/>;
 
   const data=state.data||{};
-  const tabs=ROLE_TABS[state.user.role]||ROLE_TABS.VIEWER;
+  const roleTabs=ROLE_TABS[state.user.role]||ROLE_TABS.VIEWER;
+  const tabs=state.user.is_platform_admin?[roleTabs[0],'Фулфилменты',...roleTabs.slice(1)]:roleTabs;
   const visible=tabs.includes(tab)?tab:'Обзор';
   const boxes=(data.boxes||[]).filter(box=>
     `${box.box_code} ${box.seller_name||''} ${box.zone_name||''} ${box.cell_code||''}`
@@ -73,6 +74,7 @@ export default function WmsAppV3(){
       {toast&&<div className="toast" role="status">✓ {toast}</div>}
       <Metrics data={data}/>
       {visible==='Обзор'&&<Overview data={data} setTab={setTab}/>}
+      {visible==='Фулфилменты'&&<Organizations data={data} done={refresh}/>}
       {visible==='Скан'&&<Scanner setTab={setTab}/>} 
       {visible==='Приёмка'&&<Receiving data={data} done={refresh}/>}
       {visible==='Короба'&&<Boxes rows={boxes} query={query} setQuery={setQuery} open={setModal}/>}
@@ -146,6 +148,49 @@ function Overview({data,setTab}){
 }
 function Health({label,value,ok=false}){return <div className="health"><span className={ok?'dot okDot':'dot'}/><div><small>{label}</small><b>{value}</b></div></div>}
 function SectionTitle({title,text,action}){return <header className="sectionTitle"><div><h2>{title}</h2>{text&&<p>{text}</p>}</div>{action}</header>}
+
+function Organizations({data,done}){
+  const initial={name:'',slug:'',warehouse_name:'Основной склад',warehouse_code:'MAIN',timezone:'Asia/Bishkek',admin_name:'',admin_email:'',admin_password:''};
+  const[form,setForm]=useState(initial);
+  const[error,setError]=useState('');
+  const[busy,setBusy]=useState(false);
+  const organizations=data.organizations||[];
+  async function save(event){
+    event.preventDefault();
+    if(busy)return;
+    setBusy(true);setError('');
+    try{
+      await api('/api/platform/organizations',{method:'POST',body:JSON.stringify(form)});
+      setForm(initial);
+      await done('Новый фулфилмент готов к работе');
+    }catch(err){setError(err.message)}finally{setBusy(false)}
+  }
+  return <div className="platformGrid">
+    <section className="card platformIntro">
+      <p className="eyebrow">УПРАВЛЕНИЕ ПЛАТФОРМОЙ</p>
+      <h2>Подключайте новый склад за один шаг</h2>
+      <p>Компания, основной склад, девять рабочих зон и администратор создаются вместе. Если что-то не получится, система не сохранит незавершённую настройку.</p>
+      <div className="platformFacts"><div><b>{organizations.length}</b><span>фулфилментов</span></div><div><b>{organizations.reduce((sum,item)=>sum+(item.user_count||0),0)}</b><span>пользователей</span></div><div><b>{organizations.reduce((sum,item)=>sum+(item.seller_count||0),0)}</b><span>клиентов</span></div></div>
+    </section>
+    <section className="card onboardingCard">
+      <SectionTitle title="Новый фулфилмент" text="Стартовый тариф: Pilot · статус: пробный"/>
+      <form className="formGrid" onSubmit={save}>
+        <div className="formSection"><span>01</span><div><b>Компания</b><small>Название и системный адрес</small></div></div>
+        <div className="formRow"><Field label="Название компании"><input value={form.name} onChange={e=>setForm({...form,name:e.target.value})} placeholder="Например, Бишкек Фулфилмент" required/></Field><Field label="Короткий адрес" hint="Латиницей: bishkek-ff"><input value={form.slug} onChange={e=>setForm({...form,slug:e.target.value.toLowerCase()})} pattern="[a-z0-9]+(?:-[a-z0-9]+)*" placeholder="bishkek-ff" required/></Field></div>
+        <div className="formSection"><span>02</span><div><b>Основной склад</b><small>Рабочая площадка и часовой пояс</small></div></div>
+        <div className="formRow three"><Field label="Название склада"><input value={form.warehouse_name} onChange={e=>setForm({...form,warehouse_name:e.target.value})} required/></Field><Field label="Код"><input value={form.warehouse_code} onChange={e=>setForm({...form,warehouse_code:e.target.value.toUpperCase()})} required/></Field><Field label="Часовой пояс"><select value={form.timezone} onChange={e=>setForm({...form,timezone:e.target.value})}><option>Asia/Bishkek</option><option>Europe/Moscow</option><option>Asia/Almaty</option><option>Asia/Tashkent</option></select></Field></div>
+        <div className="formSection"><span>03</span><div><b>Администратор</b><small>Первая учётная запись компании</small></div></div>
+        <div className="formRow three"><Field label="Имя"><input autoComplete="name" value={form.admin_name} onChange={e=>setForm({...form,admin_name:e.target.value})} required/></Field><Field label="Email"><input type="email" autoComplete="email" value={form.admin_email} onChange={e=>setForm({...form,admin_email:e.target.value})} required/></Field><Field label="Временный пароль" hint="Минимум 8 символов"><input type="password" autoComplete="new-password" minLength="8" value={form.admin_password} onChange={e=>setForm({...form,admin_password:e.target.value})} required/></Field></div>
+        <ErrorMessage>{error}</ErrorMessage>
+        <button className="btn primary wide" disabled={busy}>{busy?'Создаём рабочее пространство…':'Создать и подготовить фулфилмент'}</button>
+      </form>
+    </section>
+    <section className="card platformList">
+      <SectionTitle title="Все фулфилменты" text="Компании, доступы и состояние запуска"/>
+      <div className="organizationCards">{organizations.map(item=><article key={item.id} className="organizationCard"><div className="organizationMark">{item.name.slice(0,1).toUpperCase()}</div><div className="organizationMain"><div><h3>{item.name}</h3><span className="mono">{item.slug}</span></div><p>{item.admin_name||'Администратор не назначен'} · {item.admin_email||'email не указан'}</p><div className="organizationStats"><span><b>{item.warehouse_count}</b> склад</span><span><b>{item.user_count}</b> сотрудников</span><span><b>{item.seller_count}</b> клиентов</span></div></div><Status value={item.status==='TRIAL'?'Пробный':'Активен'} tone={item.status==='TRIAL'?'NEW':'READY'}/></article>)}</div>
+    </section>
+  </div>;
+}
 
 function Scanner({setTab}){
   const[code,setCode]=useState('');

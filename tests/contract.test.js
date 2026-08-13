@@ -99,3 +99,38 @@ test('every tenant-sensitive write has an ownership guard', async () => {
   assert.match(route, /with new_user as/);
   assert.match(route, /wms_operation_rejected/);
 });
+
+test('commercial onboarding is platform-only, atomic and creates a complete warehouse', async () => {
+  const auth = await readFile(new URL('../lib/auth.js', import.meta.url), 'utf8');
+  const route = await readFile(new URL('../app/api/platform/organizations/route.js', import.meta.url), 'utf8');
+  const bootstrap = await readFile(new URL('../app/api/bootstrap/route.js', import.meta.url), 'utf8');
+  const ui = await readFile(new URL('../components/WmsAppV3.js', import.meta.url), 'utf8');
+  assert.match(auth, /u\.is_platform_admin/);
+  assert.match(route, /actor\.is_platform_admin/);
+  assert.match(route, /transaction\(tx=>/);
+  assert.match(route, /ZONES\.map/);
+  assert.match(route, /ONBOARD_ORGANIZATION/);
+  assert.doesNotMatch(route, /console\.(?:log|error).*password/i);
+  assert.match(bootstrap, /user\.is_platform_admin\?sql/);
+  assert.match(ui, /Фулфилменты/);
+  assert.match(ui, /Создать и подготовить фулфилмент/);
+});
+
+test('receiving and reservation are scoped to the active organization and transactional', async () => {
+  const route = await readFile(new URL('../app/api/ops/route.js', import.meta.url), 'utf8');
+  const db = await readFile(new URL('../lib/db.js', import.meta.url), 'utf8');
+  assert.match(db, /transaction\(build/);
+  assert.match(route, /w\.organization_id=\$\{organizationId\} and z\.code='RCV'/);
+  assert.match(route, /w\.organization_id=\$\{organizationId\}/);
+  assert.match(route, /for update of i/);
+  assert.match(route, /isolationLevel:'Serializable'/);
+  assert.doesNotMatch(route, /wms_receive_box/);
+  assert.doesNotMatch(route, /wms_create_order/);
+});
+
+test('platform and zone migrations are versioned', async () => {
+  const owner = await readFile(new URL('../migrations/002_platform_admin.sql', import.meta.url), 'utf8');
+  const zones = await readFile(new URL('../migrations/003_zone_scope.sql', import.meta.url), 'utf8');
+  assert.match(owner, /is_platform_admin/);
+  assert.match(zones, /zones_warehouse_code_key/);
+});

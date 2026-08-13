@@ -15,8 +15,8 @@
 
 - [x] Organization and warehouse foundation
 - [x] Organization ownership checks for every current write action
-- [ ] Organization-scoped authorization tests
-- [ ] Guided first-run company setup
+- [x] Organization-scoped authorization tests
+- [x] Guided platform-owner company setup
 - [ ] Seller portal
 - [ ] CSV/XLSX import and export
 - [ ] Label printing
