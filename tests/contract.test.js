@@ -97,4 +97,5 @@ test('every tenant-sensitive write has an ownership guard', async () => {
   assert.match(tenant, /ENTITY_NOT_FOUND/);
   assert.match(tenant, /organization_id=\$\{organizationId\}/);
   assert.match(route, /with new_user as/);
+  assert.match(route, /wms_operation_rejected/);
 });

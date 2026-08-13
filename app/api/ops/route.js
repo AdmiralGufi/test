@@ -2,7 +2,7 @@ import {NextResponse} from 'next/server';
 import {sql} from '../../../lib/db';
 import {getCurrentUser} from '../../../lib/auth';
 import {cleanText,DEVICE_TYPES,ORDER_PRIORITIES,positiveInteger,ROLES,validEmail} from '../../../lib/wms-contract';
-import {logError,requestContext} from '../../../lib/observability';
+import {logError,logInfo,requestContext} from '../../../lib/observability';
 import {requireBox,requireBoxProduct,requireCell,requireDeviceCode,requireMember,requireOrder,requireOrderProducts,requireOrganization,requirePick,requireReceipt,requireSeller,requireZone} from '../../../lib/tenant';
 const allowed=(role,list)=>list.includes(role);
 const fail=(message,status=400)=>NextResponse.json({error:message},{status});
@@ -143,7 +143,8 @@ export async function POST(r){
   }catch(e){
     const raw=String(e.message||e);
     const key=Object.keys(errorMessages).find(item=>raw.includes(item));
-    logError('wms_operation_failed',e,{...context,action:cleanText(x.action,80)||'UNKNOWN',actorId:u.id});
+    const logContext={...context,action:cleanText(x.action,80)||'UNKNOWN',actorId:u.id,reason:key||'UNEXPECTED'};
+    if(key)logInfo('wms_operation_rejected',logContext);else logError('wms_operation_failed',e,logContext);
     return fail(key?errorMessages[key]:'Операция не выполнена',key==='FORBIDDEN'?403:key==='ENTITY_NOT_FOUND'?404:400);
   }
 }
