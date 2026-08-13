@@ -4,7 +4,7 @@ import {sql,transaction} from '../../../lib/db';
 import {getCurrentUser} from '../../../lib/auth';
 import {cleanText,DEVICE_TYPES,ORDER_PRIORITIES,positiveInteger,ROLES,validEmail} from '../../../lib/wms-contract';
 import {logError,logInfo,requestContext} from '../../../lib/observability';
-import {requireBox,requireBoxProduct,requireCell,requireDeviceCode,requireMember,requireOrder,requireOrderProducts,requireOrganization,requirePick,requireReceipt,requireSeller,requireZone} from '../../../lib/tenant';
+import {requireBox,requireBoxProduct,requireCell,requireDeviceCode,requireMember,requireOrder,requireOrderProducts,requireOrganization,requirePick,requireReceipt,requireSeller,requireWarehouse,requireZone} from '../../../lib/tenant';
 const allowed=(role,list)=>list.includes(role);
 const fail=(message,status=400)=>NextResponse.json({error:message},{status});
 const errorMessages={
@@ -12,6 +12,7 @@ const errorMessages={
   SELLER_REQUIRED:'Выберите клиента',
   PRODUCT_FIELDS_REQUIRED:'Заполните клиента, SKU и название',
   SELLER_NAME_REQUIRED:'Введите название клиента',
+  WAREHOUSE_FIELDS_REQUIRED:'Укажите склад и его название',
   TARGET_REQUIRED:'Выберите зону или ячейку',
   CELL_NOT_FOUND:'Ячейка не найдена или недоступна',
   ITEM_FIELDS_REQUIRED:'Выберите товар и укажите количество',
@@ -189,6 +190,16 @@ export async function POST(r){
         throw error;
       }
       return NextResponse.json({ok:true,id:userId});
+    }
+    if(x.action==='UPDATE_WAREHOUSE'){
+      if(u.role!=='ADMIN')throw new Error('FORBIDDEN');
+      if(!x.warehouse_id||!cleanText(x.name,200))throw new Error('WAREHOUSE_FIELDS_REQUIRED');
+      await requireWarehouse(u,x.warehouse_id);
+      const [updated]=await transaction(tx=>[
+        tx`update warehouses set name=${cleanText(x.name,200)},city=${cleanText(x.city,120)||null},address=${cleanText(x.address,240)||null},timezone=${cleanText(x.timezone,80)||'Asia/Bishkek'} where id=${x.warehouse_id} and organization_id=${organizationId} returning id,name,city,address,timezone`,
+        tx`insert into audit_logs(actor_id,action,entity_type,entity_id,new_data) values(${u.id},'UPDATE_WAREHOUSE','warehouse',${x.warehouse_id},jsonb_build_object('name',${cleanText(x.name,200)}::text,'city',${cleanText(x.city,120)||null}::text,'address',${cleanText(x.address,240)||null}::text))`
+      ],{isolationLevel:'Serializable'});
+      return NextResponse.json({ok:true,warehouse:updated[0]});
     }
     if(x.action==='TOGGLE_USER'){
       if(u.role!=='ADMIN')throw new Error('FORBIDDEN');

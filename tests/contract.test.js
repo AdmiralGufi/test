@@ -94,7 +94,7 @@ test('applied database migrations are versioned in the repository', async () => 
 test('every tenant-sensitive write has an ownership guard', async () => {
   const route = await readFile(new URL('../app/api/ops/route.js', import.meta.url), 'utf8');
   const tenant = await readFile(new URL('../lib/tenant.js', import.meta.url), 'utf8');
-  for (const guard of ['requireSeller','requireReceipt','requireBox','requireCell','requireZone','requireBoxProduct','requireOrderProducts','requirePick','requireOrder','requireMember','requireDeviceCode']) {
+  for (const guard of ['requireSeller','requireReceipt','requireBox','requireCell','requireZone','requireWarehouse','requireBoxProduct','requireOrderProducts','requirePick','requireOrder','requireMember','requireDeviceCode']) {
     assert.match(route,new RegExp(`${guard}\\(`),`missing ${guard} call`);
   }
   assert.match(tenant, /ENTITY_NOT_FOUND/);
@@ -209,4 +209,17 @@ test('client access creation is atomic and Wildberries ownership is enforced', a
   assert.match(migration,/CREATE TABLE IF NOT EXISTS seller_members/i);
   assert.match(migration,/seller_members_organization_user_key/);
   assert.match(migration,/ALTER TABLE warehouses ADD COLUMN IF NOT EXISTS city/i);
+});
+
+test('warehouse locations are editable only inside the active organization', async () => {
+  const route=await readFile(new URL('../app/api/ops/route.js',import.meta.url),'utf8');
+  const bootstrap=await readFile(new URL('../app/api/bootstrap/route.js',import.meta.url),'utf8');
+  const ui=await readFile(new URL('../components/WmsAppV3.js',import.meta.url),'utf8');
+  assert.match(route,/action==='UPDATE_WAREHOUSE'/);
+  assert.match(route,/u\.role!=='ADMIN'/);
+  assert.match(route,/requireWarehouse\(u,x\.warehouse_id\)/);
+  assert.match(route,/UPDATE_WAREHOUSE/);
+  assert.match(bootstrap,/select id,code,name,city,address,timezone/);
+  assert.match(ui,/Сохранить данные склада/);
+  assert.match(ui,/Эти данные отображаются в клиентском кабинете/);
 });

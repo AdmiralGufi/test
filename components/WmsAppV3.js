@@ -5,7 +5,7 @@ import PwaInstall from './PwaInstall';
 import SellerPortal from './SellerPortal';
 
 const ROLE_TABS={
-  ADMIN:['Обзор','Скан','Приёмка','Короба','Товары','Клиенты','Заказы','Устройства','Сотрудники','Журнал'],
+  ADMIN:['Обзор','Скан','Приёмка','Короба','Товары','Клиенты','Заказы','Склады','Устройства','Сотрудники','Журнал'],
   MANAGER:['Обзор','Скан','Приёмка','Короба','Товары','Клиенты','Заказы','Устройства','Журнал'],
   RECEIVER:['Обзор','Скан','Приёмка','Короба','Товары','Устройства'],
   PICKER:['Обзор','Скан','Короба','Заказы','Устройства'],
@@ -14,7 +14,7 @@ const ROLE_TABS={
   VIEWER:['Обзор','Скан','Короба','Товары','Заказы']
 };
 const MOBILE=['Обзор','Скан','Приёмка','Короба','Заказы'];
-const ICONS={Обзор:'⌂',Фулфилменты:'◇',Скан:'⌗',Приёмка:'↓',Короба:'□',Товары:'◆',Клиенты:'◎',Заказы:'≡',Устройства:'⌁',Сотрудники:'♙',Журнал:'◷'};
+const ICONS={Обзор:'⌂',Фулфилменты:'◇',Скан:'⌗',Приёмка:'↓',Короба:'□',Товары:'◆',Клиенты:'◎',Заказы:'≡',Склады:'⌂',Устройства:'⌁',Сотрудники:'♙',Журнал:'◷'};
 const STATUS_LABELS={NEW:'Новый',PICKING:'Сборка',PICKED:'Собран',PACKED:'Упакован',READY:'Готов',SHIPPED:'Отгружен',CANCELLED:'Отменён'};
 
 async function api(url,options={}){
@@ -98,6 +98,7 @@ export default function WmsAppV3(){
       {visible==='Товары'&&<Products data={data} done={refresh}/>}
       {visible==='Клиенты'&&<Clients data={data} role={state.user.role} done={refresh}/>}
       {visible==='Заказы'&&<Orders data={data} role={state.user.role} done={refresh}/>}
+      {visible==='Склады'&&<Warehouses data={data} done={refresh}/>}
       {visible==='Устройства'&&<Devices data={data} done={refresh}/>}
       {visible==='Сотрудники'&&<Users data={data} done={refresh}/>}
       {visible==='Журнал'&&<Audit data={data}/>}
@@ -339,6 +340,17 @@ function Devices({data,done}){
   const[form,setForm]=useState({device_type:'TSD',label:'',device_code:''}),[error,setError]=useState('');
   async function register(event){event.preventDefault();setError('');try{const result=await ops({action:'REGISTER_DEVICE',...form,platform:navigator.platform,user_agent:navigator.userAgent});done('Устройство подключено: '+result.device_code)}catch(err){setError(err.message)}}
   return <section className="card"><SectionTitle title="Устройства" text="Привязка ТСД, телефонов и планшетов к рабочему месту"/><div className="infoBanner"><b>ТСД:</b> включите HID/Keyboard и суффикс Enter. <b>Телефон:</b> разрешите доступ к камере.</div><form className="inlineForm" onSubmit={register}><Field label="Тип"><select value={form.device_type} onChange={e=>setForm({...form,device_type:e.target.value})}><option>TSD</option><option>PHONE</option><option>TABLET</option></select></Field><Field label="Название"><input value={form.label} onChange={e=>setForm({...form,label:e.target.value})}/></Field><Field label="Код" hint="Необязательно"><input value={form.device_code} onChange={e=>setForm({...form,device_code:e.target.value})}/></Field><button className="btn primary">Подключить</button></form><ErrorMessage>{error}</ErrorMessage><DataTable heads={['Код','Тип','Название','Статус']} empty="Нет подключённых устройств" rows={(data.devices||[]).map(item=>[<b className="mono">{item.device_code}</b>,item.device_type,item.label||'—',<Status value={item.active?'Активно':'Отключено'} tone={item.active?'READY':'CANCELLED'}/>])}/></section>;
+}
+
+function Warehouses({data,done}){
+  const warehouses=data.warehouses||[];
+  const[selected,setSelected]=useState(warehouses[0]?.id||'');
+  const current=warehouses.find(item=>item.id===selected)||warehouses[0];
+  const[form,setForm]=useState(current?{name:current.name,city:current.city||'',address:current.address||'',timezone:current.timezone||'Asia/Bishkek'}:{name:'',city:'',address:'',timezone:'Asia/Bishkek'});
+  const[error,setError]=useState(''),[busy,setBusy]=useState(false);
+  function choose(id){const item=warehouses.find(value=>value.id===id);setSelected(id);if(item)setForm({name:item.name,city:item.city||'',address:item.address||'',timezone:item.timezone||'Asia/Bishkek'})}
+  async function save(event){event.preventDefault();if(!current||busy)return;setBusy(true);setError('');try{await ops({action:'UPDATE_WAREHOUSE',warehouse_id:current.id,...form});await done('Данные склада обновлены')}catch(err){setError(err.message)}finally{setBusy(false)}}
+  return <div className="warehouseSettings"><section className="card"><SectionTitle title="Склады" text="Площадки, которые видят ваши клиенты"/><div className="warehouseAdminList">{warehouses.map(item=><button key={item.id} className={(current?.id===item.id)?'active':''} onClick={()=>choose(item.id)}><span>⌂</span><div><b>{item.name}</b><small>{[item.city,item.address].filter(Boolean).join(' · ')||'Город и адрес не заполнены'}</small></div><Status value={item.active?'Активен':'Отключён'} tone={item.active?'READY':'CANCELLED'}/></button>)}</div></section>{current&&<section className="card"><SectionTitle title="Карточка склада" text="Эти данные отображаются в клиентском кабинете"/><form className="formGrid" onSubmit={save}><Field label="Название склада"><input value={form.name} onChange={e=>setForm({...form,name:e.target.value})} required/></Field><div className="formRow"><Field label="Город"><input value={form.city} onChange={e=>setForm({...form,city:e.target.value})} placeholder="Москва"/></Field><Field label="Адрес"><input value={form.address} onChange={e=>setForm({...form,address:e.target.value})} placeholder="Улица и дом"/></Field></div><Field label="Часовой пояс"><select value={form.timezone} onChange={e=>setForm({...form,timezone:e.target.value})}><option>Asia/Bishkek</option><option>Europe/Moscow</option><option>Asia/Almaty</option><option>Asia/Tashkent</option></select></Field><ErrorMessage>{error}</ErrorMessage><button className="btn primary wide" disabled={busy}>{busy?'Сохраняем…':'Сохранить данные склада'}</button></form></section>}</div>;
 }
 
 function Users({data,done}){

@@ -65,7 +65,8 @@ export async function GET(){
   if(!user)return respond({loading:false,user:null});
   if(user.role==='SELLER')return sellerSnapshot(user);
   const organizationId=user.organization_id;
-  const [zones,cells,sellers,products,boxes,boxItems,orders,orderItems,tasks,devices,audit,users,organizations,integrations]=await Promise.all([
+  const [warehouses,zones,cells,sellers,products,boxes,boxItems,orders,orderItems,tasks,devices,audit,users,organizations,integrations]=await Promise.all([
+    organizationId?sql`select id,code,name,city,address,timezone,active,created_at from warehouses where organization_id=${organizationId} order by created_at`:Promise.resolve([]),
     organizationId?sql`select z.* from zones z join warehouses w on w.id=z.warehouse_id where w.organization_id=${organizationId} order by z.sort_order`:sql`select * from zones order by sort_order`,
     organizationId?sql`select c.* from cells c join zones z on z.id=c.zone_id join warehouses w on w.id=z.warehouse_id where w.organization_id=${organizationId} order by c.code`:sql`select * from cells order by code`,
     organizationId?sql`select * from sellers where organization_id=${organizationId} order by name`:sql`select * from sellers order by name`,
@@ -93,5 +94,5 @@ export async function GET(){
       from wb_integrations i join sellers s on s.id=i.seller_id
       where i.organization_id=${organizationId} order by i.created_at`
   ]);
-  return respond({loading:false,user,data:{zones,cells,sellers,products,boxes,boxItems,orders,orderItems,tasks,devices,audit,users,organizations,integrations}})
+  return respond({loading:false,user,data:{warehouses,zones,cells,sellers,products,boxes,boxItems,orders,orderItems,tasks,devices,audit,users,organizations,integrations}})
 }
