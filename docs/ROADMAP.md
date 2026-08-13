@@ -24,8 +24,9 @@
 
 ## Phase 2 — integrations
 
-- [ ] Wildberries credentials vault and connection flow
-- [ ] Products and orders synchronization
+- [x] Wildberries credentials vault and connection flow
+- [x] Automatic, idempotent Wildberries FBS order synchronization
+- [x] WB product matching by chrtId, barcode and internal fallback SKU
 - [ ] Idempotent webhook/event inbox
 - [ ] Retry queue and integration monitoring
 - [ ] Public API keys and webhooks

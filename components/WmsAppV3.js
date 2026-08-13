@@ -30,6 +30,8 @@ export default function WmsAppV3(){
   const[toast,setToast]=useState('');
   const[modal,setModal]=useState(null);
   const[query,setQuery]=useState('');
+  const canSyncWb=['ADMIN','MANAGER'].includes(state.user?.role);
+  const hasActiveWb=canSyncWb&&Boolean(state.data?.integrations?.some(item=>item.active));
 
   async function load({quiet=false}={}){
     try{
@@ -38,6 +40,19 @@ export default function WmsAppV3(){
     }catch(error){setState(current=>({...current,loading:false,error:error.message}))}
   }
   useEffect(()=>{load()},[]);
+  useEffect(()=>{
+    if(!state.user?.id||!hasActiveWb)return;
+    let cancelled=false;
+    async function sync(){
+      try{
+        const result=await api('/api/integrations/wildberries',{method:'POST',body:JSON.stringify({action:'SYNC_ALL'})});
+        if(!cancelled&&result.imported>0){await load({quiet:true});setToast(`Wildberries: новых заказов ${result.imported}`);window.setTimeout(()=>setToast(''),3000)}
+      }catch{}
+    }
+    const first=window.setTimeout(sync,1500);
+    const interval=window.setInterval(sync,60000);
+    return()=>{cancelled=true;window.clearTimeout(first);window.clearInterval(interval)};
+  },[state.user?.id,hasActiveWb]);
   async function refresh(message){
     await load({quiet:true});
     if(message){setToast(message);window.setTimeout(()=>setToast(''),2600)}
@@ -69,7 +84,7 @@ export default function WmsAppV3(){
     <main className="content" id="main-content">
       <header className="pageHeader">
         <div><p className="eyebrow">FULFILLMENT CONTROL CENTER</p><h1>{visible}</h1><p className="subtitle">FBS · единая база склада · ТСД и телефон</p></div>
-        <div className="actions"><PwaInstall/><button className="btn primary" onClick={()=>setTab('Скан')}>⌗ Сканировать</button><button className="btn ghost" onClick={async()=>{await api('/api/auth/logout',{method:'POST'});load()}}>Выйти</button></div>
+        <div className="actions"><PwaInstall/>{state.user.is_platform_admin&&<button className="btn platformShortcut" onClick={()=>setTab('Фулфилменты')}>◇ Фулфилменты</button>}<button className="btn primary" onClick={()=>setTab('Скан')}>⌗ Сканировать</button><button className="btn ghost" onClick={async()=>{await api('/api/auth/logout',{method:'POST'});load()}}>Выйти</button></div>
       </header>
       {toast&&<div className="toast" role="status">✓ {toast}</div>}
       <Metrics data={data}/>
@@ -257,7 +272,34 @@ function Orders({data,role,done}){
   const[selected,setSelected]=useState(null);
   const order=data.orders?.find(item=>item.id===selected);
   const items=data.orderItems?.filter(item=>item.order_id===selected)||[];
-  return <div className="ordersGrid"><section className="card"><SectionTitle title="FBS заказы" text={`Всего: ${data.orders?.length||0}`} action={['ADMIN','MANAGER'].includes(role)?<OrderCreate data={data} done={done}/>:null}/><DataTable heads={['Заказ','Клиент','Статус','Дедлайн']} empty="Заказов пока нет" rows={(data.orders||[]).map(item=>[<button className="linkButton mono" onClick={()=>setSelected(item.id)}>{item.order_no}</button>,item.seller_name,<Status value={STATUS_LABELS[item.status]||item.status} tone={item.status}/>,item.deadline?new Date(item.deadline).toLocaleString('ru-RU'):'—'])}/></section>{order&&<section className="card orderDetail"><SectionTitle title={order.order_no} text={order.seller_name}/><Status value={STATUS_LABELS[order.status]||order.status} tone={order.status}/>{items.map(item=><PickLine key={item.id} item={item} data={data} role={role} done={done}/>)}<OrderActions order={order} role={role} done={done}/></section>}</div>;
+  return <><WildberriesIntegration data={data} role={role} done={done}/><div className="ordersGrid"><section className="card"><SectionTitle title="FBS заказы" text={`Всего: ${data.orders?.length||0}`} action={['ADMIN','MANAGER'].includes(role)?<OrderCreate data={data} done={done}/>:null}/><DataTable heads={['Заказ','Источник','Клиент','Статус','Дедлайн']} empty="Заказов пока нет" rows={(data.orders||[]).map(item=>[<button className="linkButton mono" onClick={()=>setSelected(item.id)}>{item.order_no}</button>,item.wb_order_id?<span className="sourceBadge">WB</span>:<span className="sourceBadge manual">Вручную</span>,item.seller_name,<Status value={STATUS_LABELS[item.status]||item.status} tone={item.status}/>,item.deadline?new Date(item.deadline).toLocaleString('ru-RU'):'—'])}/></section>{order&&<section className="card orderDetail"><SectionTitle title={order.order_no} text={order.seller_name}/><Status value={STATUS_LABELS[order.status]||order.status} tone={order.status}/>{order.wb_order_id&&<div className="wbOrderId">Wildberries ID: <b className="mono">{order.wb_order_id}</b></div>}{items.map(item=><PickLine key={item.id} item={item} data={data} role={role} done={done}/>)}<OrderActions order={order} role={role} done={done}/></section>}</div></>;
+}
+
+function WildberriesIntegration({data,role,done}){
+  const[form,setForm]=useState({seller_id:'',token:'',name:'Wildberries FBS'});
+  const[busy,setBusy]=useState('');
+  const[error,setError]=useState('');
+  const integrations=data.integrations||[];
+  const canManage=['ADMIN','MANAGER'].includes(role);
+  async function save(event){
+    event.preventDefault();setBusy('save');setError('');
+    try{const result=await api('/api/integrations/wildberries',{method:'POST',body:JSON.stringify({action:'SAVE',...form})});setForm({seller_id:'',token:'',name:'Wildberries FBS'});await done(`Wildberries подключён · загружено заказов: ${result.sync?.imported||0}`)}catch(err){setError(err.message)}finally{setBusy('')}
+  }
+  async function run(item){
+    setBusy(item.id);setError('');
+    try{const result=await api('/api/integrations/wildberries',{method:'POST',body:JSON.stringify({action:'SYNC',integration_id:item.id})});await done(`Синхронизация завершена · новых заказов: ${result.imported||0}`)}catch(err){setError(err.message)}finally{setBusy('')}
+  }
+  async function disconnect(item){
+    if(!window.confirm(`Отключить Wildberries для «${item.seller_name}»?`))return;
+    setBusy(item.id);setError('');
+    try{await api('/api/integrations/wildberries',{method:'POST',body:JSON.stringify({action:'DISCONNECT',integration_id:item.id})});await done('Интеграция Wildberries отключена')}catch(err){setError(err.message)}finally{setBusy('')}
+  }
+  const available=(data.sellers||[]).filter(seller=>!integrations.some(item=>item.seller_id===seller.id));
+  return <section className="card wbIntegration"><SectionTitle title="Wildberries API" text="Новые FBS-заказы автоматически появляются в кабинете" action={<span className="liveSync"><i/> Автосинхронизация</span>}/>
+    <div className="wbConnectGrid"><div className="wbStatusList">{integrations.length?integrations.map(item=><article className="wbConnection" key={item.id}><span className="wbLogo">WB</span><div><b>{item.seller_name}</b><p>{item.name} · токен {item.token_hint}</p><small>{item.last_success_at?`Обновлено ${new Date(item.last_success_at).toLocaleString('ru-RU')}`:'Ожидает первой синхронизации'} · загружено {item.imported_orders||0}</small>{item.last_error&&<em>{item.last_error.includes('401')?'Токен не принят Wildberries':'Последняя синхронизация завершилась ошибкой'}</em>}</div><div className="wbButtons"><button className="btn small" disabled={Boolean(busy)} onClick={()=>run(item)}>{busy===item.id?'Обновляем…':'Обновить'}</button>{canManage&&<button className="linkButton dangerLink" disabled={Boolean(busy)} onClick={()=>disconnect(item)}>Отключить</button>}</div></article>):<div className="wbEmpty"><span>WB</span><div><b>Wildberries ещё не подключён</b><p>Добавьте Marketplace-токен, и новые сборочные задания начнут загружаться автоматически.</p></div></div>}</div>
+      {canManage&&<form className="wbTokenForm" onSubmit={save}><h3>Подключить магазин</h3><p>Создайте токен в кабинете WB Партнёры: «Профиль → Интеграции по API». Нужна категория «Маркетплейс».</p><Field label="Клиент"><select value={form.seller_id} onChange={e=>setForm({...form,seller_id:e.target.value})} required><option value="">Выберите клиента</option>{available.map(seller=><option key={seller.id} value={seller.id}>{seller.name}</option>)}</select></Field><Field label="API-токен Wildberries" hint="Хранится в зашифрованном виде"><input type="password" autoComplete="off" value={form.token} onChange={e=>setForm({...form,token:e.target.value})} placeholder="Вставьте полный токен" required/></Field><ErrorMessage>{error}</ErrorMessage><button className="btn primary wide" disabled={busy==='save'||!form.seller_id||form.token.length<20}>{busy==='save'?'Проверяем токен…':'Подключить и загрузить заказы'}</button></form>}
+    </div><p className="syncNote">Пока кабинет открыт, новые заказы проверяются каждую минуту. Фоновая проверка продолжает работать и после закрытия приложения.</p>
+  </section>;
 }
 
 function OrderCreate({data,done}){

@@ -6,6 +6,8 @@ fulfillment-wms/
 │   ├── api/
 │   │   ├── auth/           # setup, login and logout
 │   │   ├── bootstrap/      # authenticated application snapshot
+│   │   ├── cron/           # protected background marketplace sync
+│   │   ├── integrations/   # Wildberries and future marketplaces
 │   │   ├── ops/            # canonical transactional operations
 │   │   ├── platform/       # platform-owner organization onboarding
 │   │   ├── scan/           # box/SKU/cell/order lookup
@@ -24,11 +26,13 @@ fulfillment-wms/
 │   ├── db.js               # server-only Neon client and transactions
 │   ├── observability.js    # structured runtime logging
 │   ├── rbac.js             # roles and access rules
+│   ├── secrets.js          # server-side token encryption
+│   ├── wildberries.js      # WB FBS adapter and idempotent importer
 │   └── wms-contract.js     # public operation contract
 ├── migrations/             # reviewed, ordered Neon schema changes
 ├── public/                 # icons, service worker and offline page
 ├── tests/                  # contract and architecture checks
-├── .github/workflows/      # repeatable quality gate
+├── .github/workflows/      # CI quality gate and 5-minute WB sync
 └── package.json
 ```
 

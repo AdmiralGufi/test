@@ -8,7 +8,7 @@ export async function GET(){
   const user=await getCurrentUser();
   if(!user)return NextResponse.json({loading:false,user:null});
   const organizationId=user.organization_id;
-  const [zones,cells,sellers,products,boxes,boxItems,orders,orderItems,tasks,devices,audit,users,organizations]=await Promise.all([
+  const [zones,cells,sellers,products,boxes,boxItems,orders,orderItems,tasks,devices,audit,users,organizations,integrations]=await Promise.all([
     organizationId?sql`select z.* from zones z join warehouses w on w.id=z.warehouse_id where w.organization_id=${organizationId} order by z.sort_order`:sql`select * from zones order by sort_order`,
     organizationId?sql`select c.* from cells c join zones z on z.id=c.zone_id join warehouses w on w.id=z.warehouse_id where w.organization_id=${organizationId} order by c.code`:sql`select * from cells order by code`,
     organizationId?sql`select * from sellers where organization_id=${organizationId} order by name`:sql`select * from sellers order by name`,
@@ -31,7 +31,10 @@ export async function GET(){
       left join warehouses w on w.organization_id=o.id
       left join organization_members m on m.organization_id=o.id
       left join sellers s on s.organization_id=o.id
-      group by o.id order by o.created_at desc`:Promise.resolve([])
+      group by o.id order by o.created_at desc`:Promise.resolve([]),
+    sql`select i.id,i.seller_id,i.name,i.token_hint,i.active,i.last_sync_at,i.last_success_at,i.last_error,i.imported_orders,i.created_at,s.name seller_name
+      from wb_integrations i join sellers s on s.id=i.seller_id
+      where i.organization_id=${organizationId} order by i.created_at`
   ]);
-  return NextResponse.json({loading:false,user,data:{zones,cells,sellers,products,boxes,boxItems,orders,orderItems,tasks,devices,audit,users,organizations}})
+  return NextResponse.json({loading:false,user,data:{zones,cells,sellers,products,boxes,boxItems,orders,orderItems,tasks,devices,audit,users,organizations,integrations}})
 }

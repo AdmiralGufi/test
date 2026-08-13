@@ -2,6 +2,8 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFile} from 'node:fs/promises';
 import {WMS_ACTIONS, cleanText, positiveInteger, validEmail} from '../lib/wms-contract.js';
+import {decryptSecret,encryptSecret} from '../lib/secrets.js';
+import {normalizeWbOrder} from '../lib/wildberries.js';
 
 test('all public WMS actions are implemented by the canonical API', async () => {
   const source = await readFile(new URL('../app/api/ops/route.js', import.meta.url), 'utf8');
@@ -133,4 +135,46 @@ test('platform and zone migrations are versioned', async () => {
   const zones = await readFile(new URL('../migrations/003_zone_scope.sql', import.meta.url), 'utf8');
   assert.match(owner, /is_platform_admin/);
   assert.match(zones, /zones_warehouse_code_key/);
+});
+
+test('Wildberries FBS integration is secure, idempotent and visible in the mobile UI', async () => {
+  const previous=process.env.INTEGRATION_ENCRYPTION_KEY;
+  process.env.INTEGRATION_ENCRYPTION_KEY='test-only-integration-key';
+  try{
+    const encrypted=encryptSecret('wb-test-token-1234567890');
+    assert.notEqual(encrypted,'wb-test-token-1234567890');
+    assert.doesNotMatch(encrypted,/wb-test-token/);
+    assert.equal(decryptSecret(encrypted),'wb-test-token-1234567890');
+  }finally{
+    if(previous===undefined)delete process.env.INTEGRATION_ENCRYPTION_KEY;
+    else process.env.INTEGRATION_ENCRYPTION_KEY=previous;
+  }
+
+  assert.deepEqual(normalizeWbOrder({id:77,nmId:101,chrtId:202,skus:['460000000001']}),{
+    id:'77',orderNo:'WB-77',sku:'WB-101-202',name:'Товар Wildberries · артикул 101',barcode:'460000000001',nmId:101,chrtId:202,
+    raw:{id:77,nmId:101,chrtId:202,skus:['460000000001']}
+  });
+
+  const route=await readFile(new URL('../app/api/integrations/wildberries/route.js',import.meta.url),'utf8');
+  const importer=await readFile(new URL('../lib/wildberries.js',import.meta.url),'utf8');
+  const bootstrap=await readFile(new URL('../app/api/bootstrap/route.js',import.meta.url),'utf8');
+  const ui=await readFile(new URL('../components/WmsAppV3.js',import.meta.url),'utf8');
+  const migration=await readFile(new URL('../migrations/004_wildberries_integration.sql',import.meta.url),'utf8');
+  const cron=await readFile(new URL('../app/api/cron/wildberries/route.js',import.meta.url),'utf8');
+  const workflow=await readFile(new URL('../.github/workflows/wb-sync.yml',import.meta.url),'utf8');
+  assert.match(route,/validateWildberriesToken/);
+  assert.match(route,/encryptSecret/);
+  assert.match(importer,/\/api\/v3\/orders\/new/);
+  assert.match(importer,/on conflict\(seller_id,wb_order_id\)/);
+  assert.doesNotMatch(bootstrap,/token_encrypted/);
+  assert.match(ui,/type="password"/);
+  assert.match(ui,/platformShortcut/);
+  assert.match(ui,/window\.setInterval\(sync,60000\)/);
+  assert.match(migration,/token_encrypted text not null/);
+  assert.match(migration,/products_seller_wb_chrt_key/);
+  assert.match(cron,/CRON_SECRET/);
+  assert.doesNotMatch(cron,/x-vercel-cron-schedule/);
+  assert.match(workflow,/cron: '\*\/5 \* \* \* \*'/);
+  assert.match(workflow,/secrets\.WB_SYNC_SECRET/);
+  assert.doesNotMatch(workflow,/Bearer [A-Za-z0-9_-]{20,}/);
 });

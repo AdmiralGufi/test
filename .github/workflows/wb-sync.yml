@@ -1,0 +1,28 @@
+name: Wildberries FBS sync
+
+on:
+  schedule:
+    - cron: '*/5 * * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: wildberries-fbs-sync
+  cancel-in-progress: false
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+    steps:
+      - name: Import new FBS orders
+        env:
+          WB_SYNC_SECRET: ${{ secrets.WB_SYNC_SECRET }}
+        run: |
+          test -n "$WB_SYNC_SECRET"
+          curl --fail --silent --show-error \
+            --retry 2 --retry-all-errors --max-time 60 \
+            -H "Authorization: Bearer $WB_SYNC_SECRET" \
+            https://fulfillment-wms.vercel.app/api/cron/wildberries

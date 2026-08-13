@@ -7,12 +7,15 @@ Phone / TSD / Desktop
         │
         ▼
 Next.js PWA on Vercel
-        │ authenticated server routes
+        │ authenticated server routes + scheduled sync
         ▼
 Neon PostgreSQL
         │
         ├─ transactional WMS functions
-        └─ audit and scan events
+        ├─ encrypted marketplace credentials
+        └─ audit, scan and import events
+
+Wildberries Marketplace API sends new FBS orders through a server-only adapter. The adapter validates the Marketplace token, polls the new-orders endpoint, maps products by WB identifiers or barcode and imports every WB order exactly once. Tokens are encrypted before storage and are never returned by the bootstrap API. On the current Hobby deployment, GitHub Actions calls the protected sync endpoint every five minutes while Vercel keeps a daily fallback; an open operator cabinet also checks every minute.
 ```
 
 Inventory-changing operations execute through PostgreSQL functions so a partial request cannot leave stock, boxes and orders out of sync. The browser never receives `DATABASE_URL`.
