@@ -14,7 +14,7 @@
 ## Phase 1 — commercial pilot
 
 - [x] Organization and warehouse foundation
-- [ ] Complete organization ownership checks for every write action
+- [x] Organization ownership checks for every current write action
 - [ ] Organization-scoped authorization tests
 - [ ] Guided first-run company setup
 - [ ] Seller portal

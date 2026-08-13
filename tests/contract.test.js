@@ -87,3 +87,14 @@ test('applied database migrations are versioned in the repository', async () => 
   assert.match(migration, /organization_members/);
   assert.match(guide, /13a6bbd8-5668-41e6-8ed0-4ab0f85726f0/);
 });
+
+test('every tenant-sensitive write has an ownership guard', async () => {
+  const route = await readFile(new URL('../app/api/ops/route.js', import.meta.url), 'utf8');
+  const tenant = await readFile(new URL('../lib/tenant.js', import.meta.url), 'utf8');
+  for (const guard of ['requireSeller','requireReceipt','requireBox','requireCell','requireZone','requireBoxProduct','requireOrderProducts','requirePick','requireOrder','requireMember','requireDeviceCode']) {
+    assert.match(route,new RegExp(`${guard}\\(`),`missing ${guard} call`);
+  }
+  assert.match(tenant, /ENTITY_NOT_FOUND/);
+  assert.match(tenant, /organization_id=\$\{organizationId\}/);
+  assert.match(route, /with new_user as/);
+});

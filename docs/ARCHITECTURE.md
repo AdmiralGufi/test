@@ -37,6 +37,8 @@ Isolation must be enforced twice:
 1. Every server query is scoped using the organization from the authenticated session.
 2. PostgreSQL policies/constraints prevent accidental cross-organization references.
 
+Current API writes also perform explicit ownership checks before invoking transactional WMS functions. Unknown and foreign IDs return the same unavailable response so the API does not reveal whether another organization owns an object.
+
 Seller records remain customers of a fulfillment organization; they are not tenants themselves.
 
 ## Extension rules
